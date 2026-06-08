@@ -9,15 +9,16 @@ window.APP_CONFIG = {
   // Один акцентный цвет (плоская заливка). Применяется через CSS-переменную.
   accentColor: "#1F44FF",
 
-  // Период замера в шапке (статичный текст).
-  periodLabel: "Период замера: II квартал 2026 года",
+  // Бейдж над заголовком hero и период в футере.
+  heroBadge: "II квартал 2026 года",
 
   // Фактоиды масштаба исследования в hero (статичный копирайт).
   heroStats: {
     items: [
       { value: "100", label: "застройщиков России" },
-      { value: "2 000+", label: "заявок с сайта" },
-      { value: "6 000+", label: "звонков и сообщений" },
+      { value: "2 100+", label: "заявок отправлено" },
+      { value: "6 000+", label: "событий собрано" },
+      { value: "5", label: "каналов под наблюдением" },
     ],
   },
 
@@ -33,12 +34,6 @@ window.APP_CONFIG = {
     email: "hello@intr.bz",
   },
 
-  tabs: {
-    rating: "Рейтинг",
-    nominations: "Номинации",
-    market: "По рынку",
-  },
-
   // Номинации считаются из data.json (имена не захардкожены).
   // type — какую метрику и в какую сторону брать; logic в app.js.
   nominations: [
@@ -47,7 +42,6 @@ window.APP_CONFIG = {
       title: "Самый быстрый ответ",
       desc: "Наименьшее среднее время до первого контакта по любому каналу.",
       type: "min_avg_response",
-      unit: "мин",
       top: 5,
     },
     {
@@ -55,7 +49,6 @@ window.APP_CONFIG = {
       title: "Самый настойчивый",
       desc: "Больше всего повторных контактов за 72 часа на заявку.",
       type: "max_avg_recontacts",
-      unit: "/заявку",
       top: 5,
     },
     {
@@ -63,7 +56,6 @@ window.APP_CONFIG = {
       title: "Больше всего касаний",
       desc: "Наибольшее среднее число касаний (любой канал) за 72 часа на заявку.",
       type: "max_avg_touches",
-      unit: "/заявку",
       top: 5,
     },
     {
@@ -71,7 +63,6 @@ window.APP_CONFIG = {
       title: "Лучшая маркировка номеров",
       desc: "Наибольшая доля маркированных номеров.",
       type: "max_marked_share",
-      unit: "%",
       top: 5,
     },
     {
@@ -79,7 +70,6 @@ window.APP_CONFIG = {
       title: "Самый омниканальный",
       desc: "Наибольшее число каналов с ненулевой долей контактов.",
       type: "most_omnichannel",
-      unit: "каналов",
       top: 5,
     },
     {
@@ -87,7 +77,6 @@ window.APP_CONFIG = {
       title: "Чемпион мессенджеров",
       desc: "Наибольшая суммарная доля контактов в WhatsApp, Telegram и Max.",
       type: "messenger_champion",
-      unit: "%",
       top: 5,
     },
   ],
@@ -100,7 +89,6 @@ window.APP_CONFIG = {
       desc: "Сколько минут в среднем проходит от заявки до первого контакта по любому каналу.",
       metric: "avg_response",
       format: "minutes",
-      better: "min",
     },
     {
       id: "no_callback",
@@ -108,7 +96,6 @@ window.APP_CONFIG = {
       desc: "Доля заявок, по которым не было контакта в течение 72 часов.",
       metric: "no_callback_share",
       format: "pct",
-      better: "min",
     },
     {
       id: "messengers",
@@ -116,7 +103,6 @@ window.APP_CONFIG = {
       desc: "Суммарная доля заявок с контактом в WhatsApp, Telegram или Max.",
       metric: "messengers",
       format: "messengers",
-      better: "max",
     },
     {
       id: "median_response",
@@ -124,7 +110,6 @@ window.APP_CONFIG = {
       desc: "Типичная скорость первого контакта — без влияния единичных задержек.",
       metric: "median_response",
       format: "minutes",
-      better: "min",
     },
   ],
 };

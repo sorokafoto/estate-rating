@@ -92,13 +92,5 @@ window.APP_METRICS = {
       "sortable": true,
       "format": "pct"
     }
-  ],
-  "nominationTypes": [
-    "min_avg_response",
-    "max_avg_recontacts",
-    "max_avg_touches",
-    "max_marked_share",
-    "most_omnichannel",
-    "messenger_champion"
   ]
 };

@@ -2,7 +2,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { TABLE_COLUMNS, MESSENGER_CHANNELS, NOMINATION_TYPES } from "../shared/metrics.mjs";
+import { TABLE_COLUMNS, MESSENGER_CHANNELS } from "../shared/metrics.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ASSETS = path.join(__dirname, "..", "assets");
@@ -15,7 +15,7 @@ export function emitBrowserArtifacts() {
 }
 
 function emitMetricsJs() {
-  const payload = { channels: MESSENGER_CHANNELS, columns: TABLE_COLUMNS, nominationTypes: NOMINATION_TYPES };
+  const payload = { channels: MESSENGER_CHANNELS, columns: TABLE_COLUMNS };
   const content =
     "/* Сгенерировано build-data — не редактировать вручную. */\n" +
     "window.APP_METRICS = " +

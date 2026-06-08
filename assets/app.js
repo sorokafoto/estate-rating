@@ -19,8 +19,8 @@
 
   var head = document.getElementById("rank-head");
   var body = document.getElementById("rank-body");
-  var rowCount = document.getElementById("row-count");
   var searchInput = document.getElementById("search");
+  var searchWrap = searchInput ? searchInput.closest(".search") : null;
 
   document.addEventListener("DOMContentLoaded", init);
 
@@ -34,9 +34,9 @@
 
   function applyConfig() {
     if (CFG.accentColor) document.documentElement.style.setProperty("--accent", CFG.accentColor);
-    var period = document.getElementById("rating-period");
-    if (period && CFG.periodLabel) period.textContent = CFG.periodLabel;
     renderHeroStats();
+    var footerPeriod = document.getElementById("footer-period");
+    if (footerPeriod && CFG.heroBadge) footerPeriod.textContent = CFG.heroBadge;
     var c = CFG.contact || {};
     var fc = document.getElementById("footer-contact");
     if (fc) {
@@ -81,6 +81,7 @@
   }
 
   function onDataReady() {
+    renderPeriod();
     buildHead();
     render();
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(syncRankWidth);
@@ -105,10 +106,10 @@
     var root = document.getElementById("hero-stats");
     if (!stats || !stats.items || !stats.items.length || !root) return;
 
-    var intro = document.getElementById("hero-stats-intro");
-    if (intro) {
-      intro.textContent = stats.intro || "";
-      intro.hidden = !stats.intro;
+    var badge = document.getElementById("hero-badge");
+    if (badge) {
+      badge.textContent = CFG.heroBadge || "";
+      badge.hidden = !CFG.heroBadge;
     }
 
     var grid = document.getElementById("hero-stats-grid");
@@ -126,6 +127,13 @@
     }
 
     root.hidden = false;
+  }
+
+  function renderPeriod() {
+    var el = document.getElementById("rating-period");
+    if (!el) return;
+    var text = CFG.periodLabel || meta.period || "";
+    el.textContent = text;
   }
 
   // ---------- Таблица ----------
@@ -204,7 +212,8 @@
 
   function render() {
     var sorted = sortList(developers);
-    sorted.forEach(function (d, i) { d.__place = i + 1; });
+    var places = new Map();
+    sorted.forEach(function (d, i) { places.set(d, i + 1); });
 
     var q = state.query.trim().toLowerCase();
     var visible = q
@@ -215,13 +224,9 @@
       body.innerHTML = '<tr class="empty-row"><td colspan="' + COLUMNS.length + '">Ничего не найдено</td></tr>';
     } else {
       var html = "";
-      for (var i = 0; i < visible.length; i++) html += rowHtml(visible[i]);
+      for (var i = 0; i < visible.length; i++) html += rowHtml(visible[i], places.get(visible[i]));
       body.innerHTML = html;
     }
-
-    rowCount.textContent = q
-      ? "Показано " + visible.length + " из " + sorted.length
-      : sorted.length + " застройщиков";
 
     // Ширина колонки «#» зависит от видимого контента (фильтр/сортировка),
     // поэтому синхронизируем сдвиг липкой колонки на каждом рендере.
@@ -238,13 +243,13 @@
     tbl.style.setProperty("--rank-w", w + "px");
   }
 
-  function rowHtml(d) {
-    var top = d.__place <= 3 ? " is-top" : "";
+  function rowHtml(d, place) {
+    var top = place <= 3 ? " is-top" : "";
     var cells = "";
     for (var i = 0; i < COLUMNS.length; i++) {
       var col = COLUMNS[i];
       if (col.kind === "rank") {
-        cells += '<td class="col-rank"><span class="rank-num">' + d.__place + "</span></td>";
+        cells += '<td class="col-rank"><span class="rank-num">' + place + "</span></td>";
       } else if (col.kind === "name") {
         var storedUrl = d.url || "";
         var linkHref = safeStoredHref(storedUrl);
@@ -263,6 +268,7 @@
         var v = getValue(d, col);
         var text = v == null ? "—" : col.fmt(v);
         var cls = v == null ? "num is-empty" : "num";
+        if (v != null && Number(v) === 0) cls += " is-zero";
         cells += '<td class="' + cls + '">' + text + "</td>";
       }
     }
@@ -271,6 +277,7 @@
 
   // ---------- Поиск ----------
   function setupSearch() {
+    if (!searchInput) return;
     searchInput.addEventListener("input", function () {
       state.query = searchInput.value;
       render();
@@ -309,6 +316,7 @@
         t.tabIndex = on ? 0 : -1;
         panels[t.id].hidden = !on;
       });
+      if (searchWrap) searchWrap.hidden = tab.id !== "tab-rating";
       if (tab.id === "tab-nominations" && !nominationsRendered) {
         renderNominations();
         nominationsRendered = true;
@@ -325,7 +333,7 @@
     else if (hash === "#market") activate(tabs[2]);
   }
 
-  // ---------- Номинации ----------
+  // ---------- Номинации (ключи NOM должны совпадать с config.nominations[].type) ----------
   var NOM = {
     min_avg_response: { val: function (d) { return d.avg_response; }, dir: "asc", fmt: function (v) { return fmtNum(v) + " мин"; } },
     max_avg_recontacts: { val: function (d) { return d.avg_recontacts; }, dir: "desc", fmt: fmtNum },
@@ -417,7 +425,7 @@
 
     if (intro) {
       intro.textContent = n
-        ? "Средние по " + n + " застройщик" + pluralRu(n, "", "ам", "ам") + " в выборке"
+        ? "Средние по " + n + " застройщик" + pluralRu(n, "", "а", "ов") + " в выборке"
         : "";
     }
 
@@ -501,7 +509,6 @@
 
       var name = field(form, "f-name");
       var site = field(form, "f-site");
-      var contact = form.querySelector("#f-contact").value.trim();
 
       var ok = true;
       if (!name.value.trim()) { ok = setError("f-name", "Укажите название застройщика") && false; }
@@ -514,41 +521,41 @@
 
       if (!ok) { status.textContent = "Проверьте поля формы."; status.classList.add("is-err"); return; }
 
-      var payload = { name: name.value.trim(), site: normalizedUrl, contact: contact };
+      var payload = { name: name.value.trim(), site: normalizedUrl };
       submit.disabled = true;
-      status.textContent = "Отправляем…";
 
-      send(payload)
-        .then(function () {
-          form.reset();
-          status.textContent = "Заявка отправлена. Спасибо — добавим вас в следующий цикл.";
-          status.classList.add("is-ok");
-        })
-        .catch(function () {
-          status.textContent = "Не удалось отправить автоматически. Откроем письмо вручную…";
-          status.classList.add("is-err");
-          mailtoFallback(payload);
-        })
-        .then(function () { submit.disabled = false; });
+      if (CFG.formEndpoint) {
+        status.textContent = "Отправляем…";
+        send(payload)
+          .then(function () {
+            form.reset();
+            status.textContent = "Заявка отправлена. Спасибо — добавим вас в следующий цикл.";
+            status.classList.add("is-ok");
+          })
+          .catch(function () {
+            status.textContent = "Не удалось отправить автоматически. Откроем письмо вручную…";
+            status.classList.add("is-err");
+            mailtoFallback(payload);
+          })
+          .then(function () { submit.disabled = false; });
+      } else {
+        mailtoFallback(payload);
+        form.reset();
+        status.textContent = "Откроется почтовый клиент — отправьте письмо оттуда.";
+        submit.disabled = false;
+      }
     });
 
     function field(f, id) { return f.querySelector("#" + id); }
   }
 
   function send(payload) {
-    if (CFG.formEndpoint) {
-      return fetch(CFG.formEndpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      }).then(function (r) {
-        if (!r.ok) throw new Error("HTTP " + r.status);
-      });
-    }
-    // Нет бэкенда — открываем почтовый клиент (без сторонних сервисов).
-    return new Promise(function (resolve) {
-      mailtoFallback(payload);
-      resolve();
+    return fetch(CFG.formEndpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    }).then(function (r) {
+      if (!r.ok) throw new Error("HTTP " + r.status);
     });
   }
 
@@ -556,8 +563,7 @@
     var to = CFG.formEmail || (CFG.contact && CFG.contact.email) || "";
     if (!to) return;
     var subject = "Заявка на участие в рейтинге застройщиков";
-    var bodyText =
-      "Застройщик: " + payload.name + "\nСайт: " + payload.site + "\nКонтакт: " + (payload.contact || "—");
+    var bodyText = "Застройщик: " + payload.name + "\nСайт: " + payload.site;
     window.location.href =
       "mailto:" + encodeURIComponent(to) + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(bodyText);
   }
@@ -577,31 +583,15 @@
   }
 
   function normalizeUrl(raw) {
-    if (URL.hrefFromRaw) return URL.hrefFromRaw(raw) || "";
-    return legacyNormalizeUrl(raw);
+    return URL.hrefFromRaw ? URL.hrefFromRaw(raw) || "" : "";
   }
 
   function safeHref(raw) {
-    return URL.hrefFromRaw ? URL.hrefFromRaw(raw) : legacyNormalizeUrl(raw) || null;
+    return URL.hrefFromRaw ? URL.hrefFromRaw(raw) : null;
   }
 
   function safeStoredHref(stored) {
-    if (URL.hrefFromStored) return URL.hrefFromStored(stored);
-    return stored ? legacyNormalizeUrl(stored) : null;
-  }
-
-  function legacyNormalizeUrl(raw) {
-    if (!raw) return "";
-    var candidate = /^https?:\/\//i.test(raw) ? raw : "https://" + raw;
-    try {
-      var u = new URL(candidate);
-      if (u.username || u.password) return "";
-      if (!u.hostname || u.hostname.indexOf(".") === -1) return "";
-      if (u.protocol !== "http:" && u.protocol !== "https:") return "";
-      return u.href;
-    } catch (e) {
-      return "";
-    }
+    return URL.hrefFromStored ? URL.hrefFromStored(stored) : null;
   }
 
   function buildColumns(defs) {

@@ -3,45 +3,49 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+      (function(m,e,t,r,i,k,a){
+          m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+          m[i].l=1*new Date();
+          for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+          k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+      })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=109731684', 'ym');
+
+      ym(109731684, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/109731684" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
     <title>Рейтинг застройщиков по скорости реакции на заявки</title>
     <meta
       name="description"
-      content="Бенчмарк: как быстро застройщики реагируют на заявки с сайта — время ответа, каналы, число касаний за 72 часа."
+      content="Бенчмарк: как быстро застройщики реагируют на заявки с сайта: время ответа, каналы, число касаний за 72 часа."
     />
     <meta name="robots" content="noindex, nofollow" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="assets/styles.css" />
   </head>
   <body>
-    <a class="skip-link" href="#rating">К рейтингу</a>
-
-    <header class="site-header" role="banner">
-      <div class="wrap header-inner">
-        <a class="brand" href="https://introvert.bz/" target="_blank" rel="noopener">
-          <span class="brand__mark" aria-hidden="true"></span>
-          Интроверт
-        </a>
-      </div>
-    </header>
+    <a class="skip-link" href="#main">К содержанию</a>
 
     <main class="wrap" id="main">
       <!-- 1. HERO -->
       <section class="hero" aria-labelledby="hero-title">
-        <p class="eyebrow">Бенчмарк рынка недвижимости</p>
+        <p class="hero__badge" id="hero-badge"></p>
         <h1 class="hero__title" id="hero-title">
-          Рейтинг застройщиков по&nbsp;скорости реакции на&nbsp;заявки
+          Рейтинг застройщиков <em class="hero__title-accent">по&nbsp;скорости
+          реакции на&nbsp;заявки</em>
         </h1>
         <p class="hero__lead">
-          Замеряем, как быстро застройщики перезванивают и&nbsp;пишут после заявки с&nbsp;сайта,
-          через какие каналы и&nbsp;сколько раз касаются лида за&nbsp;72&nbsp;часа.
+          Замеряем, как быстро перезванивают и&nbsp;пишут после заявки с&nbsp;сайта,
+          через какие каналы и&nbsp;сколько раз касаются лида за&nbsp;<strong>72&nbsp;часа</strong>.
         </p>
         <div class="hero__stats" id="hero-stats" hidden>
-          <p class="hero__stats-intro" id="hero-stats-intro"></p>
           <ul class="hero__stats-grid" id="hero-stats-grid"></ul>
         </div>
       </section>
@@ -49,62 +53,60 @@
       <!-- 2. TABS -->
       <section class="results" aria-labelledby="results-title">
         <h2 class="section-title visually-hidden" id="results-title">Результаты</h2>
-        <div class="tabs" role="tablist" aria-label="Разрезы результатов">
-          <button
-            class="tab is-active"
-            id="tab-rating"
-            role="tab"
-            aria-selected="true"
-            aria-controls="panel-rating"
-          >
-            Рейтинг
-          </button>
-          <button
-            class="tab"
-            id="tab-nominations"
-            role="tab"
-            aria-selected="false"
-            aria-controls="panel-nominations"
-            tabindex="-1"
-          >
-            Номинации
-          </button>
-          <button
-            class="tab"
-            id="tab-market"
-            role="tab"
-            aria-selected="false"
-            aria-controls="panel-market"
-            tabindex="-1"
-          >
-            По рынку
-          </button>
+        <div class="results-bar">
+          <div class="tabs" role="tablist" aria-label="Разрезы результатов">
+            <button
+              class="tab is-active"
+              id="tab-rating"
+              role="tab"
+              aria-selected="true"
+              aria-controls="panel-rating"
+            >
+              Рейтинг
+            </button>
+            <button
+              class="tab"
+              id="tab-nominations"
+              role="tab"
+              aria-selected="false"
+              aria-controls="panel-nominations"
+              tabindex="-1"
+            >
+              Номинации
+            </button>
+            <button
+              class="tab"
+              id="tab-market"
+              role="tab"
+              aria-selected="false"
+              aria-controls="panel-market"
+              tabindex="-1"
+            >
+              По рынку
+            </button>
+          </div>
+          <div class="search">
+            <svg class="search__icon" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="11" cy="11" r="7" />
+              <line x1="21" y1="21" x2="16.5" y2="16.5" />
+            </svg>
+            <input
+              type="search"
+              id="search"
+              placeholder="Поиск по застройщику"
+              aria-label="Поиск по названию застройщика"
+              autocomplete="off"
+            />
+          </div>
         </div>
 
-        <!-- 4a. RATING -->
+        <!-- 2a. RATING -->
         <div
           class="panel"
           id="panel-rating"
           role="tabpanel"
           aria-labelledby="tab-rating"
         >
-          <div class="toolbar">
-            <div class="search">
-              <svg class="search__icon" viewBox="0 0 24 24" aria-hidden="true">
-                <circle cx="11" cy="11" r="7" />
-                <line x1="21" y1="21" x2="16.5" y2="16.5" />
-              </svg>
-              <input
-                type="search"
-                id="search"
-                placeholder="Поиск по застройщику"
-                aria-label="Поиск по названию застройщика"
-                autocomplete="off"
-              />
-            </div>
-            <p class="toolbar__count" id="row-count" aria-live="polite"></p>
-          </div>
-
           <div class="table-scroll" tabindex="0" aria-label="Таблица рейтинга, прокручивается по горизонтали">
             <table class="rank-table" id="rank-table">
               <thead id="rank-head"></thead>
@@ -112,10 +114,9 @@
             </table>
           </div>
           <p class="rating-period" id="rating-period"></p>
-          <p class="table-hint">Нажмите на заголовок столбца для сортировки</p>
         </div>
 
-        <!-- 4b. NOMINATIONS -->
+        <!-- 2b. NOMINATIONS -->
         <div
           class="panel"
           id="panel-nominations"
@@ -126,7 +127,7 @@
           <div class="nominations" id="nominations"></div>
         </div>
 
-        <!-- 4c. MARKET -->
+        <!-- 2c. MARKET -->
         <div
           class="panel"
           id="panel-market"
@@ -139,33 +140,7 @@
         </div>
       </section>
 
-      <!-- 3. CTA -->
-      <section class="cta" aria-labelledby="cta-title">
-        <div class="cta__text">
-          <h2 class="section-title" id="cta-title">Вашей компании нет в&nbsp;рейтинге, но&nbsp;хотите участвовать?</h2>
-          <p>Оставьте заявку — добавим ваш сайт в&nbsp;следующий цикл замера.</p>
-        </div>
-        <form class="cta-form" id="cta-form" novalidate>
-          <div class="field">
-            <label for="f-name">Название застройщика<span aria-hidden="true">*</span></label>
-            <input id="f-name" name="name" type="text" required autocomplete="organization" />
-            <span class="field__error" data-for="f-name"></span>
-          </div>
-          <div class="field">
-            <label for="f-site">Сайт<span aria-hidden="true">*</span></label>
-            <input id="f-site" name="site" type="url" inputmode="url" placeholder="example.ru" required />
-            <span class="field__error" data-for="f-site"></span>
-          </div>
-          <div class="field">
-            <label for="f-contact">Контакт для связи <span class="muted">(необязательно)</span></label>
-            <input id="f-contact" name="contact" type="text" autocomplete="email" />
-          </div>
-          <button type="submit" class="btn" id="cta-submit">Отправить заявку</button>
-          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
-        </form>
-      </section>
-
-      <!-- 4. ПОДРОБНЕЕ О РЕЙТИНГЕ -->
+      <!-- 3. ПОДРОБНЕЕ О РЕЙТИНГЕ -->
       <section class="about" aria-labelledby="about-title">
         <h2 class="section-title" id="about-title">Подробнее о рейтинге</h2>
         <div class="about-prose">
@@ -225,13 +200,35 @@
           </section>
         </div>
       </section>
+
+      <!-- 4. CTA -->
+      <section class="cta" aria-labelledby="cta-title">
+        <div class="cta__intro">
+          <h2 class="section-title" id="cta-title">Участвовать в&nbsp;рейтинге</h2>
+          <p>Оставьте заявку и&nbsp;мы&nbsp;включим ваш сайт в&nbsp;рейтинг в&nbsp;следующем цикле замера</p>
+        </div>
+        <form class="cta-form" id="cta-form" novalidate>
+          <div class="field">
+            <label for="f-name">Название застройщика<span aria-hidden="true">*</span></label>
+            <input id="f-name" name="name" type="text" required autocomplete="organization" />
+            <span class="field__error" data-for="f-name"></span>
+          </div>
+          <div class="field">
+            <label for="f-site">Адрес сайта<span aria-hidden="true">*</span></label>
+            <input id="f-site" name="site" type="url" inputmode="url" placeholder="example.ru" required />
+            <span class="field__error" data-for="f-site"></span>
+          </div>
+          <button type="submit" class="btn" id="cta-submit">Отправить заявку</button>
+          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </section>
     </main>
 
     <footer class="site-footer" role="contentinfo">
       <div class="wrap footer-grid">
         <div>
           <p class="footer-strong">Рейтинг скорости реакции застройщиков на заявки</p>
-          <p class="muted">II квартал 2026 года</p>
+          <p class="muted" id="footer-period"></p>
         </div>
         <div>
           <p class="footer-strong">Контакты</p>
