@@ -34,6 +34,8 @@
 
   function applyConfig() {
     if (CFG.accentColor) document.documentElement.style.setProperty("--accent", CFG.accentColor);
+    var period = document.getElementById("rating-period");
+    if (period && CFG.periodLabel) period.textContent = CFG.periodLabel;
     renderHeroStats();
     var c = CFG.contact || {};
     var fc = document.getElementById("footer-contact");
@@ -79,9 +81,6 @@
   }
 
   function onDataReady() {
-    var period = document.getElementById("header-period");
-    if (period) period.textContent = CFG.periodLabel || "Бенчмарк рынка недвижимости";
-
     buildHead();
     render();
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(syncRankWidth);

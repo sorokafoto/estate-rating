@@ -120,11 +120,6 @@ a {
   background: var(--accent);
   display: inline-block;
 }
-.header-meta {
-  font-size: var(--fs-small);
-  color: var(--ink-3);
-}
-
 /* ---------- Hero ---------- */
 .hero {
   padding: clamp(48px, 9vw, 110px) 0 clamp(32px, 5vw, 56px);
@@ -473,8 +468,13 @@ tr.is-top .rank-num {
   background: #faf9f5;
 }
 
-.table-hint {
+.rating-period {
   margin-top: 12px;
+  font-size: var(--fs-small);
+  color: var(--ink-2);
+}
+.table-hint {
+  margin-top: 6px;
   font-size: var(--fs-small);
   color: var(--ink-3);
 }
