@@ -1,0 +1,15 @@
+{
+  "name": "developer-response-rating",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Лендинг исследования «Рейтинг скорости реакции застройщиков на заявки». Сайт статический; PII не попадает в браузер.",
+  "scripts": {
+    "build-data": "node build/build-data.mjs",
+    "serve": "node build/serve.mjs",
+    "test": "node --test build/*.test.mjs shared/*.test.mjs"
+  },
+  "dependencies": {
+    "xlsx": "^0.18.5"
+  }
+}

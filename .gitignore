@@ -1,0 +1,17 @@
+# Приватный источник и любые выгрузки с PII — никогда не коммитим
+private/
+*.xlsx
+*.xls
+*.csv
+
+# Ключи / секреты
+*.pem
+*.key
+.env
+.env.*
+service-account*.json
+credentials*.json
+
+# Node
+node_modules/
+npm-debug.log*

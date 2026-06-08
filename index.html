@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Рейтинг застройщиков по скорости реакции на заявки</title>
+    <meta
+      name="description"
+      content="Бенчмарк: как быстро застройщики реагируют на заявки с сайта — время ответа, каналы, число касаний за 72 часа."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#rating">К рейтингу</a>
+
+    <header class="site-header" role="banner">
+      <div class="wrap header-inner">
+        <a class="brand" href="https://introvert.bz/" target="_blank" rel="noopener">
+          <span class="brand__mark" aria-hidden="true"></span>
+          Интроверт
+        </a>
+        <span class="header-meta" id="header-period">Период замера: II квартал 2026 года</span>
+      </div>
+    </header>
+
+    <main class="wrap" id="main">
+      <!-- 1. HERO -->
+      <section class="hero" aria-labelledby="hero-title">
+        <p class="eyebrow">Бенчмарк рынка недвижимости</p>
+        <h1 class="hero__title" id="hero-title">
+          Рейтинг застройщиков по&nbsp;скорости реакции на&nbsp;заявки
+        </h1>
+        <p class="hero__lead">
+          Замеряем, как быстро застройщики перезванивают и&nbsp;пишут после заявки с&nbsp;сайта,
+          через какие каналы и&nbsp;сколько раз касаются лида за&nbsp;72&nbsp;часа.
+        </p>
+        <div class="hero__stats" id="hero-stats" hidden>
+          <p class="hero__stats-intro" id="hero-stats-intro"></p>
+          <ul class="hero__stats-grid" id="hero-stats-grid"></ul>
+        </div>
+      </section>
+
+      <!-- 2. TABS -->
+      <section class="results" aria-labelledby="results-title">
+        <h2 class="section-title visually-hidden" id="results-title">Результаты</h2>
+        <div class="tabs" role="tablist" aria-label="Разрезы результатов">
+          <button
+            class="tab is-active"
+            id="tab-rating"
+            role="tab"
+            aria-selected="true"
+            aria-controls="panel-rating"
+          >
+            Рейтинг
+          </button>
+          <button
+            class="tab"
+            id="tab-nominations"
+            role="tab"
+            aria-selected="false"
+            aria-controls="panel-nominations"
+            tabindex="-1"
+          >
+            Номинации
+          </button>
+          <button
+            class="tab"
+            id="tab-market"
+            role="tab"
+            aria-selected="false"
+            aria-controls="panel-market"
+            tabindex="-1"
+          >
+            По рынку
+          </button>
+        </div>
+
+        <!-- 4a. RATING -->
+        <div
+          class="panel"
+          id="panel-rating"
+          role="tabpanel"
+          aria-labelledby="tab-rating"
+        >
+          <div class="toolbar">
+            <div class="search">
+              <svg class="search__icon" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" />
+                <line x1="21" y1="21" x2="16.5" y2="16.5" />
+              </svg>
+              <input
+                type="search"
+                id="search"
+                placeholder="Поиск по застройщику"
+                aria-label="Поиск по названию застройщика"
+                autocomplete="off"
+              />
+            </div>
+            <p class="toolbar__count" id="row-count" aria-live="polite"></p>
+          </div>
+
+          <div class="table-scroll" tabindex="0" aria-label="Таблица рейтинга, прокручивается по горизонтали">
+            <table class="rank-table" id="rank-table">
+              <thead id="rank-head"></thead>
+              <tbody id="rank-body"></tbody>
+            </table>
+          </div>
+          <p class="table-hint">Нажмите на заголовок столбца для сортировки</p>
+        </div>
+
+        <!-- 4b. NOMINATIONS -->
+        <div
+          class="panel"
+          id="panel-nominations"
+          role="tabpanel"
+          aria-labelledby="tab-nominations"
+          hidden
+        >
+          <div class="nominations" id="nominations"></div>
+        </div>
+
+        <!-- 4c. MARKET -->
+        <div
+          class="panel"
+          id="panel-market"
+          role="tabpanel"
+          aria-labelledby="tab-market"
+          hidden
+        >
+          <p class="market-intro" id="market-intro"></p>
+          <div class="market-cards" id="market-cards"></div>
+        </div>
+      </section>
+
+      <!-- 3. CTA -->
+      <section class="cta" aria-labelledby="cta-title">
+        <div class="cta__text">
+          <h2 class="section-title" id="cta-title">Вашей компании нет в&nbsp;рейтинге, но&nbsp;хотите участвовать?</h2>
+          <p>Оставьте заявку — добавим ваш сайт в&nbsp;следующий цикл замера.</p>
+        </div>
+        <form class="cta-form" id="cta-form" novalidate>
+          <div class="field">
+            <label for="f-name">Название застройщика<span aria-hidden="true">*</span></label>
+            <input id="f-name" name="name" type="text" required autocomplete="organization" />
+            <span class="field__error" data-for="f-name"></span>
+          </div>
+          <div class="field">
+            <label for="f-site">Сайт<span aria-hidden="true">*</span></label>
+            <input id="f-site" name="site" type="url" inputmode="url" placeholder="example.ru" required />
+            <span class="field__error" data-for="f-site"></span>
+          </div>
+          <div class="field">
+            <label for="f-contact">Контакт для связи <span class="muted">(необязательно)</span></label>
+            <input id="f-contact" name="contact" type="text" autocomplete="email" />
+          </div>
+          <button type="submit" class="btn" id="cta-submit">Отправить заявку</button>
+          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <!-- 4. ПОДРОБНЕЕ О РЕЙТИНГЕ -->
+      <section class="about" aria-labelledby="about-title">
+        <h2 class="section-title" id="about-title">Подробнее о рейтинге</h2>
+        <div class="about-prose">
+          <p class="about-prose__lead">
+            Рейтинг показывает, как застройщики реагируют на заявки с&nbsp;сайта: как быстро выходят на&nbsp;контакт,
+            через какие каналы пишут и&nbsp;сколько раз касаются лида в&nbsp;течение 72&nbsp;часов.
+          </p>
+
+          <section class="about-prose__section" aria-labelledby="about-method">
+            <h3 class="about-prose__h" id="about-method">Как проводился замер</h3>
+            <p>
+              Мы выбрали 100 застройщиков России по выручке и оставлили на их сайтах 21&nbsp;заявку на обратный звонок:
+              3&nbsp;заявки в&nbsp;день в&nbsp;течение 7&nbsp;дней подряд. Утром, днём и вечером, включая выходные.
+              Окно наблюдения&nbsp;&mdash; 72&nbsp;часа после каждой заявки.
+              Фиксировали звонки, SMS и сообщения в мессенджерах: Max, WhatsApp и Telegram.
+              В&nbsp;рейтинг вошли только контакты, которые удалось идентифицировать
+              и&nbsp;связать с&nbsp;конкретным застройщиком.
+            </p>
+          </section>
+
+          <section class="about-prose__section" aria-labelledby="about-metrics">
+            <h3 class="about-prose__h" id="about-metrics">Как читать метрики</h3>
+            <dl class="about-prose__defs">
+              <dt>Среднее время ответа и&nbsp;медиана</dt>
+              <dd>
+                Сколько минут проходит от&nbsp;заявки до&nbsp;первого контакта по&nbsp;любому каналу.
+                Медиана показывает типичную скорость без влияния единичных задержек.
+              </dd>
+              <dt>Заявок без ответа, %</dt>
+              <dd>
+                Доля заявок, по&nbsp;которым не&nbsp;было контакта в&nbsp;течение 72&nbsp;часов.
+              </dd>
+              <dt>Перезвоны и&nbsp;касания за&nbsp;72&nbsp;часа</dt>
+              <dd>
+                Перезвоны&nbsp;&mdash; повторные контакты после первого касания.
+                Касания&nbsp;&mdash; все контакты по&nbsp;любому каналу за&nbsp;72&nbsp;часа на&nbsp;одну заявку.
+              </dd>
+              <dt>SMS, Max, WhatsApp, Telegram</dt>
+              <dd>
+                Доля заявок, по&nbsp;которым застройщик связался в&nbsp;соответствующем канале.
+              </dd>
+              <dt>Маркировка номера, %</dt>
+              <dd>
+                Доля контактов, где номер был маркирован и&nbsp;позволял распознать компанию.
+              </dd>
+            </dl>
+          </section>
+
+          <section class="about-prose__section" aria-labelledby="about-limits">
+            <h3 class="about-prose__h" id="about-limits">Что важно учитывать</h3>
+            <p>
+              Рейтинг оценивает только факт и&nbsp;скорость контакта.
+              Мы&nbsp;не&nbsp;оцениваем качество разговора, содержание оффера, удобство сайта
+              или работу конкретного менеджера.
+              Неидентифицированные события не&nbsp;приписываются компании.
+            </p>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer" role="contentinfo">
+      <div class="wrap footer-grid">
+        <div>
+          <p class="footer-strong">Рейтинг скорости реакции застройщиков на заявки</p>
+          <p class="muted">II квартал 2026 года</p>
+        </div>
+        <div>
+          <p class="footer-strong">Контакты</p>
+          <p class="muted" id="footer-contact"></p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="config.js"></script>
+    <script src="assets/metrics.js"></script>
+    <script src="assets/market.js"></script>
+    <script src="assets/url-utils.js"></script>
+    <!-- Инлайн-данные: позволяют открывать index.html напрямую (file://) без сервера. -->
+    <script src="data.js"></script>
+    <script src="assets/app.js"></script>
+  </body>
+</html>
