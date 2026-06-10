@@ -47,11 +47,11 @@ window.APP_METRICS = {
       "format": "num"
     },
     {
-      "key": "avg_touches",
-      "label": "Касания/72ч",
+      "key": "total_touches",
+      "label": "Касаний всего",
       "kind": "num",
       "sortable": true,
-      "format": "num"
+      "format": "int"
     },
     {
       "key": "marked_share",

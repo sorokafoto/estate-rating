@@ -37,7 +37,7 @@ export function readSource() {
   if (!ws) throw new Error(`Лист "${SHEET_NAME}" не найден в источнике`);
 
   const rows = XLSX.utils.sheet_to_json(ws, { header: 1, blankrows: false });
-  // rows[0] — ключи, rows[1] — описания, данные с rows[2].
+  // rows[0] — ключи; rows[1] — либо русские описания, либо первая строка данных.
   const header = rows[0].map((h) => String(h || "").trim());
   const idx = {};
   FIELDS.forEach((f) => {
@@ -45,8 +45,10 @@ export function readSource() {
     if (i !== -1) idx[f] = i;
   });
 
+  const dataStart = isDataRow(rows[1], idx.event_id) ? 1 : 2;
+
   const events = [];
-  for (let r = 2; r < rows.length; r++) {
+  for (let r = dataStart; r < rows.length; r++) {
     const row = rows[r];
     if (!row || row[idx.event_id] == null || String(row[idx.event_id]).trim() === "") continue;
     events.push({
@@ -63,6 +65,12 @@ export function readSource() {
     });
   }
   return events;
+}
+
+function isDataRow(row, eventIdIdx) {
+  if (!row || eventIdIdx == null) return false;
+  const id = String(row[eventIdIdx] ?? "").trim();
+  return /^E-/i.test(id);
 }
 
 function cell(row, i) {

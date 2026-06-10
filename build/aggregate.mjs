@@ -68,7 +68,7 @@ export function aggregate(events, applicationsSent) {
       median_response: firstContacts.length ? round1(median(firstContacts)) : null,
       no_callback_share: N > 0 ? clamp(roundInt(((N - responded) / N) * 100), 0, 100) : null,
       avg_recontacts: N > 0 ? round1(totalRecontacts / N) : null,
-      avg_touches: N > 0 ? round1(totalTouches / N) : null,
+      total_touches: totalTouches,
       marked_share: dev.events.length ? roundInt((markedEvents / dev.events.length) * 100) : null,
       channel_share,
     });

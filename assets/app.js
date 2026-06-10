@@ -35,18 +35,24 @@
   function applyConfig() {
     if (CFG.accentColor) document.documentElement.style.setProperty("--accent", CFG.accentColor);
     renderHeroStats();
-    var footerPeriod = document.getElementById("footer-period");
-    if (footerPeriod && CFG.heroBadge) footerPeriod.textContent = CFG.heroBadge;
+    renderLeadFormCopy();
     var c = CFG.contact || {};
     var fc = document.getElementById("footer-contact");
     if (fc) {
-      var siteHref = c.site ? safeHref(c.site) : null;
+      var siteHref = (c.siteHref || c.site) ? safeHref(c.siteHref || c.site) : null;
+      var siteLabel = c.site || (siteHref ? stripProto(siteHref) : null);
       fc.innerHTML =
         (c.org ? esc(c.org) + "<br>" : "") +
         (siteHref
-          ? '<a href="' + esc(siteHref) + '" target="_blank" rel="noopener">' + esc(stripProto(siteHref)) + "</a><br>"
+          ? '<a href="' + esc(siteHref) + '" target="_blank" rel="noopener">' + esc(siteLabel) + "</a><br>"
           : "") +
         (c.email ? '<a href="mailto:' + esc(c.email) + '">' + esc(c.email) + "</a>" : "");
+    }
+    var fj = document.getElementById("footer-join-note");
+    if (fj && c.email) {
+      fj.innerHTML =
+        "Не нашли себя в рейтинге? Напишите " +
+        '<a href="mailto:' + esc(c.email) + '">на&nbsp;почту</a>, включим в следующий цикл.';
     }
   }
 
@@ -127,6 +133,33 @@
     }
 
     root.hidden = false;
+  }
+
+  function renderLeadFormCopy() {
+    renderPrivacyNote(CFG.leadForm || {});
+  }
+
+  function renderPrivacyNote(lf) {
+    var el = document.getElementById("lead-privacy");
+    if (!el || !lf.privacyNote) return;
+
+    var url = lf.privacyPolicyUrl ? safeHref(lf.privacyPolicyUrl) : null;
+    var linkText = lf.privacyPolicyLinkText || "обработку персональных данных";
+    var note = lf.privacyNote;
+    var idx = note.indexOf(linkText);
+
+    if (url && idx !== -1) {
+      el.innerHTML =
+        esc(note.slice(0, idx)) +
+        '<a href="' +
+        esc(url) +
+        '" target="_blank" rel="noopener noreferrer">' +
+        esc(linkText) +
+        "</a>" +
+        esc(note.slice(idx + linkText.length));
+    } else {
+      el.textContent = note;
+    }
   }
 
   function renderPeriod() {
@@ -337,7 +370,7 @@
   var NOM = {
     min_avg_response: { val: function (d) { return d.avg_response; }, dir: "asc", fmt: function (v) { return fmtNum(v) + " мин"; } },
     max_avg_recontacts: { val: function (d) { return d.avg_recontacts; }, dir: "desc", fmt: fmtNum },
-    max_avg_touches: { val: function (d) { return d.avg_touches; }, dir: "desc", fmt: fmtNum },
+    max_total_touches: { val: function (d) { return d.total_touches; }, dir: "desc", fmt: fmtInt },
     max_marked_share: { val: function (d) { return d.marked_share; }, dir: "desc", fmt: function (v) { return fmtPct(v); } },
     most_omnichannel: { val: omniCount, dir: "desc", fmt: function (v) { return String(v); } },
     messenger_champion: { val: messengerSum, dir: "desc", fmt: function (v) { return fmtPct(v); } },
@@ -479,58 +512,206 @@
     return v == null ? "—" : fmtPct(v);
   }
 
-  // ---------- CTA-форма ----------
+  // ---------- CTA-формы ----------
+  var FREEMAIL = [];
+
   function setupForm() {
-    var form = document.getElementById("cta-form");
-    var status = document.getElementById("form-status");
-    var submit = document.getElementById("cta-submit");
+    var lf = CFG.leadForm || {};
+    FREEMAIL = (lf.freemailDomains || []).map(function (d) {
+      return String(d).toLowerCase();
+    });
+    setupLeadForm();
+  }
+
+  function setupLeadForm() {
+    var form = document.getElementById("lead-form");
+    var status = document.getElementById("lead-form-status");
+    var submit = document.getElementById("lead-submit");
+    var lf = CFG.leadForm || {};
     if (!form) return;
+
+    var emailInput = document.getElementById("lead-email");
+    if (emailInput) {
+      emailInput.addEventListener("input", function () {
+        updateFreemailHint(emailInput, lf.freemailHint);
+      });
+      emailInput.addEventListener("blur", function () {
+        updateFreemailHint(emailInput, lf.freemailHint);
+      });
+    }
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       status.textContent = "";
       status.className = "form-status";
 
-      var name = field(form, "f-name");
-      var site = field(form, "f-site");
+      var fullname = formField(form, "lead-fullname");
+      var role = formField(form, "lead-role");
+      var email = formField(form, "lead-email");
+      var phone = formField(form, "lead-phone");
+      var company = formField(form, "lead-company");
+      var site = formField(form, "lead-site");
+      var message = formField(form, "lead-message");
 
       var ok = true;
-      if (!name.value.trim()) { ok = setError("f-name", "Укажите название застройщика") && false; }
-      else clearError("f-name");
+      if (!requireText(fullname, "lead-fullname", "Укажите ФИО")) ok = false;
+      if (!requireText(role, "lead-role", "Укажите должность")) ok = false;
+      if (!requireEmail(email, "lead-email")) ok = false;
+      if (!requirePhone(phone, "lead-phone")) ok = false;
+      if (!requireText(company, "lead-company", "Укажите название застройщика")) ok = false;
 
       var normalizedUrl = normalizeUrl(site.value.trim());
-      if (!site.value.trim()) { setError("f-site", "Укажите сайт"); ok = false; }
-      else if (!normalizedUrl) { setError("f-site", "Похоже на некорректный адрес"); ok = false; }
-      else clearError("f-site");
+      if (!site.value.trim()) {
+        setError("lead-site", "Укажите сайт");
+        ok = false;
+      } else if (!normalizedUrl) {
+        setError("lead-site", "Похоже на некорректный адрес");
+        ok = false;
+      } else clearError("lead-site");
 
-      if (!ok) { status.textContent = "Проверьте поля формы."; status.classList.add("is-err"); return; }
-
-      var payload = { name: name.value.trim(), site: normalizedUrl };
-      submit.disabled = true;
-
-      if (CFG.formEndpoint) {
-        status.textContent = "Отправляем…";
-        send(payload)
-          .then(function () {
-            form.reset();
-            status.textContent = "Заявка отправлена. Спасибо — добавим вас в следующий цикл.";
-            status.classList.add("is-ok");
-          })
-          .catch(function () {
-            status.textContent = "Не удалось отправить автоматически. Откроем письмо вручную…";
-            status.classList.add("is-err");
-            mailtoFallback(payload);
-          })
-          .then(function () { submit.disabled = false; });
-      } else {
-        mailtoFallback(payload);
-        form.reset();
-        status.textContent = "Откроется почтовый клиент — отправьте письмо оттуда.";
-        submit.disabled = false;
+      if (!ok) {
+        status.textContent = "Проверьте поля формы.";
+        status.classList.add("is-err");
+        return;
       }
-    });
 
-    function field(f, id) { return f.querySelector("#" + id); }
+      var payload = {
+        form_type: "discuss_results",
+        fullname: fullname.value.trim(),
+        role: role.value.trim(),
+        email: email.value.trim(),
+        phone: phone.value.trim(),
+        company: company.value.trim(),
+        site: normalizedUrl,
+        message: message.value.trim(),
+      };
+
+      submit.disabled = true;
+      submitForm(form, payload, {
+        status: status,
+        submit: submit,
+        subject: lf.mailtoSubject || "Запрос на разбор результатов рейтинга",
+        buildBody: formatLeadBody,
+        successMessage:
+          lf.successMessage ||
+          "Откроется почтовый клиент — отправьте письмо. Мы свяжемся в течение 1 рабочего дня.",
+        endpointSuccessMessage: "Заявка отправлена. Мы свяжемся в течение 1 рабочего дня.",
+      });
+    });
+  }
+
+  function submitForm(form, payload, opts) {
+    if (CFG.formEndpoint) {
+      opts.status.textContent = "Отправляем…";
+      send(payload)
+        .then(function () {
+          form.reset();
+          opts.status.textContent = opts.endpointSuccessMessage;
+          opts.status.classList.add("is-ok");
+        })
+        .catch(function () {
+          opts.status.textContent = "Не удалось отправить автоматически. Откроем письмо вручную…";
+          opts.status.classList.add("is-err");
+          mailtoFallback(payload, opts.subject, opts.buildBody);
+        })
+        .then(function () {
+          opts.submit.disabled = false;
+        });
+    } else {
+      mailtoFallback(payload, opts.subject, opts.buildBody);
+      form.reset();
+      opts.status.textContent = opts.successMessage;
+      opts.submit.disabled = false;
+    }
+  }
+
+  function requireText(input, id, msg) {
+    if (!input.value.trim()) {
+      setError(id, msg);
+      return false;
+    }
+    clearError(id);
+    return true;
+  }
+
+  function requireEmail(input, id) {
+    var val = input.value.trim();
+    if (!val) {
+      setError(id, "Укажите e-mail");
+      return false;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) {
+      setError(id, "Похоже на некорректный e-mail");
+      return false;
+    }
+    if (isFreemail(val)) {
+      setError(id, freemailHintText());
+      return true;
+    }
+    clearError(id);
+    return true;
+  }
+
+  function requirePhone(input, id) {
+    var val = input.value.trim();
+    if (!val) {
+      setError(id, "Укажите телефон");
+      return false;
+    }
+    if (/[^0-9]/.test(val)) {
+      setError(id, "Телефон должен содержать только цифры");
+      return false;
+    }
+    if (val.length < 10) {
+      setError(id, "Укажите полный номер телефона");
+      return false;
+    }
+    clearError(id);
+    return true;
+  }
+
+  function updateFreemailHint(input, warnText) {
+    var val = input.value.trim();
+    if (isFreemail(val)) {
+      setError(input.id, warnText || freemailHintText());
+      return;
+    }
+    if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) {
+      clearError(input.id);
+    }
+  }
+
+  function isFreemail(email) {
+    var domain = emailDomain(email);
+    return domain && FREEMAIL.indexOf(domain) !== -1;
+  }
+
+  function freemailHintText() {
+    return (CFG.leadForm && CFG.leadForm.freemailHint) || "Укажите рабочую почту на домене компании";
+  }
+
+  function emailDomain(email) {
+    var at = email.lastIndexOf("@");
+    if (at === -1) return "";
+    return email.slice(at + 1).toLowerCase();
+  }
+
+  function formatLeadBody(payload) {
+    var lines = [
+      "Тип формы: " + payload.form_type,
+      "ФИО: " + payload.fullname,
+      "Должность: " + payload.role,
+      "E-mail: " + payload.email,
+      "Телефон: " + (payload.phone || "—"),
+      "Застройщик: " + payload.company,
+      "Сайт: " + payload.site,
+      "Комментарий: " + (payload.message || "—"),
+    ];
+    return lines.join("\n");
+  }
+
+  function formField(f, id) {
+    return f.querySelector("#" + id);
   }
 
   function send(payload) {
@@ -543,13 +724,17 @@
     });
   }
 
-  function mailtoFallback(payload) {
+  function mailtoFallback(payload, subject, buildBody) {
     var to = CFG.formEmail || (CFG.contact && CFG.contact.email) || "";
     if (!to) return;
-    var subject = "Заявка на участие в рейтинге застройщиков";
-    var bodyText = "Застройщик: " + payload.name + "\nСайт: " + payload.site;
+    var bodyText = buildBody ? buildBody(payload) : JSON.stringify(payload, null, 2);
     window.location.href =
-      "mailto:" + encodeURIComponent(to) + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(bodyText);
+      "mailto:" +
+      encodeURIComponent(to) +
+      "?subject=" +
+      encodeURIComponent(subject || "Заявка с сайта рейтинга") +
+      "&body=" +
+      encodeURIComponent(bodyText);
   }
 
   function setError(id, msg) {
@@ -586,6 +771,7 @@
     return defs.map(function (col) {
       var out = Object.assign({}, col);
       if (col.format === "pct") out.fmt = fmtPct;
+      else if (col.format === "int") out.fmt = fmtInt;
       else if (col.format === "num") out.fmt = fmtNum;
       return out;
     });
@@ -594,6 +780,9 @@
   // ---------- Утилиты ----------
   function fmtNum(v) {
     return Number(v).toLocaleString("ru-RU", { maximumFractionDigits: 1 });
+  }
+  function fmtInt(v) {
+    return Number(v).toLocaleString("ru-RU", { maximumFractionDigits: 0 });
   }
   function fmtPct(v) {
     return Number(v).toLocaleString("ru-RU") + "%";

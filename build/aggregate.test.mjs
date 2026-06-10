@@ -57,3 +57,16 @@ test("aggregate: опасный URL отбрасывается", () => {
   const devs = aggregate([event({ url: "evil.com@phishing.tld" })], applicationsSent);
   assert.equal(devs[0].url, "");
 });
+
+test("aggregate: total_touches — сумма событий, не среднее на N", () => {
+  const devs = aggregate(
+    [
+      event({ application_id: "a1" }),
+      event({ application_id: "a1" }),
+      event({ application_id: "a1" }),
+      event({ application_id: "a2" }),
+    ],
+    applicationsSent
+  );
+  assert.equal(devs[0].total_touches, 4);
+});

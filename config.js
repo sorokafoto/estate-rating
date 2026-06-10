@@ -16,21 +16,48 @@ window.APP_CONFIG = {
   heroStats: {
     items: [
       { value: "100", label: "застройщиков России" },
-      { value: "2 100+", label: "заявок отправлено" },
-      { value: "6 000+", label: "событий собрано" },
-      { value: "5", label: "каналов под наблюдением" },
+      { value: "2 000+", label: "заявок отправлено" },
+      { value: "10 000+", label: "событий собрано" },
+      { value: "5", label: "отслеживаемых каналов" },
     ],
   },
 
-  // Куда отправлять заявку из CTA-формы.
+  // Куда отправлять заявки из форм.
   // Если пусто — используется mailto-фолбэк на formEmail (без сторонних сервисов).
   formEndpoint: "",
   formEmail: "hello@intr.bz",
+
+  // Главный CTA — «Обсудить результаты» (lead-форма).
+  leadForm: {
+    privacyNote:
+      "Отправляя форму, вы соглашаетесь на обработку персональных данных",
+    privacyPolicyUrl: "https://introvert.bz/privacy-policy-2/",
+    privacyPolicyLinkText: "обработку персональных данных",
+    successMessage:
+      "Спасибо за сообщение, мы с вами скоро свяжемся",
+    mailtoSubject: "Запрос на разбор результатов рейтинга",
+    freemailDomains: [
+      "gmail.com",
+      "googlemail.com",
+      "yandex.ru",
+      "ya.ru",
+      "mail.ru",
+      "bk.ru",
+      "inbox.ru",
+      "list.ru",
+      "icloud.com",
+      "outlook.com",
+      "hotmail.com",
+    ],
+    freemailHint: "Укажите рабочую почту на домене компании",
+  },
 
   // Контакты в футере.
   contact: {
     org: "Интроверт системс",
     site: "https://introvert.bz/",
+    siteHref:
+      "https://introvert.bz/?utm_source=estaterating&utm_medium=referral&utm_content=footer",
     email: "hello@intr.bz",
   },
 
@@ -42,54 +69,47 @@ window.APP_CONFIG = {
       title: "Самый быстрый ответ",
       desc: "Наименьшее среднее время до первого контакта по любому каналу.",
       type: "min_avg_response",
-      top: 5,
+      top: 3,
     },
     {
       id: "persistent",
       title: "Самый настойчивый",
       desc: "Больше всего повторных контактов за 72 часа на заявку.",
       type: "max_avg_recontacts",
-      top: 5,
+      top: 3,
     },
     {
       id: "touches",
       title: "Больше всего касаний",
-      desc: "Наибольшее среднее число касаний (любой канал) за 72 часа на заявку.",
-      type: "max_avg_touches",
-      top: 5,
+      desc: "Наибольшее суммарное число контактов (звонки, SMS, мессенджеры) за период замера.",
+      type: "max_total_touches",
+      top: 3,
     },
     {
       id: "marked",
       title: "Лучшая маркировка номеров",
       desc: "Наибольшая доля маркированных номеров.",
       type: "max_marked_share",
-      top: 5,
+      top: 3,
     },
     {
       id: "omnichannel",
       title: "Самый омниканальный",
       desc: "Наибольшее число каналов с ненулевой долей контактов.",
       type: "most_omnichannel",
-      top: 5,
+      top: 3,
     },
     {
       id: "messengers",
       title: "Чемпион мессенджеров",
       desc: "Наибольшая суммарная доля контактов в WhatsApp, Telegram и Max.",
       type: "messenger_champion",
-      top: 5,
+      top: 3,
     },
   ],
 
   // KPI-карточки вкладки «По рынку» — данные из data.json.market (или fallback в app.js).
   marketCards: [
-    {
-      id: "avg_response",
-      title: "Среднее время ответа",
-      desc: "Сколько минут в среднем проходит от заявки до первого контакта по любому каналу.",
-      metric: "avg_response",
-      format: "minutes",
-    },
     {
       id: "no_callback",
       title: "Заявок без ответа",

@@ -113,7 +113,6 @@
               <tbody id="rank-body"></tbody>
             </table>
           </div>
-          <p class="rating-period" id="rating-period"></p>
         </div>
 
         <!-- 2b. NOMINATIONS -->
@@ -144,23 +143,32 @@
       <section class="about" aria-labelledby="about-title">
         <h2 class="section-title" id="about-title">Подробнее о рейтинге</h2>
         <div class="about-prose">
-          <p class="about-prose__lead">
-            Рейтинг показывает, как застройщики реагируют на заявки с&nbsp;сайта: как быстро выходят на&nbsp;контакт,
-            через какие каналы пишут и&nbsp;сколько раз касаются лида в&nbsp;течение 72&nbsp;часов.
-          </p>
-
           <section class="about-prose__section" aria-labelledby="about-method">
-            <h3 class="about-prose__h" id="about-method">Как проводился замер</h3>
+            <h3 class="about-prose__h" id="about-method">Методология</h3>
             <p>
-              Мы выбрали 100 застройщиков России по выручке и оставлили на их сайтах 21&nbsp;заявку на обратный звонок:
-              3&nbsp;заявки в&nbsp;день в&nbsp;течение 7&nbsp;дней подряд. Утром, днём и вечером, включая выходные.
-              Окно наблюдения&nbsp;&mdash; 72&nbsp;часа после каждой заявки.
-              Фиксировали звонки, SMS и сообщения в мессенджерах: Max, WhatsApp и Telegram.
-              В&nbsp;рейтинг вошли только контакты, которые удалось идентифицировать
-              и&nbsp;связать с&nbsp;конкретным застройщиком.
+              Мы&nbsp;отобрали 100&nbsp;крупнейших застройщиков России по&nbsp;размерам выручки
+              и&nbsp;оставили на&nbsp;их сайтах 2100&nbsp;заявок на&nbsp;обратный звонок&nbsp;&mdash;
+              по&nbsp;21 на&nbsp;каждого. Три заявки в&nbsp;день на&nbsp;протяжении семи дней подряд:
+              утром, днём и&nbsp;вечером, включая выходные.
+            </p>
+            <p>
+              В&nbsp;течение 72&nbsp;часов после каждой заявки мы&nbsp;фиксировали все входящие звонки,
+              SMS и&nbsp;сообщения в&nbsp;мессенджерах: Max, WhatsApp и&nbsp;Telegram. Всего более
+              10 000&nbsp;событий. Каждое из&nbsp;них связали с&nbsp;конкретным застройщиком: если номер
+              не&nbsp;определялся автоматически, мы&nbsp;перезванивали с&nbsp;отдельного телефона, чтобы
+              установить, кто именно контактировал. Спам-звонки и&nbsp;обращения от&nbsp;риелторов
+              мы&nbsp;отфильтровали отдельно&nbsp;&mdash; они в&nbsp;метрики не&nbsp;вошли.
+            </p>
+            <p>
+              В&nbsp;итоге в&nbsp;рейтинг попали только верифицированные данные&nbsp;&mdash; те, где мы
+              точно знаем, какой застройщик ответил, через какой канал и&nbsp;как быстро.
+            </p>
+            <p>
+              Рейтинг оценивает только факт и&nbsp;скорость контакта.
+              Мы&nbsp;не&nbsp;оцениваем качество разговора, содержание оффера, удобство сайта
+              или работу конкретного менеджера.
             </p>
           </section>
-
           <section class="about-prose__section" aria-labelledby="about-metrics">
             <h3 class="about-prose__h" id="about-metrics">Как читать метрики</h3>
             <dl class="about-prose__defs">
@@ -176,7 +184,8 @@
               <dt>Перезвоны и&nbsp;касания за&nbsp;72&nbsp;часа</dt>
               <dd>
                 Перезвоны&nbsp;&mdash; повторные контакты после первого касания.
-                Касания&nbsp;&mdash; все контакты по&nbsp;любому каналу за&nbsp;72&nbsp;часа на&nbsp;одну заявку.
+                Касание на&nbsp;одной заявке&nbsp;&mdash; сумма всех контактов (звонки, SMS, мессенджеры) за&nbsp;72&nbsp;часа.
+                В&nbsp;таблице&nbsp;&mdash; сумма касаний по&nbsp;всем заявкам в&nbsp;выборке.
               </dd>
               <dt>SMS, Max, WhatsApp, Telegram</dt>
               <dd>
@@ -188,39 +197,158 @@
               </dd>
             </dl>
           </section>
-
-          <section class="about-prose__section" aria-labelledby="about-limits">
-            <h3 class="about-prose__h" id="about-limits">Что важно учитывать</h3>
-            <p>
-              Рейтинг оценивает только факт и&nbsp;скорость контакта.
-              Мы&nbsp;не&nbsp;оцениваем качество разговора, содержание оффера, удобство сайта
-              или работу конкретного менеджера.
-              Неидентифицированные события не&nbsp;приписываются компании.
-            </p>
-          </section>
         </div>
       </section>
 
-      <!-- 4. CTA -->
-      <section class="cta" aria-labelledby="cta-title">
-        <div class="cta__intro">
-          <h2 class="section-title" id="cta-title">Участвовать в&nbsp;рейтинге</h2>
-          <p>Оставьте заявку и&nbsp;мы&nbsp;включим ваш сайт в&nbsp;рейтинг в&nbsp;следующем цикле замера</p>
+      <!-- 3b. ОРГАНИЗАТОРЫ -->
+      <section class="organizers" aria-labelledby="organizers-title">
+        <h2 class="section-title" id="organizers-title">Организаторы</h2>
+        <p class="about-prose">
+          <strong>Интроверт системс</strong>&nbsp;&mdash; крупнейший моно-вендорный интегратор amoCRM, специализирующийся
+          на&nbsp;цифровой трансформации продаж, с&nbsp;глубокой экспертизой в&nbsp;застройщиках. Выстраиваем коммуникацию через мессенджеры, повышаем скорость реакции на лиды и контролируем качество работы отдела продаж.
+          <br><br>Импортозамещение Microsoft Dynamics · Оркестратор мессенджеров · Повышение дозваниваемости АТС · AI-секретарь менеджера · Обогащение данных EstateData · Реактивация клиентской базы · Контроль качества переговоров · Противодействие утечкам</p>
+        </p>
+        <div class="organizers__logos">
+          <a
+            class="organizers__logo"
+            href="https://introvert.bz/?utm_source=estaterating&utm_medium=referral&utm_content=logo"
+            target="_blank"
+            rel="noopener"
+          >
+            <img
+              src="assets/images/introvert-logo.png"
+              alt="Интроверт Системс"
+              width="213"
+              height="76"
+              loading="lazy"
+              decoding="async"
+            />
+          </a>
+          <a
+            class="organizers__logo"
+            href="https://amoprime.ru/?utm_source=estaterating&utm_medium=referral&utm_content=logo"
+            target="_blank"
+            rel="noopener"
+          >
+            <img
+              src="assets/images/amo-ee.svg"
+              alt="amoCRM Enterprise"
+              width="397"
+              height="61"
+              loading="lazy"
+              decoding="async"
+            />
+          </a>
         </div>
-        <form class="cta-form" id="cta-form" novalidate>
-          <div class="field">
-            <label for="f-name">Название застройщика<span aria-hidden="true">*</span></label>
-            <input id="f-name" name="name" type="text" required autocomplete="organization" />
-            <span class="field__error" data-for="f-name"></span>
-          </div>
-          <div class="field">
-            <label for="f-site">Адрес сайта<span aria-hidden="true">*</span></label>
-            <input id="f-site" name="site" type="url" inputmode="url" placeholder="example.ru" required />
-            <span class="field__error" data-for="f-site"></span>
-          </div>
-          <button type="submit" class="btn" id="cta-submit">Отправить заявку</button>
-          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
-        </form>
+      </section>
+
+      <!-- 4. PRIMARY CTA — Обсудить результаты -->
+      <section class="cta-lead" id="discuss-results" aria-labelledby="lead-title">
+        <div class="cta-lead__intro">
+          <h2 class="cta-lead__title" id="lead-title">
+            Обсудим ваши результаты на&nbsp;персональной встрече
+          </h2>
+          <p class="cta-lead__lead">
+            Покажем, как отработали именно ваши заявки, с&nbsp;деталями, которых нет
+            в&nbsp;публичном рейтинге. Разберём, где теряются лиды и&nbsp;что конкретно можно улучшить.
+          </p>
+          <ul class="cta-lead__benefits">
+            <li>
+              <svg class="cta-lead__check" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <circle cx="10" cy="10" r="10" fill="currentColor" opacity="0.12"/>
+                <path d="M6 10.2 8.6 12.8 14 7.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Полный разбор метрик вашей компании
+            </li>
+            <li>
+              <svg class="cta-lead__check" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <circle cx="10" cy="10" r="10" fill="currentColor" opacity="0.12"/>
+                <path d="M6 10.2 8.6 12.8 14 7.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Сравнение с&nbsp;медианой рынка и&nbsp;лидерами по&nbsp;каждому показателю
+            </li>
+            <li>
+              <svg class="cta-lead__check" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <circle cx="10" cy="10" r="10" fill="currentColor" opacity="0.12"/>
+                <path d="M6 10.2 8.6 12.8 14 7.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Рекомендации по&nbsp;каналам: звонки, SMS, WhatsApp, Telegram, Max
+            </li>
+            <li>
+              <svg class="cta-lead__check" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <circle cx="10" cy="10" r="10" fill="currentColor" opacity="0.12"/>
+                <path d="M6 10.2 8.6 12.8 14 7.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Передадим все номера, с которых оставляли заявки, чтобы вы могли исключить их из CRM
+            </li>
+          </ul>
+        </div>
+        <div class="cta-lead__card">
+          <form class="lead-form" id="lead-form" novalidate>
+            <header class="lead-form__head">
+              <h3 class="lead-form__title" id="lead-form-title">Запросить персональный разбор</h3>
+            </header>
+            <div class="form-grid">
+              <div class="field">
+                <label for="lead-fullname">ФИО<span aria-hidden="true">*</span></label>
+                <input id="lead-fullname" name="fullname" type="text" required autocomplete="name" />
+                <span class="field__error" data-for="lead-fullname"></span>
+              </div>
+              <div class="field">
+                <label for="lead-role">Должность<span aria-hidden="true">*</span></label>
+                <input
+                  id="lead-role"
+                  name="role"
+                  type="text"
+                  required
+                  autocomplete="organization-title"
+                />
+                <span class="field__error" data-for="lead-role"></span>
+              </div>
+              <div class="field">
+                <label for="lead-email">Рабочая почта<span aria-hidden="true">*</span></label>
+                <input id="lead-email" name="email" type="email" required autocomplete="email" />
+                <span class="field__error" data-for="lead-email"></span>
+              </div>
+              <div class="field">
+                <label for="lead-phone">Телефон<span aria-hidden="true">*</span></label>
+                <input
+                  id="lead-phone"
+                  name="phone"
+                  type="tel"
+                  required
+                  inputmode="numeric"
+                  pattern="[0-9]+"
+                  placeholder="79001234567"
+                  autocomplete="tel"
+                />
+                <span class="field__error" data-for="lead-phone"></span>
+              </div>
+              <div class="field">
+                <label for="lead-company">Название застройщика<span aria-hidden="true">*</span></label>
+                <input id="lead-company" name="company" type="text" required autocomplete="organization" />
+                <span class="field__error" data-for="lead-company"></span>
+              </div>
+              <div class="field">
+                <label for="lead-site">Сайт компании<span aria-hidden="true">*</span></label>
+                <input id="lead-site" name="site" type="url" inputmode="url" required />
+                <span class="field__error" data-for="lead-site"></span>
+              </div>
+              <div class="field field--full">
+                <label for="lead-message">Комментарий</label>
+                <textarea
+                  id="lead-message"
+                  name="message"
+                  rows="3"
+                ></textarea>
+                <span class="field__error" data-for="lead-message"></span>
+              </div>
+            </div>
+            <button type="submit" class="btn btn--primary" id="lead-submit">Обсудить результаты</button>
+            <p class="form-privacy" id="lead-privacy"></p>
+            <p class="form-status" id="lead-form-status" role="status" aria-live="polite"></p>
+          </form>
+        </div>
       </section>
     </main>
 
@@ -228,7 +356,7 @@
       <div class="wrap footer-grid">
         <div>
           <p class="footer-strong">Рейтинг скорости реакции застройщиков на заявки</p>
-          <p class="muted" id="footer-period"></p>
+          <p class="muted footer-join-note" id="footer-join-note"></p>
         </div>
         <div>
           <p class="footer-strong">Контакты</p>

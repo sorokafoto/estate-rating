@@ -9,7 +9,7 @@ export const TABLE_COLUMNS = [
   { key: "median_response", label: "Медиана, мин", kind: "num", sortable: true, format: "num" },
   { key: "no_callback_share", label: "Без ответа, %", kind: "num", sortable: true, format: "pct" },
   { key: "avg_recontacts", label: "Перезвоны/72ч", kind: "num", sortable: true, format: "num" },
-  { key: "avg_touches", label: "Касания/72ч", kind: "num", sortable: true, format: "num" },
+  { key: "total_touches", label: "Касаний всего", kind: "num", sortable: true, format: "int" },
   { key: "marked_share", label: "Маркировка, %", kind: "num", sortable: true, format: "pct" },
   { key: "sms", label: "SMS, %", kind: "channel", channel: "sms", sortable: true, format: "pct" },
   { key: "max", label: "Max, %", kind: "channel", channel: "max", sortable: true, format: "pct" },
@@ -21,7 +21,7 @@ export const TABLE_COLUMNS = [
 export const NOMINATION_TYPES = [
   "min_avg_response",
   "max_avg_recontacts",
-  "max_avg_touches",
+  "max_total_touches",
   "max_marked_share",
   "most_omnichannel",
   "messenger_champion",
