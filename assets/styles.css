@@ -284,7 +284,9 @@ a {
   max-height: 40px;
 }
 .organizers__partner + .organizers__partner .organizers__logo img {
-  max-height: 32.4px;
+  width: 195px;
+  height: 30px;
+  max-height: none;
 }
 .organizers__text {
   margin: 0;
