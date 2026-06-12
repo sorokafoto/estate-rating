@@ -9,7 +9,7 @@ window.APP_CONFIG = {
   // Один акцентный цвет (плоская заливка). Применяется через CSS-переменную.
   accentColor: "#1F44FF",
 
-  // Бейдж над заголовком hero и период в футере.
+  // Подпись периода в шапке таблицы (results-bar).
   heroBadge: "II квартал 2026 года",
 
   // Фактоиды масштаба исследования в hero (статичный копирайт).
@@ -54,7 +54,7 @@ window.APP_CONFIG = {
 
   // Контакты в футере.
   contact: {
-    org: "Интроверт системс",
+    org: "Интроверт Системс",
     site: "https://introvert.bz/",
     siteHref:
       "https://introvert.bz/?utm_source=estaterating&utm_medium=referral&utm_content=footer",
@@ -67,7 +67,7 @@ window.APP_CONFIG = {
     {
       id: "fastest",
       title: "Самый быстрый ответ",
-      desc: "Наименьшее среднее время до первого контакта по любому каналу.",
+      desc: "Рейтинг по медиане времени до первого контакта по любому каналу — она не искажается единичными долгими ответами. В таблице этот показатель назван «ср. скорость ответа» для наглядности.",
       type: "min_avg_response",
       top: 3,
     },
@@ -83,13 +83,6 @@ window.APP_CONFIG = {
       title: "Больше всего касаний",
       desc: "Наибольшее суммарное число контактов (звонки, SMS, мессенджеры) за период замера.",
       type: "max_total_touches",
-      top: 3,
-    },
-    {
-      id: "marked",
-      title: "Лучшая маркировка номеров",
-      desc: "Наибольшая доля маркированных номеров.",
-      type: "max_marked_share",
       top: 3,
     },
     {
@@ -125,11 +118,19 @@ window.APP_CONFIG = {
       format: "messengers",
     },
     {
-      id: "median_response",
-      title: "Медиана времени ответа",
-      desc: "Типичная скорость первого контакта — без влияния единичных задержек.",
-      metric: "median_response",
+      id: "response_speed",
+      title: "Ср. скорость ответа",
+      desc: "Типичное время первого контакта по выборке застройщиков.",
+      metric: "avg_response",
       format: "minutes",
+    },
+    {
+      id: "spam_share",
+      title: "Процент спам-звонков (нераспознанных)",
+      desc: "Доля входящих контактов на наши номера, которые не удалось отнести к застройщику.",
+      metric: "spam_share",
+      format: "pct",
+      hideBest: true,
     },
   ],
 };

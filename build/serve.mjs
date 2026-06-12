@@ -21,6 +21,7 @@ const DENY_SEGMENTS = new Set(["private", "node_modules", ".git", "build"]);
 const DENY_FILES = /^\.env/i;
 
 const SECURITY_HEADERS = {
+  // HSTS только на проде (deploy/_headers); локально HTTP — не выставляем.
   "Content-Security-Policy":
     "default-src 'self'; script-src 'self' 'unsafe-inline' https://mc.yandex.ru; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://mc.yandex.ru wss://mc.yandex.ru; img-src 'self' https://mc.yandex.ru; frame-src https://mc.yandex.ru; frame-ancestors 'none'; base-uri 'self'; form-action 'self' mailto:",
   "X-Content-Type-Options": "nosniff",

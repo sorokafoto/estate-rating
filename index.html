@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Manrope:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="assets/styles.css" />
@@ -36,10 +36,17 @@
     <main class="wrap" id="main">
       <!-- 1. HERO -->
       <section class="hero" aria-labelledby="hero-title">
-        <p class="hero__badge" id="hero-badge"></p>
+        <img
+          class="hero__logo"
+          src="assets/images/hero-logo.svg"
+          alt=""
+          width="252"
+          height="90"
+          decoding="async"
+        />
         <h1 class="hero__title" id="hero-title">
-          Рейтинг застройщиков <em class="hero__title-accent">по&nbsp;скорости
-          реакции на&nbsp;заявки</em>
+          Рейтинг застройщиков<br />
+          по&nbsp;скорости реакции на&nbsp;заявки
         </h1>
         <p class="hero__lead">
           Замеряем, как быстро перезванивают и&nbsp;пишут после заявки с&nbsp;сайта,
@@ -54,6 +61,7 @@
       <section class="results" aria-labelledby="results-title">
         <h2 class="section-title visually-hidden" id="results-title">Результаты</h2>
         <div class="results-bar">
+          <p class="results-bar__period" id="rating-period"></p>
           <div class="tabs" role="tablist" aria-label="Разрезы результатов">
             <button
               class="tab is-active"
@@ -172,10 +180,10 @@
           <section class="about-prose__section" aria-labelledby="about-metrics">
             <h3 class="about-prose__h" id="about-metrics">Как читать метрики</h3>
             <dl class="about-prose__defs">
-              <dt>Среднее время ответа и&nbsp;медиана</dt>
+              <dt>Ср. скорость ответа</dt>
               <dd>
                 Сколько минут проходит от&nbsp;заявки до&nbsp;первого контакта по&nbsp;любому каналу.
-                Медиана показывает типичную скорость без влияния единичных задержек.
+                Для расчёта берём медиану по&nbsp;заявкам с&nbsp;откликом&nbsp;&mdash; так типичная скорость не&nbsp;искажается редкими долгими ответами.
               </dd>
               <dt>Заявок без ответа, %</dt>
               <dd>
@@ -191,10 +199,6 @@
               <dd>
                 Доля заявок, по&nbsp;которым застройщик связался в&nbsp;соответствующем канале.
               </dd>
-              <dt>Маркировка номера, %</dt>
-              <dd>
-                Доля контактов, где номер был маркирован и&nbsp;позволял распознать компанию.
-              </dd>
             </dl>
           </section>
         </div>
@@ -203,42 +207,48 @@
       <!-- 3b. ОРГАНИЗАТОРЫ -->
       <section class="organizers" aria-labelledby="organizers-title">
         <h2 class="section-title" id="organizers-title">Организаторы</h2>
-        <p class="about-prose">
-          <strong>Интроверт системс</strong>&nbsp;&mdash; крупнейший моно-вендорный интегратор amoCRM, специализирующийся
-          на&nbsp;цифровой трансформации продаж, с&nbsp;глубокой экспертизой в&nbsp;застройщиках. Выстраиваем коммуникацию через мессенджеры, повышаем скорость реакции на лиды и контролируем качество работы отдела продаж.
-          <br><br>Импортозамещение Microsoft Dynamics · Оркестратор мессенджеров · Повышение дозваниваемости АТС · AI-секретарь менеджера · Обогащение данных EstateData · Реактивация клиентской базы · Контроль качества переговоров · Противодействие утечкам</p>
-        </p>
-        <div class="organizers__logos">
-          <a
-            class="organizers__logo"
-            href="https://introvert.bz/?utm_source=estaterating&utm_medium=referral&utm_content=logo"
-            target="_blank"
-            rel="noopener"
-          >
-            <img
-              src="assets/images/introvert-logo.png"
-              alt="Интроверт Системс"
-              width="213"
-              height="76"
-              loading="lazy"
-              decoding="async"
-            />
-          </a>
-          <a
-            class="organizers__logo"
-            href="https://amoprime.ru/?utm_source=estaterating&utm_medium=referral&utm_content=logo"
-            target="_blank"
-            rel="noopener"
-          >
-            <img
-              src="assets/images/amo-ee.svg"
-              alt="amoCRM Enterprise"
-              width="397"
-              height="61"
-              loading="lazy"
-              decoding="async"
-            />
-          </a>
+        <div class="organizers__list">
+          <article class="organizers__partner">
+            <a
+              class="organizers__logo"
+              href="https://introvert.bz/?utm_source=estaterating&utm_medium=referral&utm_content=logo"
+              target="_blank"
+              rel="noopener"
+            >
+              <img
+                src="assets/images/introvert-logo.png"
+                alt="Интроверт Системс"
+                width="213"
+                height="76"
+                loading="lazy"
+                decoding="async"
+              />
+            </a>
+            <p class="organizers__text">
+              <strong>Интроверт Системс</strong>&nbsp;&mdash; крупнейший моно-вендорный интегратор amoCRM, специализирующийся
+              на&nbsp;цифровой трансформации продаж, с&nbsp;глубокой экспертизой в&nbsp;застройщиках. Выстраиваем коммуникацию через мессенджеры, повышаем скорость реакции на лиды и контролируем качество работы отдела продаж.
+            </p>
+          </article>
+          <article class="organizers__partner">
+            <a
+              class="organizers__logo"
+              href="https://amoprime.ru/?utm_source=estaterating&utm_medium=referral&utm_content=logo"
+              target="_blank"
+              rel="noopener"
+            >
+              <img
+                src="assets/images/amo-ee.svg"
+                alt="amoCRM Enterprise"
+                width="397"
+                height="61"
+                loading="lazy"
+                decoding="async"
+              />
+            </a>
+            <p class="organizers__text">
+              <strong>amoCRM Enterprise</strong>&nbsp;&mdash; корпоративная линейка облачной CRM для крупных команд: продажи и&nbsp;коммуникации в&nbsp;одной системе, настройка под бизнес-процессы, SLA и&nbsp;поддержка для компаний с&nbsp;высокими требованиями к&nbsp;безопасности.
+            </p>
+          </article>
         </div>
       </section>
 
@@ -246,11 +256,12 @@
       <section class="cta-lead" id="discuss-results" aria-labelledby="lead-title">
         <div class="cta-lead__intro">
           <h2 class="cta-lead__title" id="lead-title">
-            Обсудим ваши результаты на&nbsp;персональной встрече
+            Получить расширенные результаты исследования
           </h2>
           <p class="cta-lead__lead">
-            Покажем, как отработали именно ваши заявки, с&nbsp;деталями, которых нет
-            в&nbsp;публичном рейтинге. Разберём, где теряются лиды и&nbsp;что конкретно можно улучшить.
+            В&nbsp;публичном рейтинге&nbsp;&mdash; только агрегированные показатели. По&nbsp;запросу
+            передадим расширенную аналитику по&nbsp;вашей компании: детализацию событий,
+            контекст замеров и&nbsp;выводы, которые не&nbsp;публикуются на&nbsp;сайте.
           </p>
           <ul class="cta-lead__benefits">
             <li>
@@ -258,35 +269,37 @@
                 <circle cx="10" cy="10" r="10" fill="currentColor" opacity="0.12"/>
                 <path d="M6 10.2 8.6 12.8 14 7.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
-              Полный разбор метрик вашей компании
+              Метрики ответа с&nbsp;детализацией по&nbsp;вашей компании&nbsp;&mdash; скорость, каналы,
+              число касаний за&nbsp;72&nbsp;часа
             </li>
             <li>
               <svg class="cta-lead__check" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                 <circle cx="10" cy="10" r="10" fill="currentColor" opacity="0.12"/>
                 <path d="M6 10.2 8.6 12.8 14 7.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
-              Сравнение с&nbsp;медианой рынка и&nbsp;лидерами по&nbsp;каждому показателю
+              Даты и&nbsp;время контактов по&nbsp;каждой тестовой заявке
             </li>
             <li>
               <svg class="cta-lead__check" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                 <circle cx="10" cy="10" r="10" fill="currentColor" opacity="0.12"/>
                 <path d="M6 10.2 8.6 12.8 14 7.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
-              Рекомендации по&nbsp;каналам: звонки, SMS, WhatsApp, Telegram, Max
+              Номера телефонов, с&nbsp;которых оставляли звонки и&nbsp;SMS&nbsp;&mdash; чтобы отличить
+              их от&nbsp;реальных лидов
             </li>
             <li>
               <svg class="cta-lead__check" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                 <circle cx="10" cy="10" r="10" fill="currentColor" opacity="0.12"/>
                 <path d="M6 10.2 8.6 12.8 14 7.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
-              Передадим все номера, с которых оставляли заявки, чтобы вы могли исключить их из CRM
+              Сравнение со&nbsp;средними показателями рынка и&nbsp;контекст по&nbsp;инсайтам исследования
             </li>
           </ul>
         </div>
         <div class="cta-lead__card">
           <form class="lead-form" id="lead-form" novalidate>
             <header class="lead-form__head">
-              <h3 class="lead-form__title" id="lead-form-title">Запросить персональный разбор</h3>
+              <h3 class="lead-form__title" id="lead-form-title">Запросить аналитику</h3>
             </header>
             <div class="form-grid">
               <div class="field">
@@ -344,7 +357,7 @@
                 <span class="field__error" data-for="lead-message"></span>
               </div>
             </div>
-            <button type="submit" class="btn btn--primary" id="lead-submit">Обсудить результаты</button>
+            <button type="submit" class="btn btn--primary" id="lead-submit">Отправить запрос</button>
             <p class="form-privacy" id="lead-privacy"></p>
             <p class="form-status" id="lead-form-status" role="status" aria-live="polite"></p>
           </form>

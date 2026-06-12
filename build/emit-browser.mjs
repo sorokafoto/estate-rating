@@ -66,7 +66,7 @@ function emitMarketJs() {
     "/* Сгенерировано build-data — не редактировать вручную. */\n" +
     '(function (global) {\n"use strict";\n' +
     body +
-    '\nglobal.APP_MARKET = { computeMarket: computeMarket };\n' +
+    '\nglobal.APP_MARKET = { computeMarket: computeMarket, computeSpamShare: computeSpamShare };\n' +
     "})(typeof window !== \"undefined\" ? window : globalThis);\n";
   fs.writeFileSync(path.join(ASSETS, "market.js"), content, "utf8");
 }

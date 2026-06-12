@@ -14,12 +14,11 @@ function event(overrides = {}) {
     lead_response_time: 10,
     recontact: "нет",
     event_channel: "whatsapp",
-    is_marked: "да",
     ...overrides,
   };
 }
 
-test("aggregate: среднее и медиана времени ответа", () => {
+test("aggregate: avg_response — медиана времени ответа по заявкам", () => {
   const devs = aggregate(
     [
       event({ application_id: "a1", lead_response_time: 10 }),
@@ -29,7 +28,17 @@ test("aggregate: среднее и медиана времени ответа", 
   );
   assert.equal(devs.length, 1);
   assert.equal(devs[0].avg_response, 20);
-  assert.equal(devs[0].median_response, 20);
+});
+
+test("aggregate: avg_response округляется до целых минут (.5 вверх)", () => {
+  const devs = aggregate(
+    [
+      event({ application_id: "a1", lead_response_time: 361 }),
+      event({ application_id: "a2", lead_response_time: 362 }),
+    ],
+    applicationsSent
+  );
+  assert.equal(devs[0].avg_response, 362);
 });
 
 test("aggregate: no_callback_share при N=2 и одной заявке с откликом", () => {

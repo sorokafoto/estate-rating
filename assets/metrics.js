@@ -20,17 +20,10 @@ window.APP_METRICS = {
     },
     {
       "key": "avg_response",
-      "label": "Ср. ответ, мин",
+      "label": "Ср. скорость ответа, мин",
       "kind": "num",
       "sortable": true,
-      "format": "num"
-    },
-    {
-      "key": "median_response",
-      "label": "Медиана, мин",
-      "kind": "num",
-      "sortable": true,
-      "format": "num"
+      "format": "int"
     },
     {
       "key": "no_callback_share",
@@ -41,24 +34,17 @@ window.APP_METRICS = {
     },
     {
       "key": "avg_recontacts",
-      "label": "Перезвоны/72ч",
+      "label": "Перезвоны",
       "kind": "num",
       "sortable": true,
       "format": "num"
     },
     {
       "key": "total_touches",
-      "label": "Касаний всего",
+      "label": "Касания",
       "kind": "num",
       "sortable": true,
       "format": "int"
-    },
-    {
-      "key": "marked_share",
-      "label": "Маркировка, %",
-      "kind": "num",
-      "sortable": true,
-      "format": "pct"
     },
     {
       "key": "sms",

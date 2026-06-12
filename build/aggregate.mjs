@@ -54,8 +54,6 @@ export function aggregate(events, applicationsSent) {
       for (const c of MESSENGER_CHANNELS) if (channelsHit.has(c)) appsWithChannel[c] += 1;
     }
 
-    const markedEvents = dev.events.filter((e) => e.is_marked === "да").length;
-
     const channel_share = {};
     for (const c of MESSENGER_CHANNELS) {
       channel_share[c] = N > 0 ? roundInt((appsWithChannel[c] / N) * 100) : null;
@@ -64,12 +62,10 @@ export function aggregate(events, applicationsSent) {
     developers.push({
       developer_name: dev.developer_name,
       url: cleanUrl(dev.url),
-      avg_response: firstContacts.length ? round1(mean(firstContacts)) : null,
-      median_response: firstContacts.length ? round1(median(firstContacts)) : null,
+      avg_response: firstContacts.length ? roundInt(median(firstContacts)) : null,
       no_callback_share: N > 0 ? clamp(roundInt(((N - responded) / N) * 100), 0, 100) : null,
       avg_recontacts: N > 0 ? round1(totalRecontacts / N) : null,
       total_touches: totalTouches,
-      marked_share: dev.events.length ? roundInt((markedEvents / dev.events.length) * 100) : null,
       channel_share,
     });
   }
@@ -77,9 +73,6 @@ export function aggregate(events, applicationsSent) {
   return developers;
 }
 
-function mean(a) {
-  return a.reduce((s, x) => s + x, 0) / a.length;
-}
 function median(a) {
   const s = [...a].sort((x, y) => x - y);
   const m = Math.floor(s.length / 2);

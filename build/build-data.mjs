@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 import { readSource, sourceExists } from "./source.mjs";
 import { generateMock } from "./mock.mjs";
 import { aggregate } from "./aggregate.mjs";
-import { computeMarket } from "../shared/market.mjs";
+import { computeMarket, computeSpamShare } from "../shared/market.mjs";
 import { validatePublicData } from "./validate.mjs";
 import { jsonForScript } from "./safe-json.mjs";
 import { emitBrowserArtifacts } from "./emit-browser.mjs";
@@ -41,7 +41,10 @@ function main() {
       assumed_applications_default: applicationsSent.default ?? 21,
       generated_at: new Date().toISOString(),
     },
-    market: computeMarket(developers),
+    market: {
+      ...computeMarket(developers),
+      spam_share: computeSpamShare(events),
+    },
     developers,
   };
 

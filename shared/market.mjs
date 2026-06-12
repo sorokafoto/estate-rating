@@ -2,12 +2,25 @@
 
 const CHANNEL_KEYS = ["whatsapp", "telegram", "max", "sms"];
 
+/** Доля входящих контактов с identified !== «да» (спам / нераспознанные). */
+export function computeSpamShare(events) {
+  const list = Array.isArray(events) ? events : [];
+  if (!list.length) return { mean: null, total: 0, spam: 0 };
+
+  const spam = list.filter((e) => e.identified !== "да").length;
+  const total = list.length;
+  return {
+    mean: roundInt((spam / total) * 100),
+    total,
+    spam,
+  };
+}
+
 export function computeMarket(developers) {
   const list = Array.isArray(developers) ? developers : [];
   if (!list.length) return emptyMarket();
 
   const avgResponses = pick(list, (d) => d.avg_response);
-  const medians = pick(list, (d) => d.median_response);
   const noCallbacks = pick(list, (d) => d.no_callback_share);
   const messengerSums = list.map(messengerSum).filter((v) => v != null);
 
@@ -18,14 +31,13 @@ export function computeMarket(developers) {
 
   return {
     sample_size: list.length,
-    avg_response: stat(avgResponses, "min", round1),
+    avg_response: stat(avgResponses, "min", roundInt),
     no_callback_share: stat(noCallbacks, "min", roundInt),
     messengers: {
       mean: meanInt(messengerSums),
       best: messengerSums.length ? roundInt(Math.max(...messengerSums)) : null,
       channels,
     },
-    median_response: stat(medians, "min", round1),
   };
 }
 
@@ -78,6 +90,6 @@ function emptyMarket() {
     avg_response: { mean: null, best: null },
     no_callback_share: { mean: null, best: null },
     messengers: { mean: null, best: null, channels },
-    median_response: { mean: null, best: null },
+    spam_share: { mean: null, total: 0, spam: 0 },
   };
 }

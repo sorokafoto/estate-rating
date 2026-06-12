@@ -35,6 +35,7 @@
   function applyConfig() {
     if (CFG.accentColor) document.documentElement.style.setProperty("--accent", CFG.accentColor);
     renderHeroStats();
+    renderPeriod();
     renderLeadFormCopy();
     var c = CFG.contact || {};
     var fc = document.getElementById("footer-contact");
@@ -51,7 +52,8 @@
     var fj = document.getElementById("footer-join-note");
     if (fj && c.email) {
       fj.innerHTML =
-        "Не нашли себя в рейтинге? Напишите " +
+        "Не нашли себя в рейтинге?<br>" +
+        "Напишите " +
         '<a href="mailto:' + esc(c.email) + '">на&nbsp;почту</a>, включим в следующий цикл.';
     }
   }
@@ -112,12 +114,6 @@
     var root = document.getElementById("hero-stats");
     if (!stats || !stats.items || !stats.items.length || !root) return;
 
-    var badge = document.getElementById("hero-badge");
-    if (badge) {
-      badge.textContent = CFG.heroBadge || "";
-      badge.hidden = !CFG.heroBadge;
-    }
-
     var grid = document.getElementById("hero-stats-grid");
     if (grid) {
       grid.innerHTML = stats.items
@@ -165,8 +161,9 @@
   function renderPeriod() {
     var el = document.getElementById("rating-period");
     if (!el) return;
-    var text = CFG.periodLabel || meta.period || "";
+    var text = CFG.heroBadge || CFG.periodLabel || "";
     el.textContent = text;
+    el.hidden = !text;
   }
 
   // ---------- Таблица ----------
@@ -368,10 +365,9 @@
 
   // ---------- Номинации (ключи NOM должны совпадать с config.nominations[].type) ----------
   var NOM = {
-    min_avg_response: { val: function (d) { return d.avg_response; }, dir: "asc", fmt: function (v) { return fmtNum(v) + " мин"; } },
+    min_avg_response: { val: function (d) { return d.avg_response; }, dir: "asc", fmt: function (v) { return fmtInt(v) + " мин"; } },
     max_avg_recontacts: { val: function (d) { return d.avg_recontacts; }, dir: "desc", fmt: fmtNum },
     max_total_touches: { val: function (d) { return d.total_touches; }, dir: "desc", fmt: fmtInt },
-    max_marked_share: { val: function (d) { return d.marked_share; }, dir: "desc", fmt: function (v) { return fmtPct(v); } },
     most_omnichannel: { val: omniCount, dir: "desc", fmt: function (v) { return String(v); } },
     messenger_champion: { val: messengerSum, dir: "desc", fmt: function (v) { return fmtPct(v); } },
   };
@@ -489,13 +485,17 @@
             "</p>";
         }
       } else if (def.format === "minutes") {
-        valueText = block.mean == null ? "—" : fmtNum(block.mean) + " мин";
-        bestText = block.best == null ? "—" : fmtNum(block.best) + " мин";
+        valueText = block.mean == null ? "—" : fmtInt(block.mean) + " мин";
+        bestText = block.best == null ? "—" : fmtInt(block.best) + " мин";
       } else if (def.format === "pct") {
         valueText = block.mean == null ? "—" : fmtPct(block.mean);
         bestText = block.best == null ? "—" : fmtPct(block.best);
       }
     }
+
+    var bestHtml = def.hideBest
+      ? ""
+      : '<p class="market-card__best">Лучший на рынке: <strong>' + esc(bestText) + "</strong></p>";
 
     return (
       '<article class="market-card">' +
@@ -503,7 +503,7 @@
       '<h3 class="market-card__title">' + esc(def.title) + "</h3>" +
       '<p class="market-card__desc">' + esc(def.desc) + "</p>" +
       channelsHtml +
-      '<p class="market-card__best">Лучший на рынке: <strong>' + esc(bestText) + "</strong></p>" +
+      bestHtml +
       "</article>"
     );
   }
