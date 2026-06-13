@@ -3,7 +3,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { readSource, sourceExists } from "./source.mjs";
+import { readSourceWorkbook, sourceExists } from "./source.mjs";
 import { generateMock } from "./mock.mjs";
 import { aggregate } from "./aggregate.mjs";
 import { computeMarket, computeSpamShare } from "../shared/market.mjs";
@@ -14,22 +14,54 @@ import { emitBrowserArtifacts } from "./emit-browser.mjs";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const OUT_PATH = path.join(__dirname, "..", "data.json");
 const OUT_JS_PATH = path.join(__dirname, "..", "data.js");
-const APPS_SENT_PATH = path.join(__dirname, "applications-sent.json");
+
+function deriveApplicationsFromEvents(events) {
+  const seen = new Map();
+  for (const e of events) {
+    const application_id = String(e.application_id ?? "").trim();
+    const developer_id = String(e.developer_id ?? "").trim();
+    if (!/^APP-/i.test(application_id) || !developer_id) continue;
+    if (seen.has(application_id)) continue;
+    seen.set(application_id, {
+      application_id,
+      developer_id,
+      developer_name: e.developer_name || "",
+      url: e.url || "",
+      phone_number: "demo",
+      application_datetime: e.application_datetime ?? new Date(),
+    });
+  }
+  return [...seen.values()];
+}
 
 function main() {
   const demo = !sourceExists();
   if (demo) {
-    console.warn("[build-data] Приватный источник не найден (private/source.xlsx). Использую демо-данные.");
+    console.warn("[build-data] Приватный источник не найден (data/working/source.xlsx). Использую демо-данные.");
   }
-  const events = demo ? generateMock() : readSource();
 
-  const applicationsSent = JSON.parse(fs.readFileSync(APPS_SENT_PATH, "utf8"));
-  const developers = aggregate(events, applicationsSent);
+  let events;
+  let applications;
+  if (demo) {
+    events = generateMock();
+    applications = deriveApplicationsFromEvents(events);
+  } else {
+    const source = readSourceWorkbook();
+    events = source.events;
+    applications = source.applications;
+  }
 
-  // Дефолтная сортировка: быстрые сверху (NULL — в конец).
-  developers.sort((a, b) => byNullableAsc(a.avg_response, b.avg_response));
+  const developers = aggregate(events, applications);
 
-  const period = computePeriod(events);
+  // Дефолтная сортировка: быстрые сверху; без кворума и NULL — в конец.
+  developers.sort((a, b) => {
+    if (Boolean(a.insufficient_data) !== Boolean(b.insufficient_data)) {
+      return a.insufficient_data ? 1 : -1;
+    }
+    return byNullableAsc(a.avg_response, b.avg_response);
+  });
+
+  const period = computePeriod(applications.length ? applications : events);
   const data = {
     meta: {
       title: "Рейтинг скорости реакции застройщиков на заявки",
@@ -38,7 +70,8 @@ function main() {
       source: demo ? "mock" : "xlsx",
       period,
       developers_count: developers.length,
-      assumed_applications_default: applicationsSent.default ?? 21,
+      applications_sent_total: applications.length,
+      target_applications: 2100,
       generated_at: new Date().toISOString(),
     },
     market: {

@@ -1,46 +1,71 @@
 // Агрегация сырых событий в публичные метрики уровня застройщика.
 // На выходе — только обезличенные поля из белого списка.
-import { MESSENGER_CHANNELS } from "../shared/metrics.mjs";
+import {
+  MESSENGER_CHANNELS,
+  ANALYTICS_WINDOW_MINUTES,
+  hasApplicationsQuorum,
+} from "../shared/metrics.mjs";
 import { cleanUrl } from "../shared/url.mjs";
 
 export { MESSENGER_CHANNELS };
 
-export function aggregate(events, applicationsSent) {
-  const def = applicationsSent?.default ?? 21;
-  const overrides = applicationsSent?.overrides ?? {};
+/** Событие попадает в метрики рейтинга (второй барьер после match). */
+export function isInAnalyticsWindow(e) {
+  if (e.identified !== "да") return false;
+  if (!e.application_id) return false;
+  if (!e.developer_id) return false;
+  const t = e.lead_response_time;
+  if (typeof t !== "number" || !Number.isFinite(t)) return false;
+  if (t < 0 || t > ANALYTICS_WINDOW_MINUTES) return false;
+  return true;
+}
 
-  // Группировка: developer_id -> application_id -> [events]
+/**
+ * @param {object[]} events — сырые события после match/identify
+ * @param {object[]} applications — фактически отправленные заявки (лист applications)
+ */
+export function aggregate(events, applications = []) {
   const byDev = new Map();
-  for (const e of events) {
-    if (e.identified !== "да") continue; // в метрики идут только опознанные события
-    if (!e.developer_id) continue;
-    if (!byDev.has(e.developer_id)) {
-      byDev.set(e.developer_id, {
-        developer_id: e.developer_id,
-        developer_name: e.developer_name || "",
-        url: e.url || "",
+
+  for (const app of applications) {
+    const developer_id = String(app.developer_id ?? "").trim();
+    const application_id = String(app.application_id ?? "").trim();
+    if (!developer_id || !/^APP-/i.test(application_id)) continue;
+
+    if (!byDev.has(developer_id)) {
+      byDev.set(developer_id, {
+        developer_id,
+        developer_name: app.developer_name || "",
+        url: app.url || "",
         apps: new Map(),
-        events: [],
       });
     }
+
+    const dev = byDev.get(developer_id);
+    if (!dev.developer_name && app.developer_name) dev.developer_name = app.developer_name;
+    if (!dev.url && app.url) dev.url = app.url;
+    if (!dev.apps.has(application_id)) dev.apps.set(application_id, []);
+  }
+
+  for (const e of events) {
+    if (!isInAnalyticsWindow(e)) continue;
     const dev = byDev.get(e.developer_id);
-    if (!dev.developer_name && e.developer_name) dev.developer_name = e.developer_name;
-    if (!dev.url && e.url) dev.url = e.url;
-    dev.events.push(e);
-    const appId = e.application_id || `__noapp_${dev.events.length}`;
-    if (!dev.apps.has(appId)) dev.apps.set(appId, []);
+    if (!dev) continue;
+    const appId = e.application_id;
+    if (!appId || !dev.apps.has(appId)) continue;
     dev.apps.get(appId).push(e);
   }
 
   const developers = [];
   for (const dev of byDev.values()) {
-    const N = clampPositive(overrides[dev.developer_id] ?? def);
+    const N = dev.apps.size;
     const apps = [...dev.apps.values()];
-    const responded = apps.length;
+    const responded = apps.filter((appEvents) => appEvents.length > 0).length;
 
     const firstContacts = [];
     let totalTouches = 0;
     let totalRecontacts = 0;
+    let appsWithCall = 0;
     const appsWithChannel = Object.fromEntries(MESSENGER_CHANNELS.map((c) => [c, 0]));
 
     for (const appEvents of apps) {
@@ -49,24 +74,40 @@ export function aggregate(events, applicationsSent) {
         .map((e) => e.lead_response_time)
         .filter((v) => typeof v === "number" && v >= 0);
       if (responses.length) firstContacts.push(Math.min(...responses));
-      totalRecontacts += appEvents.filter((e) => e.recontact === "да").length;
+      totalRecontacts += Math.max(0, appEvents.length - 1);
       const channelsHit = new Set(appEvents.map((e) => e.event_channel));
       for (const c of MESSENGER_CHANNELS) if (channelsHit.has(c)) appsWithChannel[c] += 1;
+      if (channelsHit.has("call")) appsWithCall += 1;
     }
 
     const channel_share = {};
     for (const c of MESSENGER_CHANNELS) {
       channel_share[c] = N > 0 ? roundInt((appsWithChannel[c] / N) * 100) : null;
     }
+    channel_share.call = N > 0 ? roundInt((appsWithCall / N) * 100) : null;
+
+    const insufficient_data = !hasApplicationsQuorum(N);
 
     developers.push({
       developer_name: dev.developer_name,
       url: cleanUrl(dev.url),
-      avg_response: firstContacts.length ? roundInt(median(firstContacts)) : null,
-      no_callback_share: N > 0 ? clamp(roundInt(((N - responded) / N) * 100), 0, 100) : null,
-      avg_recontacts: N > 0 ? round1(totalRecontacts / N) : null,
-      total_touches: totalTouches,
-      channel_share,
+      applications_sent: N,
+      insufficient_data,
+      avg_response: insufficient_data
+        ? null
+        : firstContacts.length
+          ? roundInt(median(firstContacts))
+          : null,
+      no_callback_share: insufficient_data
+        ? null
+        : N > 0
+          ? clamp(roundInt(((N - responded) / N) * 100), 0, 100)
+          : null,
+      avg_recontacts: insufficient_data ? null : N > 0 ? round1(totalRecontacts / N) : null,
+      total_touches: insufficient_data ? null : totalTouches,
+      channel_share: insufficient_data
+        ? Object.fromEntries([...MESSENGER_CHANNELS, "call"].map((c) => [c, null]))
+        : channel_share,
     });
   }
 
@@ -87,8 +128,3 @@ function roundInt(x) {
 function clamp(x, lo, hi) {
   return Math.min(hi, Math.max(lo, x));
 }
-function clampPositive(x) {
-  const n = Number(x);
-  return Number.isFinite(n) && n > 0 ? n : 0;
-}
-

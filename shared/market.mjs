@@ -17,7 +17,7 @@ export function computeSpamShare(events) {
 }
 
 export function computeMarket(developers) {
-  const list = Array.isArray(developers) ? developers : [];
+  const list = (Array.isArray(developers) ? developers : []).filter((d) => !d.insufficient_data);
   if (!list.length) return emptyMarket();
 
   const avgResponses = pick(list, (d) => d.avg_response);

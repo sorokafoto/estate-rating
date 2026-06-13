@@ -20,10 +20,10 @@ window.APP_METRICS = {
     },
     {
       "key": "avg_response",
-      "label": "Ср. скорость ответа, мин",
+      "label": "Ср. скорость ответа",
       "kind": "num",
       "sortable": true,
-      "format": "int"
+      "format": "duration"
     },
     {
       "key": "no_callback_share",
@@ -34,7 +34,7 @@ window.APP_METRICS = {
     },
     {
       "key": "avg_recontacts",
-      "label": "Перезвоны",
+      "label": "Повторные касания",
       "kind": "num",
       "sortable": true,
       "format": "num"
@@ -45,6 +45,14 @@ window.APP_METRICS = {
       "kind": "num",
       "sortable": true,
       "format": "int"
+    },
+    {
+      "key": "call",
+      "label": "Звонок, %",
+      "kind": "channel",
+      "channel": "call",
+      "sortable": true,
+      "format": "pct"
     },
     {
       "key": "sms",

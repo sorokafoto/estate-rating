@@ -6,8 +6,23 @@
   "description": "Лендинг исследования «Рейтинг скорости реакции застройщиков на заявки». Сайт статический; PII не попадает в браузер.",
   "scripts": {
     "build-data": "node build/build-data.mjs",
+    "seed-phones": "node scripts/seed-phone-registry.mjs",
+    "seed-spam": "node scripts/seed-spam-book.mjs",
+    "export-phones-identify": "node scripts/export-phones-to-identify.mjs",
+    "classify-phones": "node scripts/classify-phones.mjs --seed",
+    "apply-phones": "node scripts/apply-phone-registry.mjs",
+    "apply-sms-book": "node scripts/apply-sms-book.mjs",
+    "match-events": "node scripts/match-events-applications.mjs",
+    "update-rating": "npm run seed-spam && npm run apply-sms-book && npm run classify-phones && npm run apply-phones && npm run match-events && npm run build-data",
+    "export-master-reference": "node scripts/export-master-reference.mjs",
+    "sync-reference-from-master": "node scripts/sync-reference-from-master.mjs",
+    "enrich-master-phone-refs": "node scripts/enrich-master-phone-refs.mjs",
+    "analyze-unknown-phones": "node scripts/analyze-unknown-phones.mjs",
+    "migrate-data": "node scripts/migrate-private-to-data.mjs",
+    "validate-pipeline": "node scripts/validate-pipeline.mjs",
+    "suggest-spam-prefixes": "node scripts/suggest-spam-prefixes.mjs",
     "serve": "node build/serve.mjs",
-    "test": "node --test build/*.test.mjs shared/*.test.mjs"
+    "test": "node --test build/*.test.mjs shared/*.test.mjs scripts/*.test.mjs"
   },
   "dependencies": {
     "xlsx": "^0.18.5"

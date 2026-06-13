@@ -226,6 +226,9 @@
     var col = find(COLUMNS, "key", state.sortKey) || COLUMNS[2];
     var dir = state.dir === "asc" ? 1 : -1;
     return list.slice().sort(function (a, b) {
+      if (Boolean(a.insufficient_data) !== Boolean(b.insufficient_data)) {
+        return a.insufficient_data ? 1 : -1;
+      }
       if (col.kind === "name") return cmpName(a, b) * dir;
       var av = getValue(a, col), bv = getValue(b, col);
       if (av == null && bv == null) return cmpName(a, b);
@@ -274,12 +277,15 @@
   }
 
   function rowHtml(d, place) {
-    var top = place <= 3 ? " is-top" : "";
+    var insufficient = Boolean(d.insufficient_data);
+    var top = !insufficient && place <= 3 ? " is-top" : "";
+    var rowCls = top ? top.trim() : "";
+    if (insufficient) rowCls = (rowCls ? rowCls + " " : "") + "is-insufficient";
     var cells = "";
     for (var i = 0; i < COLUMNS.length; i++) {
       var col = COLUMNS[i];
       if (col.kind === "rank") {
-        cells += '<td class="col-rank"><span class="rank-num">' + place + "</span></td>";
+        cells += '<td class="col-rank"><span class="rank-num">' + (insufficient ? "—" : place) + "</span></td>";
       } else if (col.kind === "name") {
         var storedUrl = d.url || "";
         var linkHref = safeStoredHref(storedUrl);
@@ -294,15 +300,17 @@
           ? '<a class="dev-link" href="' + esc(linkHref) + '"' + titleAttr + ' target="_blank" rel="noopener">' + name + "</a>"
           : '<span class="dev-link"' + titleAttr + ">" + name + "</span>";
         cells += '<td class="col-name">' + nameCell + "</td>";
+      } else if (insufficient && col.key === "avg_response") {
+        cells += '<td class="num is-insufficient"><span class="insufficient-label">Недостаточно данных</span></td>';
       } else {
-        var v = getValue(d, col);
+        var v = insufficient ? null : getValue(d, col);
         var text = v == null ? "—" : col.fmt(v);
         var cls = v == null ? "num is-empty" : "num";
         if (v != null && Number(v) === 0) cls += " is-zero";
         cells += '<td class="' + cls + '">' + text + "</td>";
       }
     }
-    return "<tr class=\"" + (top ? top.trim() : "") + "\">" + cells + "</tr>";
+    return '<tr class="' + rowCls + '">' + cells + "</tr>";
   }
 
   // ---------- Поиск ----------
@@ -365,7 +373,7 @@
 
   // ---------- Номинации (ключи NOM должны совпадать с config.nominations[].type) ----------
   var NOM = {
-    min_avg_response: { val: function (d) { return d.avg_response; }, dir: "asc", fmt: function (v) { return fmtInt(v) + " мин"; } },
+    min_avg_response: { val: function (d) { return d.avg_response; }, dir: "asc", fmt: fmtDurationMinutes },
     max_avg_recontacts: { val: function (d) { return d.avg_recontacts; }, dir: "desc", fmt: fmtNum },
     max_total_touches: { val: function (d) { return d.total_touches; }, dir: "desc", fmt: fmtInt },
     most_omnichannel: { val: omniCount, dir: "desc", fmt: function (v) { return String(v); } },
@@ -394,10 +402,12 @@
   }
 
   function nomCardHtml(def) {
+    if (def.type === "delta") return deltaCardHtml(def);
     var spec = NOM[def.type];
     if (!spec) return "";
     var top = def.top || 5;
     var scored = developers
+      .filter(function (d) { return !d.insufficient_data; })
       .map(function (d) { return { name: d.developer_name, v: nullish(spec.val(d)) }; })
       .filter(function (x) {
         if (x.v == null) return false;
@@ -436,6 +446,44 @@
     return (
       '<svg class="nom-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">' +
       '<circle cx="12" cy="8" r="5"/><path d="M8.5 12.5 7 22l5-3 5 3-1.5-9.5"/></svg>'
+    );
+  }
+
+  // Карточка-хайлайт «Дельта»: самый быстрый против самого медленного.
+  function deltaCardHtml(def) {
+    var withResp = developers
+      .filter(function (d) { return !d.insufficient_data; })
+      .map(function (d) { return { name: d.developer_name, v: nullish(d.avg_response) }; })
+      .filter(function (x) { return x.v != null; });
+
+    var list;
+    if (withResp.length < 2) {
+      list = '<li class="nom-item"><span class="nom-name muted">Недостаточно данных</span></li>';
+    } else {
+      var fastest = withResp.reduce(function (a, b) { return b.v < a.v ? b : a; });
+      var slowest = withResp.reduce(function (a, b) { return b.v > a.v ? b : a; });
+      list =
+        deltaRow("↑", "быстрее всех", fastest, true) +
+        deltaRow("↓", "медленнее всех", slowest, false);
+    }
+
+    return (
+      '<article class="nom-card">' +
+      '<h3 class="nom-card__title">' + nomIcon() + esc(def.title) + "</h3>" +
+      '<p class="nom-card__desc">' + esc(def.desc) + "</p>" +
+      '<ol class="nom-list">' + list + "</ol>" +
+      "</article>"
+    );
+  }
+
+  function deltaRow(pos, label, item, lead) {
+    return (
+      '<li class="nom-item' + (lead ? " nom-item--lead" : "") + '">' +
+      '<span class="nom-pos">' + pos + "</span>" +
+      '<span class="nom-name">' + esc(item.name) +
+      ' <span class="muted">— ' + esc(label) + "</span></span>" +
+      '<span class="nom-val">' + fmtDurationMinutes(item.v) + "</span>" +
+      "</li>"
     );
   }
 
@@ -485,8 +533,8 @@
             "</p>";
         }
       } else if (def.format === "minutes") {
-        valueText = block.mean == null ? "—" : fmtInt(block.mean) + " мин";
-        bestText = block.best == null ? "—" : fmtInt(block.best) + " мин";
+        valueText = block.mean == null ? "—" : fmtDurationMinutes(block.mean);
+        bestText = block.best == null ? "—" : fmtDurationMinutes(block.best);
       } else if (def.format === "pct") {
         valueText = block.mean == null ? "—" : fmtPct(block.mean);
         bestText = block.best == null ? "—" : fmtPct(block.best);
@@ -514,6 +562,18 @@
 
   // ---------- CTA-формы ----------
   var FREEMAIL = [];
+  var MIN_FILL_MS = 1800;
+  var MIN_RETRY_MS = 15000;
+  var LAST_SUBMIT_KEY = "lead_form_last_submit_at";
+  var MAX_LEN = {
+    fullname: 120,
+    role: 120,
+    email: 160,
+    phone: 24,
+    company: 160,
+    site: 220,
+    message: 2000,
+  };
 
   function setupForm() {
     var lf = CFG.leadForm || {};
@@ -529,6 +589,10 @@
     var submit = document.getElementById("lead-submit");
     var lf = CFG.leadForm || {};
     if (!form) return;
+    form.dataset.startedAt = String(Date.now());
+    form.addEventListener("focusin", function () {
+      if (!form.dataset.startedAt) form.dataset.startedAt = String(Date.now());
+    });
 
     var emailInput = document.getElementById("lead-email");
     if (emailInput) {
@@ -539,11 +603,22 @@
         updateFreemailHint(emailInput, lf.freemailHint);
       });
     }
+    setupLiveValidation(form);
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       status.textContent = "";
       status.className = "form-status";
+      if (isBotSubmission(form)) {
+        status.textContent = "Сработала антиспам-защита. Подождите пару секунд и отправьте форму снова.";
+        status.classList.add("is-err");
+        return;
+      }
+      if (isRateLimited()) {
+        status.textContent = "Форма уже отправлялась недавно. Повторите попытку через 15 секунд.";
+        status.classList.add("is-err");
+        return;
+      }
 
       var fullname = formField(form, "lead-fullname");
       var role = formField(form, "lead-role");
@@ -577,13 +652,13 @@
 
       var payload = {
         form_type: "discuss_results",
-        fullname: fullname.value.trim(),
-        role: role.value.trim(),
-        email: email.value.trim(),
-        phone: phone.value.trim(),
-        company: company.value.trim(),
+        fullname: cleanText(fullname.value, MAX_LEN.fullname),
+        role: cleanText(role.value, MAX_LEN.role),
+        email: cleanText(email.value, MAX_LEN.email),
+        phone: cleanText(normalizePhone(phone.value), MAX_LEN.phone),
+        company: cleanText(company.value, MAX_LEN.company),
         site: normalizedUrl,
-        message: message.value.trim(),
+        message: cleanText(message.value, MAX_LEN.message),
       };
 
       submit.disabled = true;
@@ -592,37 +667,37 @@
         submit: submit,
         subject: lf.mailtoSubject || "Запрос на разбор результатов рейтинга",
         buildBody: formatLeadBody,
-        successMessage:
-          lf.successMessage ||
-          "Откроется почтовый клиент — отправьте письмо. Мы свяжемся в течение 1 рабочего дня.",
-        endpointSuccessMessage: "Заявка отправлена. Мы свяжемся в течение 1 рабочего дня.",
+        successMessage: lf.successMessage || "Заявка отправлена. Мы с вами скоро свяжемся.",
+        endpointSuccessMessage: "Заявка отправлена. Мы с вами скоро свяжемся.",
       });
     });
   }
 
   function submitForm(form, payload, opts) {
-    if (CFG.formEndpoint) {
-      opts.status.textContent = "Отправляем…";
-      send(payload)
-        .then(function () {
-          form.reset();
-          opts.status.textContent = opts.endpointSuccessMessage;
-          opts.status.classList.add("is-ok");
-        })
-        .catch(function () {
-          opts.status.textContent = "Не удалось отправить автоматически. Откроем письмо вручную…";
-          opts.status.classList.add("is-err");
-          mailtoFallback(payload, opts.subject, opts.buildBody);
-        })
-        .then(function () {
-          opts.submit.disabled = false;
-        });
-    } else {
-      mailtoFallback(payload, opts.subject, opts.buildBody);
-      form.reset();
-      opts.status.textContent = opts.successMessage;
+    var endpoint = resolveFormEndpoint();
+    if (!endpoint) {
+      opts.status.textContent = "Не настроен endpoint формы. Укажите APP_CONFIG.formEndpoint или formEmail.";
+      opts.status.classList.add("is-err");
       opts.submit.disabled = false;
+      return;
     }
+
+    opts.status.textContent = "Отправляем…";
+    send(payload, endpoint, opts.subject, opts.buildBody)
+      .then(function () {
+        markSubmittedNow();
+        form.reset();
+        form.dataset.startedAt = String(Date.now());
+        opts.status.textContent = opts.endpointSuccessMessage || opts.successMessage;
+        opts.status.classList.add("is-ok");
+      })
+      .catch(function () {
+        opts.status.textContent = "Не удалось отправить заявку. Попробуйте ещё раз или свяжитесь с нами по почте.";
+        opts.status.classList.add("is-err");
+      })
+      .then(function () {
+        opts.submit.disabled = false;
+      });
   }
 
   function requireText(input, id, msg) {
@@ -658,16 +733,51 @@
       setError(id, "Укажите телефон");
       return false;
     }
-    if (/[^0-9]/.test(val)) {
-      setError(id, "Телефон должен содержать только цифры");
+    var digits = normalizePhone(val);
+    if (digits.length < 10) {
+      setError(id, "Укажите полный номер телефона");
       return false;
     }
-    if (val.length < 10) {
-      setError(id, "Укажите полный номер телефона");
+    if (digits.length > 15) {
+      setError(id, "Телефон выглядит некорректно");
       return false;
     }
     clearError(id);
     return true;
+  }
+
+  function setupLiveValidation(form) {
+    bindValidation("lead-fullname", function (el) {
+      if (el.value.trim()) clearError("lead-fullname");
+    });
+    bindValidation("lead-role", function (el) {
+      if (el.value.trim()) clearError("lead-role");
+    });
+    bindValidation("lead-phone", function (el) {
+      if (normalizePhone(el.value).length >= 10 && normalizePhone(el.value).length <= 15) {
+        clearError("lead-phone");
+      }
+    });
+    bindValidation("lead-company", function (el) {
+      if (el.value.trim()) clearError("lead-company");
+    });
+    bindValidation("lead-site", function (el) {
+      if (normalizeUrl(el.value.trim())) clearError("lead-site");
+    });
+    bindValidation("lead-message", function () {
+      clearError("lead-message");
+    });
+
+    function bindValidation(id, check) {
+      var el = formField(form, id);
+      if (!el) return;
+      el.addEventListener("input", function () {
+        if (el.getAttribute("aria-invalid") === "true") check(el);
+      });
+      el.addEventListener("blur", function () {
+        check(el);
+      });
+    }
   }
 
   function updateFreemailHint(input, warnText) {
@@ -714,27 +824,106 @@
     return f.querySelector("#" + id);
   }
 
-  function send(payload) {
-    return fetch(CFG.formEndpoint, {
+  function send(payload, endpoint, subject, buildBody) {
+    var req = buildDeliveryPayload(payload, endpoint, subject, buildBody);
+    var controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+    var timeout = controller
+      ? setTimeout(function () {
+          controller.abort();
+        }, 12000)
+      : null;
+    return fetch(endpoint, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    }).then(function (r) {
-      if (!r.ok) throw new Error("HTTP " + r.status);
-    });
+      headers: Object.assign({ "X-Requested-With": "XMLHttpRequest" }, req.headers),
+      body: req.body,
+      mode: "cors",
+      credentials: "omit",
+      signal: controller ? controller.signal : undefined,
+    })
+      .then(function (r) {
+        if (!r.ok) throw new Error("HTTP " + r.status);
+      })
+      .finally(function () {
+        if (timeout) clearTimeout(timeout);
+      });
   }
 
-  function mailtoFallback(payload, subject, buildBody) {
-    var to = CFG.formEmail || (CFG.contact && CFG.contact.email) || "";
-    if (!to) return;
-    var bodyText = buildBody ? buildBody(payload) : JSON.stringify(payload, null, 2);
-    window.location.href =
-      "mailto:" +
-      encodeURIComponent(to) +
-      "?subject=" +
-      encodeURIComponent(subject || "Заявка с сайта рейтинга") +
-      "&body=" +
-      encodeURIComponent(bodyText);
+  function resolveFormEndpoint() {
+    var direct = safeHref(CFG.formEndpoint || "");
+    if (direct) return direct;
+    var formEmail = cleanText(CFG.formEmail || (CFG.contact && CFG.contact.email) || "", 254);
+    if (!formEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formEmail)) return null;
+    return "https://formsubmit.co/ajax/" + encodeURIComponent(formEmail);
+  }
+
+  function buildDeliveryPayload(payload, endpoint, subject, buildBody) {
+    var url;
+    try {
+      url = new URL(endpoint);
+    } catch (e) {
+      return {
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(payload),
+      };
+    }
+    if (url.hostname === "formsubmit.co") {
+      var bodyText = buildBody ? buildBody(payload) : JSON.stringify(payload, null, 2);
+      return {
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          _subject: subject || "Заявка с сайта рейтинга",
+          _template: "table",
+          name: payload.fullname,
+          email: payload.email,
+          message: bodyText,
+          phone: payload.phone || "",
+          role: payload.role || "",
+          company: payload.company || "",
+          site: payload.site || "",
+          form_type: payload.form_type || "discuss_results",
+        }),
+      };
+    }
+    return {
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify(payload),
+    };
+  }
+
+  function isBotSubmission(form) {
+    if (isLocalDevHost()) return false;
+    var trap = formField(form, "lead-company-site");
+    if (trap && trap.value.trim()) return true;
+    var startedAt = Number(form.dataset.startedAt || 0);
+    if (!startedAt) return false;
+    return Date.now() - startedAt < MIN_FILL_MS;
+  }
+
+  function isRateLimited() {
+    try {
+      var prev = Number(localStorage.getItem(LAST_SUBMIT_KEY) || 0);
+      if (!prev) return false;
+      return Date.now() - prev < MIN_RETRY_MS;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function markSubmittedNow() {
+    try {
+      localStorage.setItem(LAST_SUBMIT_KEY, String(Date.now()));
+    } catch (e) {}
+  }
+
+  function cleanText(value, maxLen) {
+    var out = String(value == null ? "" : value).trim();
+    if (!maxLen || out.length <= maxLen) return out;
+    return out.slice(0, maxLen);
+  }
+
+  function isLocalDevHost() {
+    var h = String((window.location && window.location.hostname) || "").toLowerCase();
+    return h === "localhost" || h === "127.0.0.1" || h === "::1";
   }
 
   function setError(id, msg) {
@@ -752,7 +941,23 @@
   }
 
   function normalizeUrl(raw) {
-    return URL.hrefFromRaw ? URL.hrefFromRaw(raw) || "" : "";
+    var trimmed = cleanText(raw, MAX_LEN.site);
+    if (!trimmed) return "";
+    var href = URL.hrefFromRaw ? URL.hrefFromRaw(trimmed) || "" : "";
+    if (href) return cleanText(href, MAX_LEN.site);
+    try {
+      var candidate = /^https?:\/\//i.test(trimmed) ? trimmed : "https://" + trimmed;
+      var parsed = new window.URL(candidate);
+      if (!/^https?:$/i.test(parsed.protocol)) return "";
+      if (!parsed.hostname || parsed.hostname.indexOf(".") === -1) return "";
+      return cleanText(parsed.href, MAX_LEN.site);
+    } catch (e) {
+      return "";
+    }
+  }
+
+  function normalizePhone(raw) {
+    return String(raw || "").replace(/\D+/g, "");
   }
 
   function safeHref(raw) {
@@ -773,6 +978,7 @@
       if (col.format === "pct") out.fmt = fmtPct;
       else if (col.format === "int") out.fmt = fmtInt;
       else if (col.format === "num") out.fmt = fmtNum;
+      else if (col.format === "duration") out.fmt = fmtDurationMinutes;
       return out;
     });
   }
@@ -786,6 +992,17 @@
   }
   function fmtPct(v) {
     return Number(v).toLocaleString("ru-RU") + "%";
+  }
+  /** Минуты из data.json → «5 мин.», «1 ч. 5 мин.», «71 ч. 39 мин.» */
+  function fmtDurationMinutes(v) {
+    var total = Math.round(Number(v));
+    if (!Number.isFinite(total)) return "—";
+    if (total < 60) return total + " мин.";
+    var h = Math.floor(total / 60);
+    var m = total % 60;
+    var text = h + " ч.";
+    if (m) text += " " + m + " мин.";
+    return text;
   }
   function nullish(v) {
     return v === undefined ? null : v;

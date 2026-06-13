@@ -1,5 +1,12 @@
-# Приватный источник и любые выгрузки с PII — никогда не коммитим
+# PII: локальные выгрузки и legacy private/
+data/
 private/
+
+# Структура data/ в репозитории (без PII)
+!data/manifest.example.json
+!data/**/.gitkeep
+
+# Табличные выгрузки вне data/ (на всякий случай)
 *.xlsx
 *.xls
 *.csv

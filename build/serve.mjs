@@ -17,13 +17,21 @@ const TYPES = {
   ".svg": "image/svg+xml",
 };
 
-const DENY_SEGMENTS = new Set(["private", "node_modules", ".git", "build"]);
+const DENY_SEGMENTS = new Set([
+  "private",
+  "data",
+  "node_modules",
+  ".git",
+  "build",
+  "scripts",
+  "shared",
+]);
 const DENY_FILES = /^\.env/i;
 
 const SECURITY_HEADERS = {
   // HSTS только на проде (deploy/_headers); локально HTTP — не выставляем.
   "Content-Security-Policy":
-    "default-src 'self'; script-src 'self' 'unsafe-inline' https://mc.yandex.ru; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://mc.yandex.ru wss://mc.yandex.ru; img-src 'self' https://mc.yandex.ru; frame-src https://mc.yandex.ru; frame-ancestors 'none'; base-uri 'self'; form-action 'self' mailto:",
+    "default-src 'self'; script-src 'self' 'unsafe-inline' https://mc.yandex.ru; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://mc.yandex.ru wss://mc.yandex.ru https://formsubmit.co; img-src 'self' https://mc.yandex.ru; frame-src https://mc.yandex.ru; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
   "X-Content-Type-Options": "nosniff",
   "Referrer-Policy": "strict-origin-when-cross-origin",
   "X-Frame-Options": "DENY",
@@ -60,6 +68,7 @@ http
       res.writeHead(200, {
         ...SECURITY_HEADERS,
         "Content-Type": TYPES[path.extname(filePath)] || "application/octet-stream",
+        "Cache-Control": "no-store",
       });
       res.end(buf);
     });

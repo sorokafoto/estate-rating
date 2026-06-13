@@ -540,6 +540,20 @@ td.num {
   color: var(--ink-3);
   font-weight: var(--fw-regular);
 }
+.rank-table td.num.is-insufficient {
+  color: var(--ink-3);
+  font-weight: var(--fw-regular);
+  white-space: normal;
+  min-width: 7.5rem;
+}
+.insufficient-label {
+  display: inline-block;
+  font-size: 0.8125rem;
+  line-height: 1.25;
+}
+tr.is-insufficient .rank-num {
+  color: var(--ink-3);
+}
 
 /* Топ-3 — тонкий акцент */
 tr.is-top .col-rank {
@@ -797,9 +811,17 @@ tr.is-top .rank-num {
 .field--full {
   grid-column: 1 / -1;
 }
+.field--hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
 .lead-form .field {
   display: grid;
   gap: 6px;
+  align-content: start;
 }
 .lead-form .field label {
   font-size: var(--text-caption);
@@ -862,7 +884,7 @@ tr.is-top .rank-num {
 .field__error {
   font-size: var(--text-caption);
   color: #b42318;
-  min-height: 0;
+  min-height: 1.25em;
 }
 .btn {
   appearance: none;
@@ -999,6 +1021,12 @@ tr.is-top .rank-num {
   }
   .nominations {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 960px) {
+  .form-grid {
+    grid-template-columns: 1fr;
   }
 }
 

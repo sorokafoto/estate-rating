@@ -1,0 +1,19 @@
+# Secret scanning before commit. Install:
+#   brew install gitleaks
+#   pip install pre-commit && pre-commit install
+repos:
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.21.2
+    hooks:
+      - id: gitleaks
+        name: gitleaks
+        entry: gitleaks protect --staged --verbose --redact --config ../../.gitleaks.toml
+        language: golang
+        pass_filenames: false
+  - repo: local
+    hooks:
+      - id: block-private-staged
+        name: block staged private/ and data/ PII files
+        entry: scripts/block-private-staged.sh
+        language: script
+        pass_filenames: false

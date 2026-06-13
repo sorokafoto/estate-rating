@@ -4,69 +4,282 @@
     "demo": false,
     "partial": true,
     "source": "xlsx",
-    "period": "02.06.2026 – 08.06.2026",
-    "developers_count": 23,
-    "assumed_applications_default": 21,
-    "generated_at": "2026-06-12T17:06:13.532Z"
+    "period": null,
+    "developers_count": 100,
+    "applications_sent_total": 2001,
+    "target_applications": 2100,
+    "generated_at": "2026-06-13T16:48:39.501Z"
   },
   "market": {
-    "sample_size": 23,
+    "sample_size": 97,
     "avg_response": {
-      "mean": 1016,
-      "best": 11
+      "mean": 561,
+      "best": 1
     },
     "no_callback_share": {
-      "mean": 83,
-      "best": 57
+      "mean": 52,
+      "best": 5
     },
     "messengers": {
-      "mean": 17,
-      "best": 48,
+      "mean": 4,
+      "best": 43,
       "channels": {
-        "whatsapp": 3,
+        "whatsapp": 1,
         "telegram": 0,
-        "max": 13,
-        "sms": 0
+        "max": 3,
+        "sms": 13
       }
     },
     "spam_share": {
-      "mean": 1,
-      "total": 96,
-      "spam": 1
+      "mean": 49,
+      "total": 7160,
+      "spam": 3541
     }
   },
   "developers": [
     {
-      "developer_name": "Родина",
-      "url": "rodinapark.ru",
-      "avg_response": 11,
-      "no_callback_share": 62,
-      "avg_recontacts": 0,
-      "total_touches": 8,
+      "developer_name": "Sminex",
+      "url": "sminex.com",
+      "applications_sent": 20,
+      "insufficient_data": false,
+      "avg_response": 1,
+      "no_callback_share": 45,
+      "avg_recontacts": 0.1,
+      "total_touches": 13,
       "channel_share": {
         "sms": 0,
         "max": 0,
-        "whatsapp": 38,
-        "telegram": 0
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 55
       }
     },
     {
-      "developer_name": "ОСНОВА",
-      "url": "gk-osnova.ru",
-      "avg_response": 18,
-      "no_callback_share": 76,
+      "developer_name": "ВЫБОР",
+      "url": "vyborstroi.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 1,
+      "no_callback_share": 48,
+      "avg_recontacts": 0.3,
+      "total_touches": 18,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 52
+      }
+    },
+    {
+      "developer_name": "РГ-Девелопмент",
+      "url": "rg-dev.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 1,
+      "no_callback_share": 33,
+      "avg_recontacts": 0.6,
+      "total_touches": 27,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 67
+      }
+    },
+    {
+      "developer_name": "Эталон",
+      "url": "etalongroup.ru",
+      "applications_sent": 17,
+      "insufficient_data": false,
+      "avg_response": 3,
+      "no_callback_share": 71,
       "avg_recontacts": 0,
       "total_touches": 5,
       "channel_share": {
         "sms": 0,
         "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 29
+      }
+    },
+    {
+      "developer_name": "Пионер",
+      "url": "pioneer.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 3,
+      "no_callback_share": 29,
+      "avg_recontacts": 1.4,
+      "total_touches": 44,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 71
+      }
+    },
+    {
+      "developer_name": "Главстрой-Регионы",
+      "url": "glavstroy.ru",
+      "applications_sent": 20,
+      "insufficient_data": false,
+      "avg_response": 5,
+      "no_callback_share": 95,
+      "avg_recontacts": 0,
+      "total_touches": 1,
+      "channel_share": {
+        "sms": 5,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 0
+      }
+    },
+    {
+      "developer_name": "ФСК",
+      "url": "fsk.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 5,
+      "no_callback_share": 29,
+      "avg_recontacts": 0.8,
+      "total_touches": 31,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 71
+      }
+    },
+    {
+      "developer_name": "КОМОССТРОЙ",
+      "url": "komosstroy.ru",
+      "applications_sent": 20,
+      "insufficient_data": false,
+      "avg_response": 5,
+      "no_callback_share": 20,
+      "avg_recontacts": 0.7,
+      "total_touches": 29,
+      "channel_share": {
+        "sms": 80,
+        "max": 10,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 5
+      }
+    },
+    {
+      "developer_name": "DOGMA",
+      "url": "dogma.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 12,
+      "no_callback_share": 57,
+      "avg_recontacts": 0.6,
+      "total_touches": 21,
+      "channel_share": {
+        "sms": 43,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 29
+      }
+    },
+    {
+      "developer_name": "Основа",
+      "url": "gk-osnova.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 13,
+      "no_callback_share": 14,
+      "avg_recontacts": 1.7,
+      "total_touches": 54,
+      "channel_share": {
+        "sms": 71,
+        "max": 0,
         "whatsapp": 24,
-        "telegram": 0
+        "telegram": 0,
+        "call": 48
+      }
+    },
+    {
+      "developer_name": "ПИК",
+      "url": "pik.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 16,
+      "no_callback_share": 24,
+      "avg_recontacts": 2.7,
+      "total_touches": 72,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 76
+      }
+    },
+    {
+      "developer_name": "ТОЧНО",
+      "url": "tochno.life",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 16,
+      "no_callback_share": 38,
+      "avg_recontacts": 0,
+      "total_touches": 14,
+      "channel_share": {
+        "sms": 62,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 0
+      }
+    },
+    {
+      "developer_name": "Холдинг Setl Group",
+      "url": "setlgroup.ru",
+      "applications_sent": 20,
+      "insufficient_data": false,
+      "avg_response": 20,
+      "no_callback_share": 45,
+      "avg_recontacts": 0.2,
+      "total_touches": 14,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 55
+      }
+    },
+    {
+      "developer_name": "Корней",
+      "url": "kornei.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 21,
+      "no_callback_share": 14,
+      "avg_recontacts": 1.6,
+      "total_touches": 51,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 86
       }
     },
     {
       "developer_name": "Холдинг Сибирский деловой союз",
       "url": "sds-finance.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
       "avg_response": 25,
       "no_callback_share": 95,
       "avg_recontacts": 0,
@@ -75,180 +288,899 @@
         "sms": 0,
         "max": 5,
         "whatsapp": 0,
-        "telegram": 0
+        "telegram": 0,
+        "call": 0
       }
     },
     {
-      "developer_name": "ССК",
-      "url": "ssk-kuban.ru",
-      "avg_response": 71,
-      "no_callback_share": 57,
-      "avg_recontacts": 0.1,
-      "total_touches": 18,
+      "developer_name": "Группа ЦДС",
+      "url": "cds.spb.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 32,
+      "no_callback_share": 38,
+      "avg_recontacts": 1,
+      "total_touches": 34,
       "channel_share": {
-        "sms": 0,
-        "max": 43,
-        "whatsapp": 5,
-        "telegram": 0
-      }
-    },
-    {
-      "developer_name": "3S Group",
-      "url": "3s.group",
-      "avg_response": 74,
-      "no_callback_share": 90,
-      "avg_recontacts": 0,
-      "total_touches": 2,
-      "channel_share": {
-        "sms": 0,
-        "max": 10,
+        "sms": 14,
+        "max": 0,
         "whatsapp": 0,
-        "telegram": 0
+        "telegram": 0,
+        "call": 62
       }
     },
     {
       "developer_name": "Расцветай",
       "url": "xn--80aafcmzc2ckm5b.xn--p1ai",
-      "avg_response": 91,
-      "no_callback_share": 90,
-      "avg_recontacts": 0,
-      "total_touches": 3,
-      "channel_share": {
-        "sms": 0,
-        "max": 10,
-        "whatsapp": 0,
-        "telegram": 0
-      }
-    },
-    {
-      "developer_name": "Компания Кронверк",
-      "url": "kronverksar.ru",
-      "avg_response": 108,
-      "no_callback_share": 90,
-      "avg_recontacts": 0,
-      "total_touches": 2,
-      "channel_share": {
-        "sms": 0,
-        "max": 10,
-        "whatsapp": 0,
-        "telegram": 0
-      }
-    },
-    {
-      "developer_name": "АО СЗ ИСК г. Уфы",
-      "url": "xn--80apg1alg.xn--p1ai",
-      "avg_response": 128,
-      "no_callback_share": 90,
-      "avg_recontacts": 0,
-      "total_touches": 2,
-      "channel_share": {
-        "sms": 0,
-        "max": 10,
-        "whatsapp": 0,
-        "telegram": 0
-      }
-    },
-    {
-      "developer_name": "КОМОССТРОЙ",
-      "url": "komosstroy.ru",
-      "avg_response": 130,
-      "no_callback_share": 90,
-      "avg_recontacts": 0,
-      "total_touches": 2,
-      "channel_share": {
-        "sms": 0,
-        "max": 10,
-        "whatsapp": 0,
-        "telegram": 0
-      }
-    },
-    {
-      "developer_name": "КАСКАД",
-      "url": "kaskad23.ru",
-      "avg_response": 362,
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 35,
       "no_callback_share": 62,
-      "avg_recontacts": 0.1,
-      "total_touches": 11,
+      "avg_recontacts": 0.3,
+      "total_touches": 15,
+      "channel_share": {
+        "sms": 5,
+        "max": 10,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 33
+      }
+    },
+    {
+      "developer_name": "Родина",
+      "url": "rodinapark.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 44,
+      "no_callback_share": 29,
+      "avg_recontacts": 1.1,
+      "total_touches": 38,
+      "channel_share": {
+        "sms": 67,
+        "max": 0,
+        "whatsapp": 38,
+        "telegram": 0,
+        "call": 19
+      }
+    },
+    {
+      "developer_name": "КВС",
+      "url": "kvsspb.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 62,
+      "no_callback_share": 38,
+      "avg_recontacts": 0.6,
+      "total_touches": 25,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 62
+      }
+    },
+    {
+      "developer_name": "СКАТ",
+      "url": "gkskat.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 70,
+      "no_callback_share": 19,
+      "avg_recontacts": 4.2,
+      "total_touches": 106,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 81
+      }
+    },
+    {
+      "developer_name": "Альпика Групп",
+      "url": "alpika-group.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 71,
+      "no_callback_share": 14,
+      "avg_recontacts": 1.8,
+      "total_touches": 55,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 86
+      }
+    },
+    {
+      "developer_name": "Ленстройтрест",
+      "url": "6543210.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 79,
+      "no_callback_share": 52,
+      "avg_recontacts": 1.5,
+      "total_touches": 42,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 48
+      }
+    },
+    {
+      "developer_name": "ССК",
+      "url": "ssk-kuban.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 81,
+      "no_callback_share": 29,
+      "avg_recontacts": 2.1,
+      "total_touches": 60,
+      "channel_share": {
+        "sms": 52,
+        "max": 38,
+        "whatsapp": 5,
+        "telegram": 0,
+        "call": 52
+      }
+    },
+    {
+      "developer_name": "БФА-Девелопмент",
+      "url": "bfa-d.ru",
+      "applications_sent": 20,
+      "insufficient_data": false,
+      "avg_response": 91,
+      "no_callback_share": 65,
+      "avg_recontacts": 0,
+      "total_touches": 7,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 35
+      }
+    },
+    {
+      "developer_name": "Level Group",
+      "url": "level.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 101,
+      "no_callback_share": 14,
+      "avg_recontacts": 1.9,
+      "total_touches": 58,
+      "channel_share": {
+        "sms": 62,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 71
+      }
+    },
+    {
+      "developer_name": "ЛСР",
+      "url": "lsr.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 103,
+      "no_callback_share": 24,
+      "avg_recontacts": 1.5,
+      "total_touches": 47,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 76
+      }
+    },
+    {
+      "developer_name": "Каскад",
+      "url": "kaskad23.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 130,
+      "no_callback_share": 14,
+      "avg_recontacts": 1.6,
+      "total_touches": 52,
       "channel_share": {
         "sms": 0,
         "max": 29,
         "whatsapp": 10,
-        "telegram": 0
+        "telegram": 0,
+        "call": 81
       }
     },
     {
-      "developer_name": "Союз",
-      "url": "isk-soyuz-nsk.ru",
-      "avg_response": 626,
-      "no_callback_share": 81,
-      "avg_recontacts": 0,
-      "total_touches": 5,
+      "developer_name": "3S Group",
+      "url": "3s.group",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 140,
+      "no_callback_share": 43,
+      "avg_recontacts": 0.2,
+      "total_touches": 17,
       "channel_share": {
-        "sms": 0,
-        "max": 19,
-        "whatsapp": 0,
-        "telegram": 0
-      }
-    },
-    {
-      "developer_name": "Унистрой",
-      "url": "unistroyrf.ru",
-      "avg_response": 771,
-      "no_callback_share": 90,
-      "avg_recontacts": 0,
-      "total_touches": 3,
-      "channel_share": {
-        "sms": 0,
+        "sms": 10,
         "max": 10,
         "whatsapp": 0,
-        "telegram": 0
+        "telegram": 0,
+        "call": 43
       }
     },
     {
-      "developer_name": "Оренбургстрой",
-      "url": "orenburg-stroy.ru",
-      "avg_response": 865,
+      "developer_name": "ПСК Дом девелопмент",
+      "url": "72dom.com",
+      "applications_sent": 19,
+      "insufficient_data": false,
+      "avg_response": 146,
+      "no_callback_share": 16,
+      "avg_recontacts": 3,
+      "total_touches": 73,
+      "channel_share": {
+        "sms": 84,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 58
+      }
+    },
+    {
+      "developer_name": "DARS Development",
+      "url": "dars.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 181,
+      "no_callback_share": 24,
+      "avg_recontacts": 1.2,
+      "total_touches": 41,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 76
+      }
+    },
+    {
+      "developer_name": "Развитие",
+      "url": "rzv.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 184,
+      "no_callback_share": 5,
+      "avg_recontacts": 3.6,
+      "total_touches": 96,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 95
+      }
+    },
+    {
+      "developer_name": "Arsenal",
+      "url": "arsenal-group.com",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 186,
+      "no_callback_share": 38,
+      "avg_recontacts": 1,
+      "total_touches": 35,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 62
+      }
+    },
+    {
+      "developer_name": "ЕДИНО",
+      "url": "edino.group",
+      "applications_sent": 20,
+      "insufficient_data": false,
+      "avg_response": 237,
+      "no_callback_share": 5,
+      "avg_recontacts": 3.1,
+      "total_touches": 80,
+      "channel_share": {
+        "sms": 90,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 70
+      }
+    },
+    {
+      "developer_name": "Новый Нижний",
+      "url": "nn-r.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 256,
+      "no_callback_share": 29,
+      "avg_recontacts": 0.8,
+      "total_touches": 32,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 71
+      }
+    },
+    {
+      "developer_name": "ГК Атлант",
+      "url": "atlantdevelopment.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 308,
+      "no_callback_share": 29,
+      "avg_recontacts": 1.1,
+      "total_touches": 38,
+      "channel_share": {
+        "sms": 33,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 71
+      }
+    },
+    {
+      "developer_name": "Гарант-жильё",
+      "url": "xn--80aahkemvnzw7i.xn--p1ai",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 349,
       "no_callback_share": 86,
       "avg_recontacts": 0,
       "total_touches": 3,
       "channel_share": {
         "sms": 0,
-        "max": 14,
+        "max": 0,
         "whatsapp": 0,
-        "telegram": 0
+        "telegram": 0,
+        "call": 14
       }
     },
     {
-      "developer_name": "Арбан",
-      "url": "arban.ru",
-      "avg_response": 878,
-      "no_callback_share": 71,
+      "developer_name": "GloraX",
+      "url": "glorax.com",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 353,
+      "no_callback_share": 67,
+      "avg_recontacts": 0.5,
+      "total_touches": 18,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 33
+      }
+    },
+    {
+      "developer_name": "А101",
+      "url": "a101.ru",
+      "applications_sent": 16,
+      "insufficient_data": false,
+      "avg_response": 376,
+      "no_callback_share": 63,
+      "avg_recontacts": 0.6,
+      "total_touches": 16,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 38
+      }
+    },
+    {
+      "developer_name": "Андор",
+      "url": "andornn.ru",
+      "applications_sent": 20,
+      "insufficient_data": false,
+      "avg_response": 410,
+      "no_callback_share": 70,
+      "avg_recontacts": 0.7,
+      "total_touches": 19,
+      "channel_share": {
+        "sms": 15,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 30
+      }
+    },
+    {
+      "developer_name": "AVA Group",
+      "url": "avadom.ru",
+      "applications_sent": 20,
+      "insufficient_data": false,
+      "avg_response": 414,
+      "no_callback_share": 20,
+      "avg_recontacts": 8,
+      "total_touches": 176,
+      "channel_share": {
+        "sms": 70,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 80
+      }
+    },
+    {
+      "developer_name": "ИСК г. Уфы",
+      "url": "xn--80apg1alg.xn--p1ai",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 416,
+      "no_callback_share": 57,
+      "avg_recontacts": 0.2,
+      "total_touches": 13,
+      "channel_share": {
+        "sms": 0,
+        "max": 10,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 33
+      }
+    },
+    {
+      "developer_name": "Унистрой",
+      "url": "unistroyrf.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 421,
+      "no_callback_share": 14,
+      "avg_recontacts": 2.5,
+      "total_touches": 70,
+      "channel_share": {
+        "sms": 62,
+        "max": 10,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 86
+      }
+    },
+    {
+      "developer_name": "Страна Девелопмент",
+      "url": "strana.com",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 440,
+      "no_callback_share": 38,
+      "avg_recontacts": 0.7,
+      "total_touches": 27,
+      "channel_share": {
+        "sms": 62,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 0
+      }
+    },
+    {
+      "developer_name": "ПАО АПРИ",
+      "url": "xn--80aque.xn--p1ai",
+      "applications_sent": 15,
+      "insufficient_data": false,
+      "avg_response": 470,
+      "no_callback_share": 60,
+      "avg_recontacts": 0.6,
+      "total_touches": 15,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 40
+      }
+    },
+    {
+      "developer_name": "Самолет",
+      "url": "samolet.ru",
+      "applications_sent": 19,
+      "insufficient_data": false,
+      "avg_response": 494,
+      "no_callback_share": 21,
+      "avg_recontacts": 4.1,
+      "total_touches": 93,
+      "channel_share": {
+        "sms": 63,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 74
+      }
+    },
+    {
+      "developer_name": "Фортис Девелопмент",
+      "url": "fortis-development.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 499,
+      "no_callback_share": 33,
+      "avg_recontacts": 0.2,
+      "total_touches": 19,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 67
+      }
+    },
+    {
+      "developer_name": "Синара-Девелопмент",
+      "url": "sinara-development.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 500,
+      "no_callback_share": 33,
+      "avg_recontacts": 0.6,
+      "total_touches": 27,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 67
+      }
+    },
+    {
+      "developer_name": "Брусника",
+      "url": "brusnika.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 501,
+      "no_callback_share": 10,
+      "avg_recontacts": 1.7,
+      "total_touches": 55,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 90
+      }
+    },
+    {
+      "developer_name": "ТРЕСТ",
+      "url": "trest-group.ru",
+      "applications_sent": 17,
+      "insufficient_data": false,
+      "avg_response": 515,
+      "no_callback_share": 65,
+      "avg_recontacts": 0.6,
+      "total_touches": 17,
+      "channel_share": {
+        "sms": 18,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 29
+      }
+    },
+    {
+      "developer_name": "Союз",
+      "url": "isk-soyuz-nsk.ru",
+      "applications_sent": 14,
+      "insufficient_data": false,
+      "avg_response": 559,
+      "no_callback_share": 57,
       "avg_recontacts": 0,
       "total_touches": 6,
       "channel_share": {
         "sms": 0,
         "max": 29,
         "whatsapp": 0,
-        "telegram": 0
+        "telegram": 0,
+        "call": 14
+      }
+    },
+    {
+      "developer_name": "MR Group",
+      "url": "mr-group.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 666,
+      "no_callback_share": 52,
+      "avg_recontacts": 0.1,
+      "total_touches": 12,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 48
+      }
+    },
+    {
+      "developer_name": "Донстрой",
+      "url": "donstroy.com",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 673,
+      "no_callback_share": 33,
+      "avg_recontacts": 1,
+      "total_touches": 35,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 67
+      }
+    },
+    {
+      "developer_name": "Абсолют Недвижимость",
+      "url": "absrealty.ru",
+      "applications_sent": 22,
+      "insufficient_data": false,
+      "avg_response": 686,
+      "no_callback_share": 18,
+      "avg_recontacts": 2.5,
+      "total_touches": 72,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 82
+      }
+    },
+    {
+      "developer_name": "Концерн КРОСТ",
+      "url": "krost.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 689,
+      "no_callback_share": 90,
+      "avg_recontacts": 0,
+      "total_touches": 2,
+      "channel_share": {
+        "sms": 5,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 5
+      }
+    },
+    {
+      "developer_name": "Астон",
+      "url": "astondom.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 693,
+      "no_callback_share": 10,
+      "avg_recontacts": 3.2,
+      "total_touches": 87,
+      "channel_share": {
+        "sms": 81,
+        "max": 5,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 90
+      }
+    },
+    {
+      "developer_name": "Новый город",
+      "url": "novyigorod.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 711,
+      "no_callback_share": 10,
+      "avg_recontacts": 1,
+      "total_touches": 41,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 90
       }
     },
     {
       "developer_name": "СК Атлант",
       "url": "atlant45.ru",
-      "avg_response": 882,
-      "no_callback_share": 71,
-      "avg_recontacts": 0,
-      "total_touches": 6,
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 715,
+      "no_callback_share": 24,
+      "avg_recontacts": 0.6,
+      "total_touches": 29,
       "channel_share": {
         "sms": 0,
         "max": 29,
         "whatsapp": 0,
-        "telegram": 0
+        "telegram": 0,
+        "call": 67
       }
     },
     {
-      "developer_name": "СЗ «СахалинДом»",
+      "developer_name": "Арбан",
+      "url": "arban.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 737,
+      "no_callback_share": 19,
+      "avg_recontacts": 1.1,
+      "total_touches": 41,
+      "channel_share": {
+        "sms": 0,
+        "max": 29,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 76
+      }
+    },
+    {
+      "developer_name": "ЮгСтройИнвест",
+      "url": "gk-usi.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 742,
+      "no_callback_share": 10,
+      "avg_recontacts": 3.5,
+      "total_touches": 93,
+      "channel_share": {
+        "sms": 24,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 5,
+        "call": 90
+      }
+    },
+    {
+      "developer_name": "Железно",
+      "url": "zhcom.ru/kirov",
+      "applications_sent": 12,
+      "insufficient_data": false,
+      "avg_response": 745,
+      "no_callback_share": 83,
+      "avg_recontacts": 0.3,
+      "total_touches": 5,
+      "channel_share": {
+        "sms": 17,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 8
+      }
+    },
+    {
+      "developer_name": "СМ.СИТИ",
+      "url": "sm-city.ru",
+      "applications_sent": 20,
+      "insufficient_data": false,
+      "avg_response": 754,
+      "no_callback_share": 60,
+      "avg_recontacts": 0,
+      "total_touches": 8,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 40
+      }
+    },
+    {
+      "developer_name": "Вектор",
+      "url": "xn--b1agpqkk.xn--p1ai",
+      "applications_sent": 20,
+      "insufficient_data": false,
+      "avg_response": 754,
+      "no_callback_share": 70,
+      "avg_recontacts": 0.4,
+      "total_touches": 13,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 30
+      }
+    },
+    {
+      "developer_name": "Домостроительный комбинат",
+      "url": "dsk.vrn.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 759,
+      "no_callback_share": 29,
+      "avg_recontacts": 0.1,
+      "total_touches": 18,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 71
+      }
+    },
+    {
+      "developer_name": "ТЭН",
+      "url": "ten-stroy.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 779,
+      "no_callback_share": 5,
+      "avg_recontacts": 1.2,
+      "total_touches": 45,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 95
+      }
+    },
+    {
+      "developer_name": "ИСБ-недвижимость",
+      "url": "xn--80afahr7ap7a8g.xn--p1ai",
+      "applications_sent": 20,
+      "insufficient_data": false,
+      "avg_response": 848,
+      "no_callback_share": 10,
+      "avg_recontacts": 2,
+      "total_touches": 58,
+      "channel_share": {
+        "sms": 55,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 90
+      }
+    },
+    {
+      "developer_name": "Оренбургстрой",
+      "url": "orenburg-stroy.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 865,
+      "no_callback_share": 76,
+      "avg_recontacts": 0,
+      "total_touches": 6,
+      "channel_share": {
+        "sms": 0,
+        "max": 14,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 14
+      }
+    },
+    {
+      "developer_name": "АльфаСтройИнвест",
+      "url": "alfastroyinvest.ru",
+      "applications_sent": 15,
+      "insufficient_data": false,
+      "avg_response": 881,
+      "no_callback_share": 60,
+      "avg_recontacts": 0.8,
+      "total_touches": 18,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 40
+      }
+    },
+    {
+      "developer_name": "СахалинДом",
       "url": "xn----8sbqmhoqj8g1a.com",
+      "applications_sent": 21,
+      "insufficient_data": false,
       "avg_response": 897,
       "no_callback_share": 90,
       "avg_recontacts": 0,
@@ -257,12 +1189,117 @@
         "sms": 0,
         "max": 10,
         "whatsapp": 0,
-        "telegram": 0
+        "telegram": 0,
+        "call": 0
+      }
+    },
+    {
+      "developer_name": "ИСКО-Ч",
+      "url": "chestr-grupp.ru",
+      "applications_sent": 20,
+      "insufficient_data": false,
+      "avg_response": 937,
+      "no_callback_share": 5,
+      "avg_recontacts": 0.8,
+      "total_touches": 34,
+      "channel_share": {
+        "sms": 0,
+        "max": 15,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 80
+      }
+    },
+    {
+      "developer_name": "Новая Жизнь",
+      "url": "newlife-nn.ru",
+      "applications_sent": 16,
+      "insufficient_data": false,
+      "avg_response": 938,
+      "no_callback_share": 69,
+      "avg_recontacts": 0.4,
+      "total_touches": 11,
+      "channel_share": {
+        "sms": 6,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 31
+      }
+    },
+    {
+      "developer_name": "Альфа",
+      "url": "alfa59.ru",
+      "applications_sent": 20,
+      "insufficient_data": false,
+      "avg_response": 1010,
+      "no_callback_share": 50,
+      "avg_recontacts": 0.6,
+      "total_touches": 21,
+      "channel_share": {
+        "sms": 30,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 50
+      }
+    },
+    {
+      "developer_name": "Алгоритм",
+      "url": "alg22.ru",
+      "applications_sent": 20,
+      "insufficient_data": false,
+      "avg_response": 1102,
+      "no_callback_share": 40,
+      "avg_recontacts": 0.1,
+      "total_touches": 13,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 60
+      }
+    },
+    {
+      "developer_name": "ИНТЕРСТРОЙ",
+      "url": "xn--e1afeoglahgd.xn--p1ai",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 1157,
+      "no_callback_share": 86,
+      "avg_recontacts": 0.1,
+      "total_touches": 5,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 14
+      }
+    },
+    {
+      "developer_name": "Жилищная инициатива",
+      "url": "barnaul-gi.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 1280,
+      "no_callback_share": 95,
+      "avg_recontacts": 0,
+      "total_touches": 2,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 5
       }
     },
     {
       "developer_name": "Гордо Девелопмент",
       "url": "xn--c1ac3abi.xn--p1ai",
+      "applications_sent": 21,
+      "insufficient_data": false,
       "avg_response": 1291,
       "no_callback_share": 81,
       "avg_recontacts": 0,
@@ -271,68 +1308,100 @@
         "sms": 0,
         "max": 14,
         "whatsapp": 0,
-        "telegram": 5
+        "telegram": 5,
+        "call": 0
       }
     },
     {
-      "developer_name": "КСМ",
-      "url": "kcm.onego.ru",
-      "avg_response": 1474,
-      "no_callback_share": 86,
-      "avg_recontacts": 0,
-      "total_touches": 3,
+      "developer_name": "СК10",
+      "url": "sk10.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 1437,
+      "no_callback_share": 57,
+      "avg_recontacts": 0.5,
+      "total_touches": 19,
       "channel_share": {
         "sms": 0,
-        "max": 14,
+        "max": 0,
         "whatsapp": 0,
-        "telegram": 0
-      }
-    },
-    {
-      "developer_name": "Астон",
-      "url": "astondom.ru",
-      "avg_response": 1969,
-      "no_callback_share": 95,
-      "avg_recontacts": 0,
-      "total_touches": 1,
-      "channel_share": {
-        "sms": 0,
-        "max": 5,
-        "whatsapp": 0,
-        "telegram": 0
+        "telegram": 0,
+        "call": 43
       }
     },
     {
       "developer_name": "ЭНКО",
       "url": "enco.ru",
-      "avg_response": 2081,
-      "no_callback_share": 95,
-      "avg_recontacts": 0,
-      "total_touches": 1,
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 1463,
+      "no_callback_share": 14,
+      "avg_recontacts": 1.1,
+      "total_touches": 42,
       "channel_share": {
         "sms": 0,
         "max": 5,
         "whatsapp": 0,
-        "telegram": 0
+        "telegram": 0,
+        "call": 86
       }
     },
     {
-      "developer_name": "Честр-Групп",
-      "url": "chestr-grupp.ru",
-      "avg_response": 2775,
-      "no_callback_share": 76,
+      "developer_name": "КСМ",
+      "url": "kcm.onego.ru",
+      "applications_sent": 20,
+      "insufficient_data": false,
+      "avg_response": 1474,
+      "no_callback_share": 85,
       "avg_recontacts": 0,
-      "total_touches": 5,
+      "total_touches": 3,
       "channel_share": {
         "sms": 0,
-        "max": 24,
+        "max": 15,
         "whatsapp": 0,
-        "telegram": 0
+        "telegram": 0,
+        "call": 0
+      }
+    },
+    {
+      "developer_name": "Кронверк",
+      "url": "kronverksar.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 1498,
+      "no_callback_share": 38,
+      "avg_recontacts": 1,
+      "total_touches": 34,
+      "channel_share": {
+        "sms": 48,
+        "max": 10,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 52
+      }
+    },
+    {
+      "developer_name": "Plus Development",
+      "url": "plusdevelopment.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 1506,
+      "no_callback_share": 86,
+      "avg_recontacts": 0,
+      "total_touches": 3,
+      "channel_share": {
+        "sms": 14,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 0
       }
     },
     {
       "developer_name": "Ренессанс Актив",
       "url": "xn--80aagec1bbmucbzh8k.xn--p1ai/developer",
+      "applications_sent": 21,
+      "insufficient_data": false,
       "avg_response": 3728,
       "no_callback_share": 95,
       "avg_recontacts": 0,
@@ -341,13 +1410,16 @@
         "sms": 0,
         "max": 5,
         "whatsapp": 0,
-        "telegram": 0
+        "telegram": 0,
+        "call": 0
       }
     },
     {
-      "developer_name": "ЮгСтройИнвест",
-      "url": "gk-usi.ru",
-      "avg_response": 4118,
+      "developer_name": "Арт Эль",
+      "url": "xn--80aaaaazacnr0acrhdc2a1a6a8w.xn--p1ai",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 4151,
       "no_callback_share": 95,
       "avg_recontacts": 0,
       "total_touches": 1,
@@ -355,7 +1427,314 @@
         "sms": 0,
         "max": 0,
         "whatsapp": 0,
-        "telegram": 5
+        "telegram": 0,
+        "call": 5
+      }
+    },
+    {
+      "developer_name": "ВКБ-Новостройки",
+      "url": "vkbn.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": null,
+      "no_callback_share": 100,
+      "avg_recontacts": 0,
+      "total_touches": 0,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 0
+      }
+    },
+    {
+      "developer_name": "Симферопольская девелоперская компания",
+      "url": "moinaco.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": null,
+      "no_callback_share": 100,
+      "avg_recontacts": 0,
+      "total_touches": 0,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 0
+      }
+    },
+    {
+      "developer_name": "Карьероуправление",
+      "url": "gkkarier.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": null,
+      "no_callback_share": 100,
+      "avg_recontacts": 0,
+      "total_touches": 0,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 0
+      }
+    },
+    {
+      "developer_name": "Республиканское ипотечное агентство",
+      "url": "ipotekaria.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": null,
+      "no_callback_share": 100,
+      "avg_recontacts": 0,
+      "total_touches": 0,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 0
+      }
+    },
+    {
+      "developer_name": "Пересвет-Юг",
+      "url": "peresvet-ug.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": null,
+      "no_callback_share": 100,
+      "avg_recontacts": 0,
+      "total_touches": 0,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 0
+      }
+    },
+    {
+      "developer_name": "Шэлдом",
+      "url": "shaldom.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": null,
+      "no_callback_share": 100,
+      "avg_recontacts": 0,
+      "total_touches": 0,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 0
+      }
+    },
+    {
+      "developer_name": "ФРЖС Кемеровской области",
+      "url": "frgs-ko.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": null,
+      "no_callback_share": 100,
+      "avg_recontacts": 0,
+      "total_touches": 0,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 0
+      }
+    },
+    {
+      "developer_name": "Кировский сельский строительный комбинат",
+      "url": "kirovssk.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": null,
+      "no_callback_share": 100,
+      "avg_recontacts": 0,
+      "total_touches": 0,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 0
+      }
+    },
+    {
+      "developer_name": "АЛЬФАГРУППИНВЕСТ",
+      "url": "xn--80aagdlqstqajsngl1k.xn--p1ai",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": null,
+      "no_callback_share": 100,
+      "avg_recontacts": 0,
+      "total_touches": 0,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 0
+      }
+    },
+    {
+      "developer_name": "Русагрострой",
+      "url": "xn--12-6kcm4a3aamcbgenh.xn--p1ai",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": null,
+      "no_callback_share": 100,
+      "avg_recontacts": 0,
+      "total_touches": 0,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 0
+      }
+    },
+    {
+      "developer_name": "ДомАрт",
+      "url": "domartkhv.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": null,
+      "no_callback_share": 100,
+      "avg_recontacts": 0,
+      "total_touches": 0,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 0
+      }
+    },
+    {
+      "developer_name": "Энергомонтаж",
+      "url": "infinity-kvartal.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": null,
+      "no_callback_share": 100,
+      "avg_recontacts": 0,
+      "total_touches": 0,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 0
+      }
+    },
+    {
+      "developer_name": "Ак Таш-Инвестстрой",
+      "url": "aktash-invest.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": null,
+      "no_callback_share": 100,
+      "avg_recontacts": 0,
+      "total_touches": 0,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 0
+      }
+    },
+    {
+      "developer_name": "AFI Development",
+      "url": "afi-development.com",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": null,
+      "no_callback_share": 100,
+      "avg_recontacts": 0,
+      "total_touches": 0,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 0
+      }
+    },
+    {
+      "developer_name": "КПД-Газстрой",
+      "url": "kpdgazstroi.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": null,
+      "no_callback_share": 100,
+      "avg_recontacts": 0,
+      "total_touches": 0,
+      "channel_share": {
+        "sms": 0,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 0
+      }
+    },
+    {
+      "developer_name": "Гранель",
+      "url": "granelle.ru",
+      "applications_sent": 8,
+      "insufficient_data": true,
+      "avg_response": null,
+      "no_callback_share": null,
+      "avg_recontacts": null,
+      "total_touches": null,
+      "channel_share": {
+        "sms": null,
+        "max": null,
+        "whatsapp": null,
+        "telegram": null,
+        "call": null
+      }
+    },
+    {
+      "developer_name": "ТСИ",
+      "url": "ao-tsi.ru",
+      "applications_sent": 10,
+      "insufficient_data": true,
+      "avg_response": null,
+      "no_callback_share": null,
+      "avg_recontacts": null,
+      "total_touches": null,
+      "channel_share": {
+        "sms": null,
+        "max": null,
+        "whatsapp": null,
+        "telegram": null,
+        "call": null
+      }
+    },
+    {
+      "developer_name": "Северная компания",
+      "url": "sk62.ru",
+      "applications_sent": 10,
+      "insufficient_data": true,
+      "avg_response": null,
+      "no_callback_share": null,
+      "avg_recontacts": null,
+      "total_touches": null,
+      "channel_share": {
+        "sms": null,
+        "max": null,
+        "whatsapp": null,
+        "telegram": null,
+        "call": null
       }
     }
   ]

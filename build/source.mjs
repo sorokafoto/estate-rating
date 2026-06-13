@@ -1,16 +1,14 @@
 // Чтение приватного источника (XLSX) в массив сырых событий.
 // PII-поля читаются ТОЛЬКО здесь, на этапе сборки, и дальше отбрасываются агрегацией.
 import fs from "node:fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
 import XLSX from "xlsx";
+import { resolveEventSheets } from "../shared/event-sheets.mjs";
+import { paths, resolveDataPath } from "../shared/paths.mjs";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-export const SOURCE_PATH = path.join(__dirname, "..", "private", "source.xlsx");
-const SHEET_NAME = "events messengers";
+export const SOURCE_PATH = resolveDataPath(paths.source());
 
 // Ключи столбцов в строке 0 файла. Строка 1 — русские описания (пропускаем).
-const FIELDS = [
+export const EVENT_FIELDS = [
   "event_id",
   "application_id",
   "developer_id",
@@ -29,42 +27,6 @@ const FIELDS = [
 
 export function sourceExists() {
   return fs.existsSync(SOURCE_PATH);
-}
-
-export function readSource() {
-  const wb = XLSX.readFile(SOURCE_PATH, { cellDates: true });
-  const ws = wb.Sheets[SHEET_NAME] || wb.Sheets[wb.SheetNames[0]];
-  if (!ws) throw new Error(`Лист "${SHEET_NAME}" не найден в источнике`);
-
-  const rows = XLSX.utils.sheet_to_json(ws, { header: 1, blankrows: false });
-  // rows[0] — ключи; rows[1] — либо русские описания, либо первая строка данных.
-  const header = rows[0].map((h) => String(h || "").trim());
-  const idx = {};
-  FIELDS.forEach((f) => {
-    const i = header.indexOf(f);
-    if (i !== -1) idx[f] = i;
-  });
-
-  const dataStart = isDataRow(rows[1], idx.event_id) ? 1 : 2;
-
-  const events = [];
-  for (let r = dataStart; r < rows.length; r++) {
-    const row = rows[r];
-    if (!row || row[idx.event_id] == null || String(row[idx.event_id]).trim() === "") continue;
-    events.push({
-      application_id: cell(row, idx.application_id),
-      developer_id: cell(row, idx.developer_id),
-      developer_name: cell(row, idx.developer_name),
-      url: cell(row, idx.url),
-      event_channel: norm(cell(row, idx.event_channel)),
-      lead_response_time: num(row[idx.lead_response_time]),
-      recontact: norm(cell(row, idx.recontact)),
-      is_marked: norm(cell(row, idx.is_marked)),
-      identified: norm(cell(row, idx.identified)),
-      application_datetime: row[idx.application_datetime] ?? null,
-    });
-  }
-  return events;
 }
 
 function isDataRow(row, eventIdIdx) {
@@ -86,4 +48,153 @@ function num(v) {
   if (v == null || v === "") return null;
   const n = Number(String(v).replace(",", "."));
   return Number.isFinite(n) ? n : null;
+}
+
+/**
+ * Прочитать события с одного листа (общий контракт колонок).
+ * @param {import('xlsx').WorkSheet} ws
+ * @param {string} [sheetName] — для определения dataStart (messengers: row 3)
+ */
+export function readEventsFromSheet(ws, sheetName = "") {
+  const rows = XLSX.utils.sheet_to_json(ws, { header: 1, blankrows: false });
+  if (!rows.length) return [];
+
+  const header = rows[0].map((h) => String(h || "").trim());
+  const idx = {};
+  EVENT_FIELDS.forEach((f) => {
+    const i = header.indexOf(f);
+    if (i !== -1) idx[f] = i;
+  });
+
+  const dataStart = isDataRow(rows[1], idx.event_id) ? 1 : 2;
+  const isMessengerSheet = /messenger/i.test(sheetName);
+  const startRow = isMessengerSheet && !isDataRow(rows[1], idx.event_id) ? 2 : dataStart;
+
+  const events = [];
+  for (let r = startRow; r < rows.length; r++) {
+    const row = rows[r];
+    if (!row) continue;
+    const eventId = cell(row, idx.event_id);
+    const channel = norm(cell(row, idx.event_channel));
+    const hasEventId = Boolean(eventId);
+    if (!hasEventId && channel !== "call") continue;
+    if (!hasEventId && channel === "call" && !cell(row, idx.incoming_phone_number)) continue;
+    events.push({
+      application_id: cell(row, idx.application_id),
+      developer_id: cell(row, idx.developer_id),
+      developer_name: cell(row, idx.developer_name),
+      url: cell(row, idx.url),
+      event_channel: channel,
+      lead_response_time: num(row[idx.lead_response_time]),
+      recontact: norm(cell(row, idx.recontact)),
+      is_marked: norm(cell(row, idx.is_marked)),
+      identified: norm(cell(row, idx.identified)),
+      application_datetime: row[idx.application_datetime] ?? null,
+    });
+  }
+  return events;
+}
+
+/**
+ * Прочитать все листы событий из workbook и объединить.
+ * @param {import('xlsx').WorkBook} wb
+ */
+export function readEventsFromWorkbook(wb) {
+  const resolved = resolveEventSheets(wb.SheetNames);
+  if (!resolved.length) {
+    throw new Error(
+      `Листы событий не найдены. Ожидаются: Events_sms_calls, Events_messengers (или legacy-имена)`
+    );
+  }
+
+  const events = [];
+  for (const { sheetName } of resolved) {
+    const ws = wb.Sheets[sheetName];
+    if (!ws) continue;
+    events.push(...readEventsFromSheet(ws, sheetName));
+  }
+  return events;
+}
+
+function normSheetKey(name) {
+  return String(name ?? "")
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, " ");
+}
+
+function findSheet(wb, names) {
+  const byNorm = new Map(wb.SheetNames.map((n) => [normSheetKey(n), n]));
+  for (const name of names) {
+    const hit = byNorm.get(normSheetKey(name));
+    if (hit) return hit;
+  }
+  return null;
+}
+
+function isAppDataRow(row, appIdIdx) {
+  if (!row || appIdIdx == null) return false;
+  return /^APP-/i.test(String(row[appIdIdx] ?? "").trim());
+}
+
+/**
+ * Прочитать фактические заявки из листа applications.
+ * PII (phone_number) используется только на этапе сборки и не попадает в data.json.
+ */
+export function readApplicationsFromWorkbook(wb) {
+  const sheetName = findSheet(wb, ["applications", "applications all"]);
+  if (!sheetName) return [];
+
+  const ws = wb.Sheets[sheetName];
+  const rows = XLSX.utils.sheet_to_json(ws, { header: 1, blankrows: false });
+  if (!rows.length) return [];
+
+  const header = rows[0].map((h) => String(h ?? "").trim());
+  const idx = {
+    application_id: header.indexOf("application_id"),
+    developer_id: header.indexOf("developer_id"),
+    developer_name: header.indexOf("developer_name"),
+    url: header.indexOf("url"),
+    phone_number: header.indexOf("phone_number"),
+    application_datetime: header.indexOf("application_datetime"),
+  };
+
+  const startRow = isAppDataRow(rows[1], idx.application_id) ? 1 : 2;
+  const apps = [];
+
+  for (let r = startRow; r < rows.length; r++) {
+    const row = rows[r];
+    if (!row) continue;
+    const application_id = cell(row, idx.application_id);
+    if (!/^APP-/i.test(application_id)) continue;
+    const developer_id = cell(row, idx.developer_id);
+    const developer_name = cell(row, idx.developer_name);
+    const url = cell(row, idx.url);
+    const phone_number = cell(row, idx.phone_number);
+    const application_datetime = idx.application_datetime >= 0 ? row[idx.application_datetime] ?? null : null;
+    if (!developer_id || !phone_number || application_datetime == null || application_datetime === "") continue;
+
+    apps.push({
+      application_id,
+      developer_id,
+      developer_name,
+      url,
+      phone_number,
+      application_datetime,
+    });
+  }
+
+  return apps;
+}
+
+export function readSourceWorkbook() {
+  const wb = XLSX.readFile(SOURCE_PATH, { cellDates: true });
+  return {
+    events: readEventsFromWorkbook(wb),
+    applications: readApplicationsFromWorkbook(wb),
+  };
+}
+
+export function readSource() {
+  return readSourceWorkbook().events;
 }

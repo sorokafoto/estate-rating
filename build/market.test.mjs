@@ -41,6 +41,21 @@ test("computeMarket: среднее по нескольким, null исключ
   assert.equal(m.messengers.best, 30);
 });
 
+test("computeMarket: исключает insufficient_data из бенчмарка", () => {
+  const m = computeMarket([
+    { avg_response: 10, no_callback_share: 20, channel_share: { whatsapp: 0, telegram: 0, max: 0, sms: 0 } },
+    {
+      insufficient_data: true,
+      avg_response: 0,
+      no_callback_share: 50,
+      channel_share: { whatsapp: 100, telegram: 0, max: 0, sms: 0 },
+    },
+  ]);
+  assert.equal(m.sample_size, 1);
+  assert.equal(m.avg_response.mean, 10);
+  assert.equal(m.avg_response.best, 10);
+});
+
 test("computeSpamShare: доля identified !== да", () => {
   const s = computeSpamShare([
     { identified: "да" },

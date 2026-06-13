@@ -23,9 +23,9 @@ window.APP_CONFIG = {
   },
 
   // Куда отправлять заявки из форм.
-  // Если пусто — используется mailto-фолбэк на formEmail (без сторонних сервисов).
+  // Если пусто — используется https://formsubmit.co/ajax/<formEmail>.
   formEndpoint: "",
-  formEmail: "hello@intr.bz",
+  formEmail: "k.soroka@introvert.bz",
 
   // Главный CTA — «Обсудить результаты» (lead-форма).
   leadForm: {
@@ -98,6 +98,12 @@ window.APP_CONFIG = {
       desc: "Наибольшая суммарная доля контактов в WhatsApp, Telegram и Max.",
       type: "messenger_champion",
       top: 3,
+    },
+    {
+      id: "delta",
+      title: "Дельта",
+      desc: "Разрыв рынка: самый быстрый застройщик против самого медленного по скорости ответа.",
+      type: "delta",
     },
   ],
 
