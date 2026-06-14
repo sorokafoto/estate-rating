@@ -20,7 +20,7 @@ window.APP_METRICS = {
     },
     {
       "key": "avg_response",
-      "label": "Ср. скорость ответа",
+      "label": "Скорость ответа",
       "kind": "num",
       "sortable": true,
       "format": "duration"

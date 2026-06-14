@@ -13,7 +13,7 @@
     "apply-phones": "node scripts/apply-phone-registry.mjs",
     "apply-sms-book": "node scripts/apply-sms-book.mjs",
     "match-events": "node scripts/match-events-applications.mjs",
-    "update-rating": "npm run seed-spam && npm run apply-sms-book && npm run classify-phones && npm run apply-phones && npm run match-events && npm run build-data",
+    "update-rating": "npm run seed-spam && npm run apply-sms-book && npm run classify-phones && npm run export-phones-identify && npm run apply-phones && npm run match-events && npm run build-data",
     "export-master-reference": "node scripts/export-master-reference.mjs",
     "sync-reference-from-master": "node scripts/sync-reference-from-master.mjs",
     "enrich-master-phone-refs": "node scripts/enrich-master-phone-refs.mjs",

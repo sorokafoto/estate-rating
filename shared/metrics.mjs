@@ -20,7 +20,7 @@ export const MESSENGER_CHANNELS = ["sms", "max", "whatsapp", "telegram"];
 export const TABLE_COLUMNS = [
   { key: "rank", label: "#", kind: "rank" },
   { key: "developer_name", label: "Застройщик", kind: "name", sortable: true },
-  { key: "avg_response", label: "Ср. скорость ответа", kind: "num", sortable: true, format: "duration" },
+  { key: "avg_response", label: "Скорость ответа", kind: "num", sortable: true, format: "duration" },
   { key: "no_callback_share", label: "Без ответа, %", kind: "num", sortable: true, format: "pct" },
   { key: "avg_recontacts", label: "Повторные касания", kind: "num", sortable: true, format: "num" },
   { key: "total_touches", label: "Касания", kind: "num", sortable: true, format: "int" },
@@ -38,5 +38,5 @@ export const NOMINATION_TYPES = [
   "max_total_touches",
   "most_omnichannel",
   "messenger_champion",
-  "delta",
+  "max_touches_per_app",
 ];

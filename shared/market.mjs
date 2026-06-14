@@ -1,6 +1,9 @@
-// Рыночный бенчмарк: средние и лучшие значения по агрегатам застройщиков.
+// Рыночный бенчмарк: агрегаты по рынку (без имён застройщиков).
 
 const CHANNEL_KEYS = ["whatsapp", "telegram", "max", "sms"];
+
+/** Порог «ответ дольше суток» для market.slow_response_count (минуты). */
+export const SLOW_RESPONSE_THRESHOLD_MINUTES = 1440;
 
 /** Доля входящих контактов с identified !== «да» (спам / нераспознанные). */
 export function computeSpamShare(events) {
@@ -29,8 +32,15 @@ export function computeMarket(developers) {
     channels[ch] = meanInt(pick(list, (d) => (d.channel_share ? d.channel_share[ch] : null)));
   }
 
+  const silent_developers_count = list.filter((d) => d.no_callback_share === 100).length;
+  const slow_response_count = list.filter(
+    (d) => d.avg_response != null && d.avg_response > SLOW_RESPONSE_THRESHOLD_MINUTES
+  ).length;
+
   return {
     sample_size: list.length,
+    silent_developers_count,
+    slow_response_count,
     avg_response: stat(avgResponses, "min", roundInt),
     no_callback_share: stat(noCallbacks, "min", roundInt),
     messengers: {
@@ -87,6 +97,8 @@ function emptyMarket() {
   const channels = Object.fromEntries(CHANNEL_KEYS.map((c) => [c, null]));
   return {
     sample_size: 0,
+    silent_developers_count: 0,
+    slow_response_count: 0,
     avg_response: { mean: null, best: null },
     no_callback_share: { mean: null, best: null },
     messengers: { mean: null, best: null, channels },

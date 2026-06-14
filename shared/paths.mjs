@@ -33,7 +33,6 @@ export const paths = {
   source: () => dataJoin("working", "source.xlsx"),
   phoneRegistry: () => dataJoin("working", "phone_registry.json"),
   phonesToIdentify: () => dataJoin("working", "phones_to_identify.xlsx"),
-  phonesToReview: () => dataJoin("working", "phones_to_review.csv"),
   spamPrefixCandidates: () => dataJoin("working", "spam_prefix_candidates.xlsx"),
   workingLogs: () => dataJoin("working", "logs"),
 

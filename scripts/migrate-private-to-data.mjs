@@ -15,7 +15,6 @@ const MIGRATION_MAP = [
   { from: "source.xlsx", to: paths.source() },
   { from: "phone_registry.json", to: paths.phoneRegistry() },
   { from: "phones_to_identify.xlsx", to: paths.phonesToIdentify() },
-  { from: "phones_to_review.csv", to: paths.phonesToReview() },
   { from: "spam_prefix_candidates.xlsx", to: paths.spamPrefixCandidates() },
   { from: "phone_overrides.json", to: path.join(DATA_ROOT, "working", "phone_overrides.json") },
   { from: "developer_official_phones.xlsx", to: paths.phoneBook() },

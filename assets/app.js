@@ -378,6 +378,7 @@
     max_total_touches: { val: function (d) { return d.total_touches; }, dir: "desc", fmt: fmtInt },
     most_omnichannel: { val: omniCount, dir: "desc", fmt: function (v) { return String(v); } },
     messenger_champion: { val: messengerSum, dir: "desc", fmt: function (v) { return fmtPct(v); } },
+    max_touches_per_app: { val: function (d) { return d.max_touches_per_app; }, dir: "desc", fmt: fmtInt },
   };
 
   var CHANNELS = METRICS.channels || ["whatsapp", "telegram", "sms", "max"];
@@ -402,7 +403,6 @@
   }
 
   function nomCardHtml(def) {
-    if (def.type === "delta") return deltaCardHtml(def);
     var spec = NOM[def.type];
     if (!spec) return "";
     var top = def.top || 5;
@@ -449,45 +449,7 @@
     );
   }
 
-  // Карточка-хайлайт «Дельта»: самый быстрый против самого медленного.
-  function deltaCardHtml(def) {
-    var withResp = developers
-      .filter(function (d) { return !d.insufficient_data; })
-      .map(function (d) { return { name: d.developer_name, v: nullish(d.avg_response) }; })
-      .filter(function (x) { return x.v != null; });
-
-    var list;
-    if (withResp.length < 2) {
-      list = '<li class="nom-item"><span class="nom-name muted">Недостаточно данных</span></li>';
-    } else {
-      var fastest = withResp.reduce(function (a, b) { return b.v < a.v ? b : a; });
-      var slowest = withResp.reduce(function (a, b) { return b.v > a.v ? b : a; });
-      list =
-        deltaRow("↑", "быстрее всех", fastest, true) +
-        deltaRow("↓", "медленнее всех", slowest, false);
-    }
-
-    return (
-      '<article class="nom-card">' +
-      '<h3 class="nom-card__title">' + nomIcon() + esc(def.title) + "</h3>" +
-      '<p class="nom-card__desc">' + esc(def.desc) + "</p>" +
-      '<ol class="nom-list">' + list + "</ol>" +
-      "</article>"
-    );
-  }
-
-  function deltaRow(pos, label, item, lead) {
-    return (
-      '<li class="nom-item' + (lead ? " nom-item--lead" : "") + '">' +
-      '<span class="nom-pos">' + pos + "</span>" +
-      '<span class="nom-name">' + esc(item.name) +
-      ' <span class="muted">— ' + esc(label) + "</span></span>" +
-      '<span class="nom-val">' + fmtDurationMinutes(item.v) + "</span>" +
-      "</li>"
-    );
-  }
-
-  // ---------- По рынку ----------
+  // ---------- Рынок ----------
   function getMarketData() {
     if (market) return market;
     if (MARKET.computeMarket) return MARKET.computeMarket(developers);
@@ -513,18 +475,18 @@
     if (def.metric === "messengers") block = m.messengers;
 
     var valueText = "—";
-    var bestText = "—";
     var channelsHtml = "";
 
-    if (block) {
+    if (def.format === "count") {
+      valueText = block == null ? "—" : String(block);
+    } else if (block) {
       if (def.format === "messengers") {
         valueText = block.mean == null ? "—" : fmtPct(block.mean);
-        bestText = block.best == null ? "—" : fmtPct(block.best);
         if (block.channels) {
           var parts = [
+            "Max " + fmtChannelPct(block.channels.max),
             "WhatsApp " + fmtChannelPct(block.channels.whatsapp),
             "Telegram " + fmtChannelPct(block.channels.telegram),
-            "Max " + fmtChannelPct(block.channels.max),
           ];
           channelsHtml =
             '<p class="market-card__channels">' +
@@ -534,16 +496,10 @@
         }
       } else if (def.format === "minutes") {
         valueText = block.mean == null ? "—" : fmtDurationMinutes(block.mean);
-        bestText = block.best == null ? "—" : fmtDurationMinutes(block.best);
       } else if (def.format === "pct") {
         valueText = block.mean == null ? "—" : fmtPct(block.mean);
-        bestText = block.best == null ? "—" : fmtPct(block.best);
       }
     }
-
-    var bestHtml = def.hideBest
-      ? ""
-      : '<p class="market-card__best">Лучший на рынке: <strong>' + esc(bestText) + "</strong></p>";
 
     return (
       '<article class="market-card">' +
@@ -551,7 +507,6 @@
       '<h3 class="market-card__title">' + esc(def.title) + "</h3>" +
       '<p class="market-card__desc">' + esc(def.desc) + "</p>" +
       channelsHtml +
-      bestHtml +
       "</article>"
     );
   }
@@ -665,10 +620,10 @@
       submitForm(form, payload, {
         status: status,
         submit: submit,
-        subject: lf.mailtoSubject || "Запрос на разбор результатов рейтинга",
+        subject: lf.mailtoSubject || "Запрос расширенной аналитики рейтинга",
         buildBody: formatLeadBody,
-        successMessage: lf.successMessage || "Заявка отправлена. Мы с вами скоро свяжемся.",
-        endpointSuccessMessage: "Заявка отправлена. Мы с вами скоро свяжемся.",
+        successMessage: lf.successMessage || "Спасибо за запрос. Свяжемся с вами в ближайшее время.",
+        endpointSuccessMessage: "Спасибо за запрос. Свяжемся с вами в ближайшее время.",
       });
     });
   }
@@ -712,7 +667,7 @@
   function requireEmail(input, id) {
     var val = input.value.trim();
     if (!val) {
-      setError(id, "Укажите e-mail");
+      setError(id, "Укажите почту");
       return false;
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) {

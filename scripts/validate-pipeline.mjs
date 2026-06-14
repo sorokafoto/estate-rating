@@ -6,8 +6,8 @@ import { fileURLToPath } from "node:url";
 import XLSX from "xlsx";
 import { ANALYTICS_WINDOW_MINUTES } from "../shared/metrics.mjs";
 import { resolveEventSheets } from "../shared/event-sheets.mjs";
-import { readEventsFromSheet, readApplicationsFromWorkbook } from "../build/source.mjs";
-import { aggregate, isInAnalyticsWindow } from "../build/aggregate.mjs";
+import { readEventsFromSheet, readApplicationsFromWorkbook, readLegendCatalog } from "../build/source.mjs";
+import { aggregate, mergeLegendDevelopers, isInAnalyticsWindow } from "../build/aggregate.mjs";
 import { paths, resolveDataPath, PROJECT_ROOT } from "../shared/paths.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -95,10 +95,11 @@ function readAllEvents(sourcePath) {
   }
 
   const applications = readApplicationsFromWorkbook(wb);
+  const legendCatalog = readLegendCatalog(wb);
   const devsWithApps = new Set(applications.map((a) => a.developer_id));
-  const developers = aggregate(allRows, applications);
+  const developers = mergeLegendDevelopers(aggregate(allRows, applications), legendCatalog);
   const withoutResponse = developers
-    .filter((d) => d.avg_response == null)
+    .filter((d) => !d.insufficient_data && d.avg_response == null)
     .map((d) => d.developer_name)
     .sort((a, b) => a.localeCompare(b, "ru"));
 
@@ -118,6 +119,7 @@ function readAllEvents(sourcePath) {
     sheets: sheets.map((s) => s.sheetName),
     applications_total_valid: applications.length,
     developers_with_applications: devsWithApps.size,
+    legend_catalog_count: legendCatalog.length,
     developers_in_output: developersInOutput,
     developers_without_response_count: withoutResponse.length,
     developers_without_response: withoutResponse,
@@ -133,6 +135,7 @@ function main() {
     sheets,
     applications_total_valid,
     developers_with_applications,
+    legend_catalog_count,
     developers_in_output,
     developers_without_response_count,
     developers_without_response,
@@ -146,6 +149,7 @@ function main() {
     by_sheet: bySheet,
     applications_total_valid,
     developers_with_applications,
+    legend_catalog_count,
     developers_in_output,
     developers_without_response_count,
     developers_without_response,
@@ -163,19 +167,22 @@ function main() {
       `${total.outside_72h_lead_time} events with lead_response_time > ${ANALYTICS_WINDOW_MINUTES} (excluded from metrics)`
     );
   }
-  if (developers_with_applications !== EXPECTED_DEVELOPERS) {
+  if (legend_catalog_count && legend_catalog_count !== EXPECTED_DEVELOPERS) {
+    report.warnings.push(`legend_catalog_count ${legend_catalog_count} != ${EXPECTED_DEVELOPERS}`);
+  }
+  if (aggregate_preview_count !== legend_catalog_count && legend_catalog_count) {
     report.warnings.push(
-      `developers_with_applications ${developers_with_applications} != ${EXPECTED_DEVELOPERS}`
+      `aggregate+legend count ${aggregate_preview_count} != legend_catalog_count ${legend_catalog_count}`
     );
   }
-  if (aggregate_preview_count !== developers_with_applications) {
+  if (developers_with_applications > EXPECTED_DEVELOPERS) {
     report.warnings.push(
-      `aggregate count ${aggregate_preview_count} != developers_with_applications ${developers_with_applications}`
+      `developers_with_applications ${developers_with_applications} > ${EXPECTED_DEVELOPERS}`
     );
   }
-  if (fs.existsSync(DATA_JSON) && developers_in_output !== developers_with_applications) {
+  if (fs.existsSync(DATA_JSON) && developers_in_output !== aggregate_preview_count) {
     report.warnings.push(
-      `data.json developers_count ${developers_in_output} != developers_with_applications ${developers_with_applications} (run build-data)`
+      `data.json developers_count ${developers_in_output} != aggregate+legend ${aggregate_preview_count} (run build-data)`
     );
   }
 
@@ -184,8 +191,8 @@ function main() {
   if (strict) {
     const failed =
       total.outside_72h_lead_time > 0 ||
-      developers_with_applications !== EXPECTED_DEVELOPERS ||
-      aggregate_preview_count !== developers_with_applications;
+      aggregate_preview_count !== EXPECTED_DEVELOPERS ||
+      (legend_catalog_count && aggregate_preview_count !== legend_catalog_count);
     if (failed) {
       console.error("[validate-pipeline] FAILED (--strict)");
       process.exit(1);

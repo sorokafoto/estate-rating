@@ -8,6 +8,7 @@
   --ink: #14130f;
   --ink-2: #56544c;
   --ink-3: #8a887e;
+  --ink-4: #b8b6ab;
   --line: #d9d7cd;
   --line-2: #e9e7df;
 
@@ -137,7 +138,10 @@ a {
   font-size: var(--text-display);
   line-height: var(--lh-display);
   font-weight: var(--fw-bold);
-  letter-spacing: 0;
+  font-synthesis: none;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: subpixel-antialiased;
+  -moz-osx-font-smoothing: auto;
   max-width: min(14em, 100%);
   margin-inline: auto;
   color: var(--text-primary);
@@ -537,7 +541,7 @@ td.num {
   color: var(--ink-3);
 }
 .rank-table td.num.is-zero {
-  color: var(--ink-3);
+  color: var(--ink-4);
   font-weight: var(--fw-regular);
 }
 .rank-table td.num.is-insufficient {
@@ -610,6 +614,11 @@ tr.is-top .rank-num {
   font-size: var(--text-body);
   line-height: var(--lh-body);
   margin: 8px 0 18px;
+  min-height: calc(3em * var(--lh-body));
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .nom-list {
   list-style: none;
@@ -648,10 +657,10 @@ tr.is-top .rank-num {
 
 /* ---------- Market KPI ---------- */
 .market-intro {
-  margin: 0 0 20px;
+  margin: 16px 0 0;
+  font-size: var(--text-caption);
+  line-height: 1.35;
   color: var(--text-secondary);
-  font-size: var(--text-body);
-  line-height: var(--lh-body);
 }
 .market-cards {
   display: grid;
@@ -1019,12 +1028,12 @@ tr.is-top .rank-num {
     width: 100%;
     max-width: none;
   }
-  .nominations {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }
 
 @media (max-width: 960px) {
+  .nominations {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
   .form-grid {
     grid-template-columns: 1fr;
   }

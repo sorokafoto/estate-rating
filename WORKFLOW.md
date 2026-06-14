@@ -123,8 +123,7 @@ flowchart TD
 | События (финал) | `data/working/source.xlsx` | Главный вход для `update-rating` |
 | SPAM_BOOK | мастер `spam_phones` / `spam_prefixes`, `data/reference/spam_book.xlsx` | Проверенный спам |
 | Runtime реестр звонков | `data/working/phone_registry.json` | Кэш после `seed-spam` + авто-классификация |
-| Неизвестные номера (авто) | `data/working/phones_to_review.csv` | После `classify-phones` |
-| Неизвестные номера (ручная разметка) | `data/working/phones_to_identify.xlsx` | После `export-phones-identify` |
+| Неизвестные номера (ручная разметка) | `data/working/phones_to_identify.xlsx` | После `classify-phones` / `export-phones-identify` (в `update-rating`) |
 | Готовый рейтинг | `data.json` | Генерируется автоматически |
 
 Файлы `lookup_*.log`, `phone_overrides.json`, `incoming_phones*` — старые прогоны агентов, **можно не открывать**.
@@ -176,7 +175,7 @@ flowchart TD
 
 - [ ] В Справочнике ровно 100 застройщиков, ID уникальны
 - [ ] В sms_mark_reference нет «дыр» по sender'ам (иначе `unknown_sms_mark` при identify)
-- [ ] В PHONE_BOOK есть подтверждённые номера колл-центров (иначе звонки уйдут в `phones_to_review.csv`)
+- [ ] В PHONE_BOOK есть подтверждённые номера колл-центров (иначе звонки уйдут в `phones_to_identify.xlsx`)
 - [ ] В SPAM_BOOK загружены проверенные спам-номера и префиксы (`npm run seed-spam`)
 - [ ] `applications` актуален: все 100 `developer_id`, уникальные SIM-номера; план 2100 заявок, фактический объём может быть меньше
 
@@ -289,7 +288,7 @@ flowchart TD
 npm run update-rating
 ```
 
-По порядку: `classify-phones` → `apply-phones` (разметка звонков) → `build-data` (агрегат → `data.json`).
+По порядку: `classify-phones` → `export-phones-identify` → `apply-phones` (разметка звонков) → `build-data` (агрегат → `data.json`).
 
 Посмотреть сайт локально:
 
@@ -402,7 +401,7 @@ npm run update-rating
 | Команда | Когда |
 |---------|--------|
 | `npm run update-rating` | **Финальный пересчёт** (после подготовки source.xlsx) |
-| `npm run classify-phones` | Классификация unknown звонков → registry + `phones_to_review.csv` |
+| `npm run classify-phones` | Классификация unknown звонков → registry |
 | `npm run apply-phones` | Проставить `developer_*` / `identified` в source.xlsx (только call) |
 | `npm run build-data` | Только пересчитать data.json |
 | `npm run seed-spam` | SPAM_BOOK → registry (номера + префиксы) |

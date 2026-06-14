@@ -73,3 +73,13 @@ test("computeSpamShare: пустой массив", () => {
   assert.equal(s.mean, null);
   assert.equal(s.total, 0);
 });
+
+test("computeMarket: silent_developers_count и slow_response_count", () => {
+  const m = computeMarket([
+    { no_callback_share: 100, avg_response: 2000, channel_share: { whatsapp: 0, telegram: 0, max: 0, sms: 0 } },
+    { no_callback_share: 100, avg_response: 10, channel_share: { whatsapp: 0, telegram: 0, max: 0, sms: 0 } },
+    { no_callback_share: 50, avg_response: 1400, channel_share: { whatsapp: 0, telegram: 0, max: 0, sms: 0 } },
+  ]);
+  assert.equal(m.silent_developers_count, 2);
+  assert.equal(m.slow_response_count, 1);
+});

@@ -187,11 +187,52 @@ export function readApplicationsFromWorkbook(wb) {
   return apps;
 }
 
+/**
+ * Уникальный каталог застройщиков из листа legend (developer_id / name / url).
+ * @param {import('xlsx').WorkBook} wb
+ */
+export function readLegendCatalog(wb) {
+  const sheetName = findSheet(wb, ["legend", "Справочник"]);
+  if (!sheetName) return [];
+
+  const ws = wb.Sheets[sheetName];
+  const rows = XLSX.utils.sheet_to_json(ws, { header: 1, blankrows: false });
+  if (!rows.length) return [];
+
+  const header = rows[0].map((h) => String(h ?? "").trim());
+  const idx = {
+    developer_id: header.indexOf("developer_id"),
+    developer_name: header.indexOf("developer_name"),
+    url: header.indexOf("url"),
+  };
+  if (idx.developer_id < 0 || idx.developer_name < 0) return [];
+
+  const startRow = /^DEV-/i.test(cell(rows[1], idx.developer_id)) ? 1 : 2;
+  const byId = new Map();
+
+  for (let r = startRow; r < rows.length; r++) {
+    const row = rows[r];
+    if (!row) continue;
+    const developer_id = cell(row, idx.developer_id);
+    const developer_name = cell(row, idx.developer_name);
+    if (!/^DEV-/i.test(developer_id) || !developer_name) continue;
+    if (byId.has(developer_id)) continue;
+    byId.set(developer_id, {
+      developer_id,
+      developer_name,
+      url: idx.url >= 0 ? cell(row, idx.url) : "",
+    });
+  }
+
+  return [...byId.values()];
+}
+
 export function readSourceWorkbook() {
   const wb = XLSX.readFile(SOURCE_PATH, { cellDates: true });
   return {
     events: readEventsFromWorkbook(wb),
     applications: readApplicationsFromWorkbook(wb),
+    legendCatalog: readLegendCatalog(wb),
   };
 }
 

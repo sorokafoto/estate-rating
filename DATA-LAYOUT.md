@@ -22,8 +22,7 @@
 |------|------|-----------|
 | `working/source.xlsx` | working | match + ручная правка; вход `update-rating` |
 | `working/phone_registry.json` | working | `seed-spam`, `seed-phones`, `classify-phones` |
-| `working/phones_to_identify.xlsx` | working | `export-phones-identify` |
-| `working/phones_to_review.csv` | working | `classify-phones` |
+| `working/phones_to_identify.xlsx` | working | `export-phones-identify` (в т.ч. в `update-rating` после `classify-phones`) |
 | `working/spam_prefix_candidates.xlsx` | working | `suggest-spam-prefixes` |
 | `reference/developer_official_phones.xlsx` | reference | синхронизация из PHONE_BOOK |
 | `reference/spam_book.xlsx` | reference | синхронизация SPAM_PHONES/PREFIXES |

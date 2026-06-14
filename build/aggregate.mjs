@@ -65,11 +65,13 @@ export function aggregate(events, applications = []) {
     const firstContacts = [];
     let totalTouches = 0;
     let totalRecontacts = 0;
+    let maxTouchesPerApp = 0;
     let appsWithCall = 0;
     const appsWithChannel = Object.fromEntries(MESSENGER_CHANNELS.map((c) => [c, 0]));
 
     for (const appEvents of apps) {
       totalTouches += appEvents.length;
+      maxTouchesPerApp = Math.max(maxTouchesPerApp, appEvents.length);
       const responses = appEvents
         .map((e) => e.lead_response_time)
         .filter((v) => typeof v === "number" && v >= 0);
@@ -105,6 +107,7 @@ export function aggregate(events, applications = []) {
           : null,
       avg_recontacts: insufficient_data ? null : N > 0 ? round1(totalRecontacts / N) : null,
       total_touches: insufficient_data ? null : totalTouches,
+      max_touches_per_app: insufficient_data ? null : maxTouchesPerApp,
       channel_share: insufficient_data
         ? Object.fromEntries([...MESSENGER_CHANNELS, "call"].map((c) => [c, null]))
         : channel_share,
@@ -112,6 +115,53 @@ export function aggregate(events, applications = []) {
   }
 
   return developers;
+}
+
+function normDeveloperName(name) {
+  return String(name ?? "")
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, " ");
+}
+
+/** Stub для застройщика из legend без валидных заявок (N=0 → insufficient_data). */
+export function insufficientDeveloperStub({ developer_name, url }) {
+  return {
+    developer_name: developer_name || "",
+    url: cleanUrl(url),
+    applications_sent: 0,
+    insufficient_data: true,
+    avg_response: null,
+    no_callback_share: null,
+    avg_recontacts: null,
+    total_touches: null,
+    max_touches_per_app: null,
+    channel_share: Object.fromEntries([...MESSENGER_CHANNELS, "call"].map((c) => [c, null])),
+  };
+}
+
+/**
+ * Добавляет застройщиков из legend, отсутствующих в aggregate (например N=0 заявок).
+ * @param {object[]} developers — результат aggregate()
+ * @param {object[]} legendCatalog — readLegendCatalog()
+ */
+export function mergeLegendDevelopers(developers, legendCatalog = []) {
+  if (!legendCatalog.length) return developers;
+
+  const byName = new Map(
+    developers.map((d) => [normDeveloperName(d.developer_name), d])
+  );
+  const merged = [...developers];
+
+  for (const entry of legendCatalog) {
+    const key = normDeveloperName(entry.developer_name);
+    if (byName.has(key)) continue;
+    const stub = insufficientDeveloperStub(entry);
+    byName.set(key, stub);
+    merged.push(stub);
+  }
+
+  return merged;
 }
 
 function median(a) {

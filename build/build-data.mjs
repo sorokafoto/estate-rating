@@ -5,7 +5,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { readSourceWorkbook, sourceExists } from "./source.mjs";
 import { generateMock } from "./mock.mjs";
-import { aggregate } from "./aggregate.mjs";
+import { aggregate, mergeLegendDevelopers } from "./aggregate.mjs";
 import { computeMarket, computeSpamShare } from "../shared/market.mjs";
 import { validatePublicData } from "./validate.mjs";
 import { jsonForScript } from "./safe-json.mjs";
@@ -42,6 +42,7 @@ function main() {
 
   let events;
   let applications;
+  let legendCatalog = [];
   if (demo) {
     events = generateMock();
     applications = deriveApplicationsFromEvents(events);
@@ -49,9 +50,10 @@ function main() {
     const source = readSourceWorkbook();
     events = source.events;
     applications = source.applications;
+    legendCatalog = source.legendCatalog ?? [];
   }
 
-  const developers = aggregate(events, applications);
+  const developers = mergeLegendDevelopers(aggregate(events, applications), legendCatalog);
 
   // Дефолтная сортировка: быстрые сверху; без кворума и NULL — в конец.
   developers.sort((a, b) => {

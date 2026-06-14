@@ -14,7 +14,7 @@
         │  фазы 0–4 (см. WORKFLOW.md): identify → match → source.xlsx
         ▼
 data/working/source.xlsx   (PII; листы Events_sms_calls + Events_messengers)
-        │  npm run update-rating  (= classify + apply + build-data; оба листа)
+        │  npm run update-rating  (= classify + export-phones-identify + apply + build-data)
         ▼
    data.json           (только агрегаты + developer_name + url)
         │

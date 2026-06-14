@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Классификация incoming_phone_number: каталог → prefix rules → registry → phones_to_review.csv
+// Классификация incoming_phone_number: каталог → prefix rules → registry
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -11,26 +11,22 @@ import {
   upsertPhoneEntry,
 } from "../shared/phone-registry.mjs";
 import { resolveEventSheets } from "../shared/event-sheets.mjs";
-import { paths, resolveDataPath, writeDataPath, PROJECT_ROOT } from "../shared/paths.mjs";
+import { paths, resolveDataPath, PROJECT_ROOT } from "../shared/paths.mjs";
 
 const DEFAULT_SOURCE = resolveDataPath(paths.source());
 const DEFAULT_REGISTRY = resolveDataPath(paths.phoneRegistry());
 const DEFAULT_CATALOG = resolveDataPath(paths.phoneBook());
-const DEFAULT_REVIEW = writeDataPath(paths.phonesToReview());
-
 function parseArgs(argv) {
   const args = {
     source: DEFAULT_SOURCE,
     registry: DEFAULT_REGISTRY,
     catalog: DEFAULT_CATALOG,
-    review: DEFAULT_REVIEW,
     seed: false,
   };
   for (let i = 2; i < argv.length; i++) {
     if (argv[i] === "--source" && argv[i + 1]) args.source = argv[++i];
     else if (argv[i] === "--registry" && argv[i + 1]) args.registry = argv[++i];
     else if (argv[i] === "--catalog" && argv[i + 1]) args.catalog = argv[++i];
-    else if (argv[i] === "--review" && argv[i + 1]) args.review = argv[++i];
     else if (argv[i] === "--seed") args.seed = true;
   }
   return args;
@@ -130,16 +126,6 @@ function collectPhonesFromSource(sourcePath) {
   return phones;
 }
 
-function saveReviewCsv(reviewPath, unknownList) {
-  const lines = ["phone,note"];
-  for (const { phone, note } of unknownList) {
-    const esc = (s) => `"${String(s).replace(/"/g, '""')}"`;
-    lines.push(`${phone},${esc(note ?? "")}`);
-  }
-  fs.mkdirSync(path.dirname(reviewPath), { recursive: true });
-  fs.writeFileSync(reviewPath, lines.join("\n") + "\n", "utf8");
-}
-
 async function main() {
   const args = parseArgs(process.argv);
   const registry = await loadRegistryAsync(args.registry, args.seed);
@@ -161,7 +147,6 @@ async function main() {
     prefix: 0,
     updated: 0,
   };
-  const unknownList = [];
   const results = new Map();
 
   for (const [phone, ctx] of phonesFromSource) {
@@ -185,7 +170,6 @@ async function main() {
       if (upsertPhoneEntry(registry, phone, { ...hit, source: hit.source })) stats.updated++;
     } else if (hit.entity_type === "unknown") {
       stats.unknown++;
-      unknownList.push({ phone, note: ctx.note });
     }
   }
 
@@ -198,12 +182,10 @@ async function main() {
 
   fs.mkdirSync(path.dirname(args.registry), { recursive: true });
   fs.writeFileSync(args.registry, JSON.stringify(registry, null, 2) + "\n", "utf8");
-  saveReviewCsv(args.review, unknownList);
 
   console.log(
     `[classify-phones] total=${stats.total} manual=${stats.manual} auto_spam=${stats.auto_spam} auto_dev=${stats.auto_dev} (catalog=${stats.catalog} prefix=${stats.prefix}) unknown=${stats.unknown} registry_updated=${stats.updated}`
   );
-  console.log(`[classify-phones] review: ${path.relative(PROJECT_ROOT, args.review)} (${unknownList.length} rows)`);
   console.log(`[classify-phones] registry: ${path.relative(PROJECT_ROOT, args.registry)}`);
 }
 

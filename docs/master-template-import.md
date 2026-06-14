@@ -67,8 +67,7 @@
 
 | Ситуация | Куда в мастере | Откуда взять |
 |----------|----------------|--------------|
-| Новый неизвестный звонок после `export-phones-identify` | `phone_book` или `spam_phones` | `data/working/phones_to_identify.xlsx` |
-| Остаток после `classify-phones` | `phone_book` / `spam_phones` | `data/working/phones_to_review.csv` |
+| Новый неизвестный звонок после `classify-phones` / `export-phones-identify` | `phone_book` или `spam_phones` | `data/working/phones_to_identify.xlsx` |
 | Новая SMS-маркировка | `sms_book` | unknown при identify |
 | Подтверждённый спам-пул (≥3 номера) | `spam_prefixes` (`confidence=high`) | `suggest-spam-prefixes` |
 | Новый застройщик в выборке | `legend` + `phone_book` | вручную |
