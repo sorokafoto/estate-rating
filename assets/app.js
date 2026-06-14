@@ -190,6 +190,13 @@
     return document.createTextNode(col.label || "");
   }
 
+  function channelIconHtml(name, className) {
+    return (
+      '<img class="' + (className || "th-channel-icon") + '" src="assets/images/icons/' + name + '.svg"' +
+      ' width="16" height="16" alt="" aria-hidden="true">'
+    );
+  }
+
   function buildHead() {
     var tr = document.createElement("tr");
     COLUMNS.forEach(function (col) {
@@ -260,6 +267,15 @@
       return aNoCall - bNoCall;
     }
     return a.avg_call_response - b.avg_call_response;
+  }
+
+  function cmpByFirstContact(a, b) {
+    var av = a.avg_response, bv = b.avg_response;
+    if (av == null && bv == null) return cmpByCallSpeed(a, b);
+    if (av == null) return 1;
+    if (bv == null) return -1;
+    if (av === bv) return cmpByCallSpeed(a, b);
+    return av - bv;
   }
 
   function computeRankPlaces(list) {
@@ -469,18 +485,29 @@
     var spec = NOM[def.type];
     if (!spec) return "";
     var top = def.top || 5;
-    var scored = developers
-      .filter(function (d) { return !d.insufficient_data; })
-      .map(function (d) { return { name: d.developer_name, v: nullish(spec.val(d)) }; })
-      .filter(function (x) {
-        if (x.v == null) return false;
-        return def.type === "min_avg_response" ? true : x.v > 0;
+    var scored;
+
+    if (def.type === "min_avg_response") {
+      scored = developers
+        .filter(function (d) { return !d.insufficient_data && d.avg_response != null; })
+        .slice()
+        .sort(cmpByFirstContact)
+        .slice(0, top)
+        .map(function (d) { return { name: d.developer_name, v: d.avg_response }; });
+    } else {
+      scored = developers
+        .filter(function (d) { return !d.insufficient_data; })
+        .map(function (d) { return { name: d.developer_name, v: nullish(spec.val(d)) }; })
+        .filter(function (x) {
+          if (x.v == null) return false;
+          return x.v > 0;
+        });
+      scored.sort(function (a, b) {
+        if (a.v === b.v) return String(a.name).localeCompare(String(b.name), "ru");
+        return spec.dir === "asc" ? a.v - b.v : b.v - a.v;
       });
-    scored.sort(function (a, b) {
-      if (a.v === b.v) return String(a.name).localeCompare(String(b.name), "ru");
-      return spec.dir === "asc" ? a.v - b.v : b.v - a.v;
-    });
-    scored = scored.slice(0, top);
+      scored = scored.slice(0, top);
+    }
 
     var list = scored.length
       ? scored
@@ -534,13 +561,15 @@
   }
 
   function marketCardHtml(def, m) {
-    var block = m[def.metric];
+    var block = def.metric ? m[def.metric] : null;
     if (def.metric === "messengers") block = m.messengers;
 
     var valueText = "—";
     var channelsHtml = "";
 
-    if (def.format === "count") {
+    if (def.staticValue) {
+      valueText = def.staticValue;
+    } else if (def.format === "count") {
       valueText = block == null ? "—" : String(block);
     } else if (block) {
       if (def.format === "messengers") {
@@ -554,7 +583,9 @@
           channelsHtml =
             '<p class="market-card__channels">' +
             parts.join(" · ") +
-            (block.channels.sms != null ? ' <span class="market-card__sms">· SMS ' + fmtChannelPct(block.channels.sms) + "</span>" : "") +
+            (block.channels.sms != null
+              ? ' <span class="market-card__sms">· ' + channelIconHtml("sms", "market-card__channel-icon") + " " + fmtChannelPct(block.channels.sms) + "</span>"
+              : "") +
             "</p>";
         }
       } else if (def.format === "minutes") {
@@ -607,6 +638,8 @@
     var submit = document.getElementById("lead-submit");
     var lf = CFG.leadForm || {};
     if (!form) return;
+    var trapInput = formField(form, "lead-company-site");
+    if (trapInput) trapInput.value = "";
     form.dataset.startedAt = String(Date.now());
     form.addEventListener("focusin", function () {
       if (!form.dataset.startedAt) form.dataset.startedAt = String(Date.now());
@@ -911,10 +944,15 @@
   function isBotSubmission(form) {
     if (isLocalDevHost()) return false;
     var trap = formField(form, "lead-company-site");
-    if (trap && trap.value.trim()) return true;
     var startedAt = Number(form.dataset.startedAt || 0);
+    var fillMs = startedAt ? Date.now() - startedAt : Infinity;
+    if (trap && trap.value.trim()) {
+      // Hidden honeypot can be autofilled by browsers/password managers.
+      // Treat as bot only when submit is suspiciously fast.
+      if (fillMs < MIN_FILL_MS) return true;
+    }
     if (!startedAt) return false;
-    return Date.now() - startedAt < MIN_FILL_MS;
+    return fillMs < MIN_FILL_MS;
   }
 
   function isRateLimited() {

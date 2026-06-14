@@ -61,6 +61,7 @@ window.APP_METRICS = {
     {
       "key": "messenger_sms",
       "label": "SMS",
+      "labelIcon": "sms",
       "kind": "messenger_symbol",
       "channel": "sms",
       "sortable": true,

@@ -61,7 +61,7 @@ function main() {
   const period = computePeriod(applications.length ? applications : events);
   const data = {
     meta: {
-      title: "Рейтинг скорости реакции застройщиков на заявки",
+      title: "Рейтинг застройщиков России по реакции на входящие заявки",
       demo,
       partial: !demo, // реальный срез — часть данных (первая версия)
       source: demo ? "mock" : "xlsx",

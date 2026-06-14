@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Лендинг исследования «Рейтинг скорости реакции застройщиков на заявки». Сайт статический; PII не попадает в браузер.",
+  "description": "Лендинг исследования «Рейтинг застройщиков России по реакции на входящие заявки». Сайт статический; PII не попадает в браузер.",
   "scripts": {
     "build-data": "node build/build-data.mjs",
     "seed-phones": "node scripts/seed-phone-registry.mjs",
