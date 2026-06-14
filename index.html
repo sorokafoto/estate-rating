@@ -182,44 +182,47 @@
             <p>
               Мы&nbsp;измеряем факт и&nbsp;скорость реакции&nbsp;&mdash; не&nbsp;качество разговора,
               не&nbsp;содержание предложения и&nbsp;не&nbsp;работу конкретного менеджера.
-              Скорость ответа в&nbsp;рейтинге&nbsp;&mdash; это медиана времени до&nbsp;первого касания
-              по&nbsp;заявкам с&nbsp;откликом. Быстрый ответ не&nbsp;гарантирует продажу, но&nbsp;без него
+              Скорость ответа в&nbsp;рейтинге&nbsp;&mdash; это медиана времени до&nbsp;первого звонка
+              по&nbsp;заявкам, где перезвонили. Быстрый ответ не&nbsp;гарантирует продажу, но&nbsp;без него
               её&nbsp;точно не&nbsp;будет.
             </p>
           </section>
           <section class="about-prose__section" aria-labelledby="about-metrics">
             <h3 class="about-prose__h" id="about-metrics">Как читать метрики</h3>
             <dl class="about-prose__defs">
-              <dt>Скорость ответа</dt>
+              <dt>Медианная скорость первого звонка</dt>
               <dd>
-                Время от&nbsp;заявки до&nbsp;первого касания по&nbsp;любому каналу&nbsp;&mdash; только
-                по&nbsp;заявкам, где был хотя&nbsp;бы один идентифицированный контакт.
-                Считаем медиану, а&nbsp;не&nbsp;среднее, чтобы редкие долгие ответы не&nbsp;искажали статистику.
+                Медиана времени от&nbsp;заявки до&nbsp;первого идентифицированного звонка&nbsp;&mdash; не&nbsp;SMS
+                и&nbsp;не мессенджер. Считается только по&nbsp;заявкам, где звонок был.
+                По&nbsp;этой колонке по&nbsp;умолчанию сортируется рейтинг.
               </dd>
-              <dt>Без ответа, %</dt>
+              <dt>Не перезвонили (% заявок)</dt>
               <dd>
-                Доля заявок, по&nbsp;которым не&nbsp;было
-                ни&nbsp;одного контакта за&nbsp;72&nbsp;часа.
+                Доля заявок, по&nbsp;которым за&nbsp;72&nbsp;часа не&nbsp;было ни&nbsp;одного звонка:
+                (отправленные заявки&nbsp;&minus; заявки со&nbsp;звонком) / все отправленные &times;&nbsp;100.
               </dd>
-              <dt>Повторные касания</dt>
+              <dt>Кол-во касаний за 72 часа</dt>
               <dd>
-                Среднее число повторных касаний на&nbsp;одну заявку. Для каждой заявки считаем касания после первого,
-                суммируем и&nbsp;делим на&nbsp;число заявок.
+                Среднее число всех касаний (звонки, SMS, мессенджеры) на&nbsp;одну заявку с&nbsp;откликом.
+                Сумма касаний делится на&nbsp;число заявок, где был хотя&nbsp;бы один контакт.
               </dd>
-              <dt>Касания</dt>
+              <dt>Проникновение мессенджеров</dt>
               <dd>
-                Сумма всех касаний (звонки, SMS, мессенджеры) по&nbsp;всем заявкам за&nbsp;72&nbsp;часа.
+                Доля заявок, по&nbsp;которым застройщик использовал хотя&nbsp;бы один мессенджерный канал:
+                SMS, Max, WhatsApp или Telegram.
               </dd>
-              <dt>Звонок, SMS, Max, WhatsApp, Telegram</dt>
+              <dt>SMS, Max, WhatsApp, Telegram</dt>
               <dd>
-                Доля заявок, по&nbsp;которым застройщик связался в&nbsp;соответствующем канале.
+                Символы показывают, какие мессенджеры использовались среди заявок с&nbsp;мессенджерным откликом,
+                а&nbsp;не от&nbsp;всех заявок: «+»&nbsp;&mdash; канал есть в&nbsp;≥50% таких заявок;
+                «+/−»&nbsp;&mdash; канал есть, но&nbsp;реже; «−»&nbsp;&mdash; канал не&nbsp;использовался.
               </dd>
             </dl>
           </section>
           <section class="about-prose__section" aria-labelledby="about-identification">
             <h3 class="about-prose__h" id="about-identification">Об идентификации и недостаточных данных</h3>
             <p>
-              Если у&nbsp;застройщика стоит 100% в&nbsp;колонке «Без ответа, %»,
+              Если у&nbsp;застройщика стоит 100% в&nbsp;колонке «Не перезвонили»,
               это может означать не&nbsp;только отсутствие касаний, но&nbsp;и&nbsp;то, что мы&nbsp;не&nbsp;смогли его идентифицировать.
               Если компания не&nbsp;использует официальные номера, не&nbsp;подписывает SMS, а&nbsp;при нашем обратном прозвоне
               на&nbsp;неизвестный номер никто не&nbsp;отвечает или голосовой робот не&nbsp;представляется,
@@ -258,8 +261,8 @@
               />
             </a>
             <p class="organizers__text">
-              <strong>Интроверт Системс</strong>&nbsp;&mdash; крупнейший моно-вендорный интегратор amoCRM, специализирующийся
-              на&nbsp;цифровой трансформации продаж, с&nbsp;глубокой экспертизой в&nbsp;застройщиках. Компания выстраивает коммуникацию через мессенджеры, повышает скорость реакции на&nbsp;лиды и&nbsp;контролирует качество работы отдела продаж.
+              <strong>Интроверт Системс</strong>&nbsp;&mdash; интегратор CRM-решений полного цикла, специализирующийся
+              на&nbsp;цифровой трансформации продаж, с&nbsp;глубокой экспертизой в&nbsp;застройщиках. Компания автоматизирует коммуникации в&nbsp;мессенджерах, повышает скорость реакции на&nbsp;лиды и&nbsp;контролирует качество работы колл-центров и&nbsp;офисов продаж.
             </p>
           </article>
           <article class="organizers__partner">
@@ -279,7 +282,7 @@
               />
             </a>
             <p class="organizers__text">
-              <strong>amoCRM Enterprise</strong>&nbsp;&mdash; корпоративная линейка облачной CRM для крупных компаний и&nbsp;команд от&nbsp;50&nbsp;пользователей. В&nbsp;ней продажи, каналы связи и&nbsp;настройка под бизнес-процессы собраны в&nbsp;единой системе, есть SLA с&nbsp;гарантированным временем реакции и&nbsp;повышенные требования к&nbsp;информационной безопасности.
+              <strong>amoCRM Enterprise</strong>&nbsp;&mdash; корпоративная линейка известной CRM для крупных компаний и&nbsp;команд от&nbsp;50&nbsp;пользователей. В&nbsp;ней продажи, каналы связи и&nbsp;настройка под бизнес-процессы собраны в&nbsp;единой системе, есть SLA с&nbsp;гарантированным временем реакции и&nbsp;повышенные требования к&nbsp;информационной безопасности.
             </p>
           </article>
         </div>
@@ -292,7 +295,7 @@
             Получить расширенные результаты исследования
           </h2>
           <p class="cta-lead__lead">
-            В&nbsp;публичном рейтинге&nbsp;&mdash; только агрегированные показатели. По&nbsp;запросу
+            В&nbsp;публичном рейтинге&nbsp;&mdash; только агрегированные показатели. По&nbsp;запросу на&nbsp;личной встрече
             передадим расширенную аналитику по&nbsp;вашей компании: детализацию событий,
             контекст замеров и&nbsp;выводы, которые не&nbsp;публикуются на&nbsp;сайте.
           </p>
@@ -302,23 +305,23 @@
                 <circle cx="10" cy="10" r="10" fill="currentColor" opacity="0.12"/>
                 <path d="M6 10.2 8.6 12.8 14 7.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
-              Метрики ответа с&nbsp;детализацией по&nbsp;вашей компании&nbsp;&mdash; скорость, каналы,
-              число касаний за&nbsp;72&nbsp;часа
-            </li>
-            <li>
-              <svg class="cta-lead__check" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                <circle cx="10" cy="10" r="10" fill="currentColor" opacity="0.12"/>
-                <path d="M6 10.2 8.6 12.8 14 7.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              Даты и&nbsp;время контактов по&nbsp;каждой заявке
-            </li>
-            <li>
-              <svg class="cta-lead__check" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                <circle cx="10" cy="10" r="10" fill="currentColor" opacity="0.12"/>
-                <path d="M6 10.2 8.6 12.8 14 7.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
               Номера телефонов, с&nbsp;которых мы&nbsp;оставляли заявки на&nbsp;обратный звонок&nbsp;&mdash;
               чтобы отличить их&nbsp;от&nbsp;реальных лидов
+            </li>
+            <li>
+              <svg class="cta-lead__check" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <circle cx="10" cy="10" r="10" fill="currentColor" opacity="0.12"/>
+                <path d="M6 10.2 8.6 12.8 14 7.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Даты и&nbsp;время контактов по&nbsp;каждой заявке, чтобы вы&nbsp;могли проверить историю коммуникаций в&nbsp;своей CRM
+            </li>
+            <li>
+              <svg class="cta-lead__check" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <circle cx="10" cy="10" r="10" fill="currentColor" opacity="0.12"/>
+                <path d="M6 10.2 8.6 12.8 14 7.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Метрики ответа с&nbsp;детализацией по&nbsp;вашей компании&nbsp;&mdash; скорость, каналы,
+              число касаний за&nbsp;72&nbsp;часа
             </li>
             <li>
               <svg class="cta-lead__check" viewBox="0 0 20 20" fill="none" aria-hidden="true">

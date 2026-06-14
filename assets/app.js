@@ -377,10 +377,9 @@
         var v = insufficient ? null : getValue(d, col);
         if (col.format === "messenger_symbol") {
           var sym = fmtMessengerSymbol(v);
-          var symTitle = v == null ? "" : ' title="' + esc(fmtPct(v)) + '"';
           var symCls = "num col-micro messenger-symbol";
           if (sym === "−") symCls += " is-zero";
-          cells += '<td class="' + symCls + '"' + symTitle + ">" + esc(sym) + "</td>";
+          cells += '<td class="' + symCls + '">' + esc(sym) + "</td>";
         } else {
           var text = v == null ? "—" : col.fmt(v);
           var cls = v == null ? "num is-empty" : "num";
@@ -456,6 +455,7 @@
     max_avg_recontacts: { val: function (d) { return d.avg_recontacts; }, dir: "desc", fmt: fmtNum },
     max_total_touches: { val: function (d) { return d.total_touches; }, dir: "desc", fmt: fmtInt },
     most_omnichannel: { val: omniCount, dir: "desc", fmt: function (v) { return String(v); } },
+    max_channel_share: { val: maxChannelShare, dir: "desc", fmt: function (v) { return fmtPct(v); } },
     messenger_champion: { val: messengerSum, dir: "desc", fmt: function (v) { return fmtPct(v); } },
     max_touches_per_app: { val: function (d) { return d.max_touches_per_app; }, dir: "desc", fmt: fmtInt },
   };
@@ -474,6 +474,39 @@
     if (!d.channel_share) return null;
     return (d.channel_share.whatsapp || 0) + (d.channel_share.telegram || 0) + (d.channel_share.max || 0);
   }
+  function maxChannelShare(d) {
+    if (!d.channel_share) return null;
+    return nullish(d.channel_share.max);
+  }
+
+  function normDevName(name) {
+    return String(name || "")
+      .trim()
+      .toLowerCase()
+      .replace(/ё/g, "е");
+  }
+
+  function findDeveloperByName(name) {
+    var target = normDevName(name);
+    for (var i = 0; i < developers.length; i++) {
+      if (normDevName(developers[i].developer_name) === target) return developers[i];
+    }
+    return null;
+  }
+
+  function scoreNominees(def, spec) {
+    return def.nominees.map(function (label, i) {
+      var dev = findDeveloperByName(label);
+      var override = def.nomineeValues && def.nomineeValues[i];
+      var v =
+        override != null && override !== ""
+          ? override
+          : dev
+            ? nullish(spec.val(dev))
+            : null;
+      return { name: dev ? dev.developer_name : label, v: v };
+    });
+  }
 
   function renderNominations() {
     var host = document.getElementById("nominations");
@@ -487,7 +520,9 @@
     var top = def.top || 5;
     var scored;
 
-    if (def.type === "min_avg_response") {
+    if (def.nominees && def.nominees.length) {
+      scored = scoreNominees(def, spec);
+    } else if (def.type === "min_avg_response") {
       scored = developers
         .filter(function (d) { return !d.insufficient_data && d.avg_response != null; })
         .slice()
@@ -516,7 +551,7 @@
               '<li class="nom-item' + (i === 0 ? " nom-item--lead" : "") + '">' +
               '<span class="nom-pos">' + (i + 1) + "</span>" +
               '<span class="nom-name">' + esc(x.name) + "</span>" +
-              '<span class="nom-val">' + spec.fmt(x.v) + "</span>" +
+              '<span class="nom-val">' + (x.v == null ? "—" : spec.fmt(x.v)) + "</span>" +
               "</li>"
             );
           })
