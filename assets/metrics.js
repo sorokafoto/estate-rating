@@ -19,72 +19,79 @@ window.APP_METRICS = {
       "sortable": true
     },
     {
-      "key": "avg_response",
-      "label": "Скорость ответа",
+      "key": "avg_call_response",
+      "labelLines": [
+        "Медианная скорость",
+        "первого звонка"
+      ],
       "kind": "num",
       "sortable": true,
       "format": "duration"
     },
     {
-      "key": "no_callback_share",
-      "label": "Без ответа, %",
+      "key": "no_call_share",
+      "labelLines": [
+        "Не перезвонили",
+        "(% заявок)"
+      ],
       "kind": "num",
       "sortable": true,
       "format": "pct"
     },
     {
-      "key": "avg_recontacts",
-      "label": "Повторные касания",
+      "key": "avg_touches_per_responded_app",
+      "labelLines": [
+        "Кол-во касаний",
+        "за 72 часа"
+      ],
       "kind": "num",
       "sortable": true,
       "format": "num"
     },
     {
-      "key": "total_touches",
-      "label": "Касания",
+      "key": "messenger_penetration_share",
+      "labelLines": [
+        "Проникновение",
+        "мессенджеров"
+      ],
       "kind": "num",
       "sortable": true,
-      "format": "int"
-    },
-    {
-      "key": "call",
-      "label": "Звонок, %",
-      "kind": "channel",
-      "channel": "call",
-      "sortable": true,
       "format": "pct"
     },
     {
-      "key": "sms",
-      "label": "SMS, %",
-      "kind": "channel",
+      "key": "messenger_sms",
+      "label": "SMS",
+      "kind": "messenger_symbol",
       "channel": "sms",
       "sortable": true,
-      "format": "pct"
+      "format": "messenger_symbol"
     },
     {
-      "key": "max",
-      "label": "Max, %",
-      "kind": "channel",
+      "key": "messenger_max",
+      "label": "Max",
+      "labelIcon": "max",
+      "kind": "messenger_symbol",
       "channel": "max",
       "sortable": true,
-      "format": "pct"
+      "format": "messenger_symbol"
     },
     {
-      "key": "whatsapp",
-      "label": "WhatsApp, %",
-      "kind": "channel",
+      "key": "messenger_whatsapp",
+      "label": "WhatsApp",
+      "labelIcon": "whatsapp",
+      "kind": "messenger_symbol",
       "channel": "whatsapp",
       "sortable": true,
-      "format": "pct"
+      "format": "messenger_symbol"
     },
     {
-      "key": "telegram",
-      "label": "Telegram, %",
-      "kind": "channel",
+      "key": "messenger_telegram",
+      "label": "Telegram",
+      "labelIcon": "telegram",
+      "kind": "messenger_symbol",
       "channel": "telegram",
       "sortable": true,
-      "format": "pct"
+      "format": "messenger_symbol"
     }
   ]
 };

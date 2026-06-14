@@ -9,6 +9,9 @@
   --ink-2: #56544c;
   --ink-3: #8a887e;
   --ink-4: #b8b6ab;
+  --rank-gold: #EDB318;
+  --rank-silver: #9AA3AD;
+  --rank-bronze: #C47940;
   --line: #d9d7cd;
   --line-2: #e9e7df;
 
@@ -55,6 +58,8 @@
   --panel-gap: clamp(12px, 2vw, 20px);
   --table-cell-y: 10px;
   --table-head-y: 10px;
+  --table-cell-x: 10px;
+  --table-cell-left-x: 6px;
 
   font-family: var(--font-sans);
 }
@@ -419,14 +424,14 @@ a {
 .rank-table {
   border-collapse: collapse;
   width: 100%;
-  min-width: 1040px;
+  min-width: 980px;
 }
 .rank-table tbody {
   font-size: var(--text-table);
 }
 .rank-table th,
 .rank-table td {
-  padding: var(--table-head-y) 14px;
+  padding: var(--table-head-y) var(--table-cell-x) var(--table-head-y) var(--table-cell-left-x);
   text-align: right;
   white-space: nowrap;
   border-bottom: 1px solid var(--line-2);
@@ -455,8 +460,40 @@ a {
 .rank-table th .th-inner {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   justify-content: flex-end;
+}
+.rank-table th .th-label-lines {
+  display: inline-block;
+  line-height: 1.2;
+  text-align: right;
+  white-space: normal;
+}
+.rank-table th.col-name .th-label-lines {
+  text-align: left;
+}
+.rank-table thead th.num {
+  white-space: normal;
+  vertical-align: bottom;
+}
+.rank-table th.col-micro,
+.rank-table td.col-micro {
+  width: 4.25rem;
+  padding-inline: 4px;
+  text-align: center;
+}
+.rank-table th.col-micro .th-inner {
+  justify-content: center;
+}
+.th-channel-icon {
+  width: 16px;
+  height: 16px;
+  display: block;
+  flex-shrink: 0;
+}
+.rank-table td.messenger-symbol {
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.02em;
 }
 .rank-table th.col-name .th-inner {
   justify-content: flex-start;
@@ -523,6 +560,7 @@ th[aria-sort] {
   font-weight: var(--fw-regular);
   font-variant-numeric: tabular-nums;
   color: var(--text-tertiary);
+  padding-left: 9px;
 }
 .dev-link {
   font-weight: var(--fw-semibold);
@@ -548,23 +586,38 @@ td.num {
   color: var(--ink-3);
   font-weight: var(--fw-regular);
   white-space: normal;
-  min-width: 7.5rem;
 }
 .insufficient-label {
   display: inline-block;
   font-size: 0.8125rem;
   line-height: 1.25;
+  white-space: nowrap;
 }
 tr.is-insufficient .rank-num {
   color: var(--ink-3);
 }
 
-/* Топ-3 — тонкий акцент */
-tr.is-top .col-rank {
-  box-shadow: inset 3px 0 0 var(--accent);
+/* Топ-3 — медали */
+tr.is-top-1 .col-rank {
+  box-shadow: inset 5px 0 0 var(--rank-gold);
 }
-tr.is-top .rank-num {
-  color: var(--accent);
+tr.is-top-1 .rank-num {
+  color: var(--rank-gold);
+  font-weight: var(--fw-semibold);
+}
+tr.is-top-2 .col-rank {
+  box-shadow: inset 5px 0 0 var(--rank-silver);
+}
+tr.is-top-2 .rank-num {
+  color: var(--rank-silver);
+  font-weight: var(--fw-semibold);
+}
+tr.is-top-3 .col-rank {
+  box-shadow: inset 5px 0 0 var(--rank-bronze);
+}
+tr.is-top-3 .rank-num {
+  color: var(--rank-bronze);
+  font-weight: var(--fw-semibold);
 }
 
 .rank-table tbody tr:hover td {
@@ -995,6 +1048,8 @@ tr.is-top .rank-num {
     --panel-gap: 12px;
     --table-cell-y: 8px;
     --table-head-y: 9px;
+    --table-cell-x: 8px;
+    --table-cell-left-x: 5px;
   }
 }
 

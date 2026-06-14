@@ -27,7 +27,7 @@ describe("classifyPhone", () => {
   it("AVA whitelist 796288 → developer, не spam range", () => {
     const hit = classifyPhone(emptyRegistry(), "79628801234", catalog);
     assert.equal(hit.entity_type, "developer");
-    assert.equal(hit.developer_name, "AVA Group");
+    assert.equal(hit.developer_name, "AVA");
   });
 
   it("7963* → spam (Beeline КЦ)", () => {

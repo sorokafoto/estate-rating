@@ -4,6 +4,7 @@ import {
   MESSENGER_CHANNELS,
   ANALYTICS_WINDOW_MINUTES,
   hasApplicationsQuorum,
+  NO_CALL_INSUFFICIENT_THRESHOLD,
 } from "../shared/metrics.mjs";
 import { cleanUrl } from "../shared/url.mjs";
 
@@ -63,10 +64,12 @@ export function aggregate(events, applications = []) {
     const responded = apps.filter((appEvents) => appEvents.length > 0).length;
 
     const firstContacts = [];
+    const firstCallTimes = [];
     let totalTouches = 0;
     let totalRecontacts = 0;
     let maxTouchesPerApp = 0;
     let appsWithCall = 0;
+    let appsWithMessenger = 0;
     const appsWithChannel = Object.fromEntries(MESSENGER_CHANNELS.map((c) => [c, 0]));
 
     for (const appEvents of apps) {
@@ -76,10 +79,16 @@ export function aggregate(events, applications = []) {
         .map((e) => e.lead_response_time)
         .filter((v) => typeof v === "number" && v >= 0);
       if (responses.length) firstContacts.push(Math.min(...responses));
+      const callTimes = appEvents
+        .filter((e) => e.event_channel === "call")
+        .map((e) => e.lead_response_time)
+        .filter((v) => typeof v === "number" && v >= 0);
+      if (callTimes.length) firstCallTimes.push(Math.min(...callTimes));
       totalRecontacts += Math.max(0, appEvents.length - 1);
       const channelsHit = new Set(appEvents.map((e) => e.event_channel));
       for (const c of MESSENGER_CHANNELS) if (channelsHit.has(c)) appsWithChannel[c] += 1;
       if (channelsHit.has("call")) appsWithCall += 1;
+      if (MESSENGER_CHANNELS.some((c) => channelsHit.has(c))) appsWithMessenger += 1;
     }
 
     const channel_share = {};
@@ -88,7 +97,18 @@ export function aggregate(events, applications = []) {
     }
     channel_share.call = N > 0 ? roundInt((appsWithCall / N) * 100) : null;
 
-    const insufficient_data = !hasApplicationsQuorum(N);
+    const messenger_channel_share = {};
+    for (const c of MESSENGER_CHANNELS) {
+      messenger_channel_share[c] =
+        appsWithMessenger > 0 ? roundInt((appsWithChannel[c] / appsWithMessenger) * 100) : null;
+    }
+
+    const no_call_share_raw =
+      N > 0 ? clamp(roundInt(((N - appsWithCall) / N) * 100), 0, 100) : null;
+
+    const insufficient_data =
+      !hasApplicationsQuorum(N) ||
+      (no_call_share_raw != null && no_call_share_raw >= NO_CALL_INSUFFICIENT_THRESHOLD);
 
     developers.push({
       developer_name: dev.developer_name,
@@ -111,6 +131,25 @@ export function aggregate(events, applications = []) {
       channel_share: insufficient_data
         ? Object.fromEntries([...MESSENGER_CHANNELS, "call"].map((c) => [c, null]))
         : channel_share,
+      avg_call_response: insufficient_data
+        ? null
+        : firstCallTimes.length
+          ? roundInt(median(firstCallTimes))
+          : null,
+      no_call_share: insufficient_data ? null : no_call_share_raw,
+      avg_touches_per_responded_app: insufficient_data
+        ? null
+        : responded > 0
+          ? round1(totalTouches / responded)
+          : null,
+      messenger_penetration_share: insufficient_data
+        ? null
+        : N > 0
+          ? roundInt((appsWithMessenger / N) * 100)
+          : null,
+      messenger_channel_share: insufficient_data
+        ? Object.fromEntries(MESSENGER_CHANNELS.map((c) => [c, null]))
+        : messenger_channel_share,
     });
   }
 
@@ -137,6 +176,11 @@ export function insufficientDeveloperStub({ developer_name, url }) {
     total_touches: null,
     max_touches_per_app: null,
     channel_share: Object.fromEntries([...MESSENGER_CHANNELS, "call"].map((c) => [c, null])),
+    avg_call_response: null,
+    no_call_share: null,
+    avg_touches_per_responded_app: null,
+    messenger_penetration_share: null,
+    messenger_channel_share: Object.fromEntries(MESSENGER_CHANNELS.map((c) => [c, null])),
   };
 }
 

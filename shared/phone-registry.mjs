@@ -51,7 +51,7 @@ export const DEFAULT_SPAM_PREFIXES = [
 export const DEFAULT_DEV_PREFIXES = [
   {
     prefix: "796288",
-    developer_name: "AVA Group",
+    developer_name: "AVA",
     developer_id: "DEV-026",
     url: "https://avadom.ru",
   },

@@ -10,7 +10,7 @@
   // ---------- Колонки таблицы (из shared/metrics.mjs через assets/metrics.js) ----------
   var COLUMNS = buildColumns(METRICS.columns || []);
 
-  var state = { sortKey: "avg_response", dir: "asc", query: "" };
+  var state = { sortKey: "avg_call_response", dir: "asc", query: "" };
   var developers = [];
   var meta = {};
   var market = null;
@@ -167,6 +167,29 @@
   }
 
   // ---------- Таблица ----------
+  function buildThLabel(col) {
+    if (col.labelIcon) {
+      var img = document.createElement("img");
+      img.src = "assets/images/icons/" + col.labelIcon + ".svg";
+      img.width = 16;
+      img.height = 16;
+      img.alt = "";
+      img.className = "th-channel-icon";
+      img.setAttribute("aria-hidden", "true");
+      return img;
+    }
+    if (col.labelLines && col.labelLines.length) {
+      var wrap = document.createElement("span");
+      wrap.className = "th-label-lines";
+      col.labelLines.forEach(function (line, idx) {
+        if (idx > 0) wrap.appendChild(document.createElement("br"));
+        wrap.appendChild(document.createTextNode(line));
+      });
+      return wrap;
+    }
+    return document.createTextNode(col.label || "");
+  }
+
   function buildHead() {
     var tr = document.createElement("tr");
     COLUMNS.forEach(function (col) {
@@ -175,11 +198,12 @@
       if (col.sortable) {
         th.classList.add("col-sortable");
         th.tabIndex = 0;
+        if (col.labelIcon && col.label) th.setAttribute("aria-label", col.label);
         var active = state.sortKey === col.key;
         th.setAttribute("aria-sort", active ? (state.dir === "asc" ? "ascending" : "descending") : "none");
         var inner = document.createElement("span");
         inner.className = "th-inner";
-        inner.appendChild(document.createTextNode(col.label));
+        inner.appendChild(buildThLabel(col));
         var arrow = document.createElement("span");
         arrow.className = "sort-arrow";
         arrow.setAttribute("aria-hidden", "true");
@@ -191,7 +215,7 @@
           if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onSort(col.key); }
         });
       } else {
-        th.textContent = col.label;
+        th.appendChild(buildThLabel(col));
       }
       tr.appendChild(th);
     });
@@ -202,6 +226,7 @@
   function colClass(col) {
     if (col.kind === "rank") return "col-rank";
     if (col.kind === "name") return "col-name";
+    if (col.kind === "messenger_symbol") return "num col-micro";
     return "num";
   }
 
@@ -219,7 +244,32 @@
   function getValue(dev, col) {
     if (col.kind === "name") return dev.developer_name || "";
     if (col.kind === "channel") return dev.channel_share ? nullish(dev.channel_share[col.channel]) : null;
+    if (col.kind === "messenger_symbol") {
+      return dev.messenger_channel_share ? nullish(dev.messenger_channel_share[col.channel]) : null;
+    }
     return nullish(dev[col.key]);
+  }
+
+  function cmpByCallSpeed(a, b) {
+    if (a.avg_call_response === b.avg_call_response) {
+      var aNoCall = a.no_call_share, bNoCall = b.no_call_share;
+      if (aNoCall == null && bNoCall == null) return cmpName(a, b);
+      if (aNoCall == null) return 1;
+      if (bNoCall == null) return -1;
+      if (aNoCall === bNoCall) return cmpName(a, b);
+      return aNoCall - bNoCall;
+    }
+    return a.avg_call_response - b.avg_call_response;
+  }
+
+  function computeRankPlaces(list) {
+    var ranked = list
+      .filter(function (d) { return !d.insufficient_data && d.avg_call_response != null; })
+      .slice()
+      .sort(cmpByCallSpeed);
+    var places = new Map();
+    ranked.forEach(function (d, i) { places.set(d, i + 1); });
+    return places;
   }
 
   function sortList(list) {
@@ -234,7 +284,10 @@
       if (av == null && bv == null) return cmpName(a, b);
       if (av == null) return 1; // пустые всегда вниз
       if (bv == null) return -1;
-      if (av === bv) return cmpName(a, b);
+      if (av === bv) {
+        if (col.key === "avg_call_response") return cmpByCallSpeed(a, b) * dir;
+        return cmpName(a, b);
+      }
       return (av - bv) * dir;
     });
   }
@@ -244,9 +297,8 @@
   }
 
   function render() {
+    var places = computeRankPlaces(developers);
     var sorted = sortList(developers);
-    var places = new Map();
-    sorted.forEach(function (d, i) { places.set(d, i + 1); });
 
     var q = state.query.trim().toLowerCase();
     var visible = q
@@ -278,14 +330,17 @@
 
   function rowHtml(d, place) {
     var insufficient = Boolean(d.insufficient_data);
-    var top = !insufficient && place <= 3 ? " is-top" : "";
-    var rowCls = top ? top.trim() : "";
+    var rank = place != null ? place : null;
+    var rowCls = "";
+    if (rank === 1) rowCls = "is-top-1";
+    else if (rank === 2) rowCls = "is-top-2";
+    else if (rank === 3) rowCls = "is-top-3";
     if (insufficient) rowCls = (rowCls ? rowCls + " " : "") + "is-insufficient";
     var cells = "";
     for (var i = 0; i < COLUMNS.length; i++) {
       var col = COLUMNS[i];
       if (col.kind === "rank") {
-        cells += '<td class="col-rank"><span class="rank-num">' + (insufficient ? "—" : place) + "</span></td>";
+        cells += '<td class="col-rank"><span class="rank-num">' + (rank != null ? rank : "—") + "</span></td>";
       } else if (col.kind === "name") {
         var storedUrl = d.url || "";
         var linkHref = safeStoredHref(storedUrl);
@@ -300,14 +355,22 @@
           ? '<a class="dev-link" href="' + esc(linkHref) + '"' + titleAttr + ' target="_blank" rel="noopener">' + name + "</a>"
           : '<span class="dev-link"' + titleAttr + ">" + name + "</span>";
         cells += '<td class="col-name">' + nameCell + "</td>";
-      } else if (insufficient && col.key === "avg_response") {
-        cells += '<td class="num is-insufficient"><span class="insufficient-label">Недостаточно данных</span></td>';
+      } else if (insufficient && col.key === "avg_call_response") {
+        cells += '<td class="num is-insufficient"><span class="insufficient-label">Мало данных</span></td>';
       } else {
         var v = insufficient ? null : getValue(d, col);
-        var text = v == null ? "—" : col.fmt(v);
-        var cls = v == null ? "num is-empty" : "num";
-        if (v != null && Number(v) === 0) cls += " is-zero";
-        cells += '<td class="' + cls + '">' + text + "</td>";
+        if (col.format === "messenger_symbol") {
+          var sym = fmtMessengerSymbol(v);
+          var symTitle = v == null ? "" : ' title="' + esc(fmtPct(v)) + '"';
+          var symCls = "num col-micro messenger-symbol";
+          if (sym === "−") symCls += " is-zero";
+          cells += '<td class="' + symCls + '"' + symTitle + ">" + esc(sym) + "</td>";
+        } else {
+          var text = v == null ? "—" : col.fmt(v);
+          var cls = v == null ? "num is-empty" : "num";
+          if (v != null && Number(v) === 0) cls += " is-zero";
+          cells += '<td class="' + cls + '">' + text + "</td>";
+        }
       }
     }
     return '<tr class="' + rowCls + '">' + cells + "</tr>";
@@ -934,6 +997,7 @@
       else if (col.format === "int") out.fmt = fmtInt;
       else if (col.format === "num") out.fmt = fmtNum;
       else if (col.format === "duration") out.fmt = fmtDurationMinutes;
+      else if (col.format === "messenger_symbol") out.fmt = fmtMessengerSymbol;
       return out;
     });
   }
@@ -947,6 +1011,11 @@
   }
   function fmtPct(v) {
     return Number(v).toLocaleString("ru-RU") + "%";
+  }
+  function fmtMessengerSymbol(v) {
+    if (v == null || Number(v) === 0) return "−";
+    if (Number(v) >= 50) return "+";
+    return "+/−";
   }
   /** Минуты из data.json → «5 мин.», «1 ч. 5 мин.», «71 ч. 39 мин.» */
   function fmtDurationMinutes(v) {

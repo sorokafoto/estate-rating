@@ -55,13 +55,8 @@ function main() {
 
   const developers = mergeLegendDevelopers(aggregate(events, applications), legendCatalog);
 
-  // Дефолтная сортировка: быстрые сверху; без кворума и NULL — в конец.
-  developers.sort((a, b) => {
-    if (Boolean(a.insufficient_data) !== Boolean(b.insufficient_data)) {
-      return a.insufficient_data ? 1 : -1;
-    }
-    return byNullableAsc(a.avg_response, b.avg_response);
-  });
+  // Дефолтная сортировка: медиана первого звонка, быстрые сверху; без кворума и NULL — в конец.
+  developers.sort(compareRating);
 
   const period = computePeriod(applications.length ? applications : events);
   const data = {
@@ -93,6 +88,17 @@ function main() {
   console.log(
     `[build-data] OK: ${developers.length} застройщиков -> ${path.relative(process.cwd(), OUT_PATH)} + data.js + assets/metrics.js (${demo ? "demo" : "xlsx"})`
   );
+}
+
+function compareRating(a, b) {
+  if (Boolean(a.insufficient_data) !== Boolean(b.insufficient_data)) {
+    return a.insufficient_data ? 1 : -1;
+  }
+  const speed = byNullableAsc(a.avg_call_response, b.avg_call_response);
+  if (speed !== 0) return speed;
+  const noCall = byNullableAsc(a.no_call_share, b.no_call_share);
+  if (noCall !== 0) return noCall;
+  return String(a.developer_name).localeCompare(String(b.developer_name), "ru");
 }
 
 function byNullableAsc(a, b) {

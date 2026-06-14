@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" role="img" aria-hidden="true">
+  <defs>
+    <mask id="maxMarkMask" maskUnits="userSpaceOnUse" x="0" y="0" width="16" height="16">
+      <rect width="16" height="16" fill="#000"/>
+      <circle cx="8.05" cy="7.7" r="7" fill="#fff"/>
+      <ellipse cx="3.15" cy="12.65" rx="1.55" ry="2.35" transform="rotate(22 3.15 12.65)" fill="#fff"/>
+      <circle cx="8.05" cy="7.7" r="3.25" fill="#000"/>
+    </mask>
+  </defs>
+  <rect width="16" height="16" fill="#14130f" mask="url(#maxMarkMask)"/>
+</svg>
