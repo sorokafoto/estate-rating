@@ -743,6 +743,15 @@ tr.is-top-3 .rank-num {
   margin: 0;
   padding: 0;
 }
+.nom-card__body {
+  display: block;
+}
+.nom-card__body--with-badge {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(130px, 38%);
+  gap: 14px;
+  align-items: center;
+}
 .nom-item {
   display: flex;
   align-items: baseline;
@@ -780,6 +789,48 @@ tr.is-top-3 .rank-num {
   font-weight: var(--fw-bold);
   font-size: var(--text-body);
   white-space: nowrap;
+}
+.nom-card__badge {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  min-height: auto;
+  height: auto;
+  padding: 16px 18px;
+  border-radius: 14px;
+  background: var(--paper);
+  color: var(--text-primary);
+  text-decoration: none;
+}
+.nom-card__badge-text {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-body);
+}
+.nom-card__badge-logo {
+  display: block;
+  width: min(180px, 100%);
+  height: auto;
+  margin-top: 6px;
+}
+@media (min-width: 721px) {
+  .nom-card__body--with-badge {
+    grid-template-columns: minmax(88px, 1fr) 230px;
+    gap: 12px;
+  }
+  .nom-card__badge {
+    padding: 16px 18px;
+  }
+  .nom-card__badge-text {
+    font-size: 13px;
+    line-height: var(--lh-body);
+  }
+  .nom-card__badge-logo {
+    width: min(180px, 100%);
+  }
 }
 
 /* ---------- Market KPI ---------- */

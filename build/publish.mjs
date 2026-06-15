@@ -19,7 +19,7 @@ const ROOT_FILES = [
   "data.js",
 ];
 
-const COPY_DIRS = ["assets"];
+const COPY_DIRS = ["assets", "icons"];
 
 const STRIP_EXTENSIONS = new Set([".html", ".css", ".js", ".svg"]);
 
@@ -32,7 +32,6 @@ const FORBIDDEN_IN_PUBLISH = new Set([
   "node_modules",
   "private",
   ".git",
-  "icons",
 ]);
 
 function rmDir(dir) {

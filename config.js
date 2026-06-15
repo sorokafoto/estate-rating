@@ -72,7 +72,7 @@ window.APP_CONFIG = {
     },
     {
       id: "greedy_alabai",
-      title: "Прожорливый Алабай",
+      title: "Прожорливый алабай",
       desc: "Перезвонили по наибольшей доле заявок за\u00A0неделю исследования",
       type: "max_callback_share",
       nominees: ["Точно", "Развитие", "ТЭН"],
@@ -84,6 +84,11 @@ window.APP_CONFIG = {
       type: "max_channel_share",
       nominees: ["AFI", "КВС", "Dogma"],
       hideValues: true,
+      badge: {
+        text: "Защищаем от утечек и\u00A0дарим вам скидку 10%\u00A0на\u00A0тариф",
+        logo: "assets/images/amo-ee.svg",
+        href: "https://amoprime.ru/?utm_source=estaterating&utm_medium=referral&utm_content=badge",
+      },
     },
     {
       id: "jack_russell",
