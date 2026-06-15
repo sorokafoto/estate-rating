@@ -564,7 +564,7 @@
               '<li class="' + itemCls + '">' +
               '<span class="nom-pos">' + (i + 1) + "</span>" +
               '<span class="nom-name">' + esc(x.name) + "</span>" +
-              '<span class="nom-val">' + (x.v == null ? "—" : spec.fmt(x.v)) + "</span>" +
+              (def.hideValues ? "" : '<span class="nom-val">' + (x.v == null ? "—" : spec.fmt(x.v)) + "</span>") +
               "</li>"
             );
           })
@@ -582,8 +582,7 @@
 
   function nomIcon() {
     return (
-      '<svg class="nom-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">' +
-      '<circle cx="12" cy="8" r="5"/><path d="M8.5 12.5 7 22l5-3 5 3-1.5-9.5"/></svg>'
+      '<img class="nom-card__icon" src="icons/cup2.svg" width="22" height="22" alt="" aria-hidden="true">'
     );
   }
 
