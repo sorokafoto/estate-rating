@@ -85,8 +85,7 @@ window.APP_CONFIG = {
       nominees: ["AFI", "КВС", "Dogma"],
       hideValues: true,
       badge: {
-        text: "Защищаем от утечек и\u00A0дарим вам скидку 10%\u00A0на\u00A0тариф",
-        logo: "assets/images/amo-ee.svg",
+        text: "Победителям в\u00A0номинации дарим скидку 10% на\u00A0amoCRM.enterprise, которая поможет избежать утечек",
         href: "https://amoprime.ru/?utm_source=estaterating&utm_medium=referral&utm_content=badge",
       },
     },

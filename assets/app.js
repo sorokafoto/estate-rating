@@ -586,11 +586,17 @@
   }
 
   function nomBadgeHtml(badge) {
-    if (!badge || !badge.text || !badge.logo || !badge.href) return "";
+    if (!badge || !badge.text || !badge.href) return "";
+    var logo =
+      badge.logo
+        ? '<img class="nom-card__badge-logo" src="' +
+          esc(badge.logo) +
+          '" alt="amoCRM Enterprise" loading="lazy" decoding="async">'
+        : "";
     return (
       '<a class="nom-card__badge" href="' + esc(safeHref(badge.href)) + '" target="_blank" rel="noopener">' +
       '<span class="nom-card__badge-text">' + esc(badge.text) + "</span>" +
-      '<img class="nom-card__badge-logo" src="' + esc(badge.logo) + '" alt="amoCRM Enterprise" loading="lazy" decoding="async">' +
+      logo +
       "</a>"
     );
   }
