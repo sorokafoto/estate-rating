@@ -38,14 +38,32 @@
     <main class="wrap" id="main">
       <!-- 1. HERO -->
       <section class="hero" aria-labelledby="hero-title">
-        <img
-          class="hero__logo"
-          src="assets/images/hero-logo.svg"
-          alt=""
-          width="252"
-          height="90"
-          decoding="async"
-        />
+        <div class="hero__logos" aria-label="Партнёры исследования">
+          <img
+            class="hero__partner-logo hero__partner-logo--amo"
+            src="icons/amoint_bw.svg"
+            alt="amoCRM Enterprise"
+            width="170"
+            height="34"
+            decoding="async"
+          />
+          <img
+            class="hero__logo"
+            src="assets/images/hero-logo.svg"
+            alt=""
+            width="252"
+            height="90"
+            decoding="async"
+          />
+          <img
+            class="hero__partner-logo hero__partner-logo--introvert"
+            src="icons/introvert%20systems.svg"
+            alt="Introvert Systems"
+            width="170"
+            height="20"
+            decoding="async"
+          />
+        </div>
         <h1 class="hero__title" id="hero-title">
           Рейтинг застройщиков<br class="hero__title-br hero__title-br--mobile" />
           России<br class="hero__title-br hero__title-br--desktop" />
@@ -249,27 +267,6 @@
           <article class="organizers__partner">
             <a
               class="organizers__logo"
-              href="https://amoprime.ru/?utm_source=estaterating&utm_medium=referral&utm_content=logo"
-              target="_blank"
-              rel="noopener"
-            >
-              <img
-                src="assets/images/amo-ee.svg"
-                alt="amoCRM Enterprise"
-                class="organizers__logo-img--amo"
-                width="195"
-                height="30"
-                loading="lazy"
-                decoding="async"
-              />
-            </a>
-            <p class="organizers__text">
-              <strong>amoCRM Enterprise</strong>&nbsp;&mdash; корпоративная линейка известной CRM для крупных компаний и&nbsp;команд от&nbsp;50&nbsp;пользователей. В&nbsp;ней продажи, каналы связи и&nbsp;настройка под бизнес-процессы собраны в&nbsp;единой системе, есть SLA с&nbsp;гарантированным временем реакции и&nbsp;повышенные требования к&nbsp;информационной безопасности.
-            </p>
-          </article>
-          <article class="organizers__partner">
-            <a
-              class="organizers__logo"
               href="https://introvert.bz/?utm_source=estaterating&utm_medium=referral&utm_content=logo"
               target="_blank"
               rel="noopener"
@@ -286,6 +283,27 @@
             <p class="organizers__text">
               <strong>Интроверт Системс</strong>&nbsp;&mdash; интегратор CRM-решений полного цикла, специализирующийся
               на&nbsp;цифровой трансформации продаж, с&nbsp;глубокой экспертизой в&nbsp;застройщиках. Компания автоматизирует коммуникации в&nbsp;мессенджерах, повышает скорость реакции на&nbsp;лиды и&nbsp;контролирует качество работы колл-центров и&nbsp;офисов продаж.
+            </p>
+          </article>
+          <article class="organizers__partner">
+            <a
+              class="organizers__logo"
+              href="https://amoprime.ru/?utm_source=estaterating&utm_medium=referral&utm_content=logo"
+              target="_blank"
+              rel="noopener"
+            >
+              <img
+                src="assets/images/amo-ee.svg"
+                alt="amoCRM Enterprise"
+                class="organizers__logo-img--amo"
+                width="195"
+                height="30"
+                loading="lazy"
+                decoding="async"
+              />
+            </a>
+            <p class="organizers__text">
+              <strong>amoCRM Enterprise</strong>&nbsp;&mdash; корпоративная линейка известной CRM для крупных компаний и&nbsp;команд от&nbsp;50&nbsp;пользователей. В&nbsp;ней продажи, каналы связи и&nbsp;настройка под бизнес-процессы собраны в&nbsp;единой системе, есть SLA с&nbsp;гарантированным временем реакции и&nbsp;повышенные требования к&nbsp;информационной безопасности.
             </p>
           </article>
         </div>
@@ -325,6 +343,13 @@
               </svg>
               Метрики ответа с&nbsp;детализацией по&nbsp;вашей компании&nbsp;&mdash; скорость, каналы,
               число касаний за&nbsp;72&nbsp;часа
+            </li>
+            <li>
+              <svg class="cta-lead__check" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <circle cx="10" cy="10" r="10" fill="currentColor" opacity="0.12"/>
+                <path d="M6 10.2 8.6 12.8 14 7.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Количество украденных заявок чёрными риэлторами
             </li>
             <li>
               <svg class="cta-lead__check" viewBox="0 0 20 20" fill="none" aria-hidden="true">

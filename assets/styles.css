@@ -132,11 +132,32 @@ a {
   padding: var(--hero-pad-y) 0;
   text-align: center;
 }
+.hero__logos {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: clamp(24px, 5vw, 64px);
+  max-width: 900px;
+  margin: 0 auto var(--hero-gap-md);
+}
 .hero__logo {
   display: block;
   width: min(252px, 68vw);
   height: auto;
-  margin: 0 auto var(--hero-gap-md);
+  justify-self: center;
+}
+.hero__partner-logo {
+  display: block;
+  width: min(170px, 24vw);
+  height: auto;
+  max-height: 34px;
+  object-fit: contain;
+}
+.hero__partner-logo--amo {
+  justify-self: start;
+}
+.hero__partner-logo--introvert {
+  justify-self: end;
 }
 .hero__title {
   font-family: var(--font-display);
@@ -202,6 +223,30 @@ a {
   color: var(--text-secondary);
 }
 @media (max-width: 720px) {
+  .hero__logos {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "amo introvert"
+      "dog dog";
+    gap: clamp(18px, 6vw, 28px) 18px;
+    max-width: 100%;
+  }
+  .hero__logo {
+    grid-area: dog;
+    width: min(560px, 82vw);
+  }
+  .hero__partner-logo {
+    width: min(170px, 38vw);
+    max-height: 30px;
+  }
+  .hero__partner-logo--amo {
+    grid-area: amo;
+    justify-self: start;
+  }
+  .hero__partner-logo--introvert {
+    grid-area: introvert;
+    justify-self: end;
+  }
   .hero__title,
   .hero__lead {
     max-width: 100%;
