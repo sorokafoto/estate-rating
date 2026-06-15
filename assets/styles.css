@@ -812,7 +812,7 @@ tr.is-top-3 .rank-num {
 }
 .nom-card__badge-logo {
   display: block;
-  width: min(180px, 100%);
+  width: min(165px, 100%);
   height: auto;
   margin-top: 6px;
 }
@@ -829,7 +829,7 @@ tr.is-top-3 .rank-num {
     line-height: var(--lh-body);
   }
   .nom-card__badge-logo {
-    width: min(180px, 100%);
+    width: min(165px, 100%);
   }
 }
 
