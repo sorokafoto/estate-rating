@@ -454,6 +454,13 @@
     min_avg_response: { val: function (d) { return d.avg_response; }, dir: "asc", fmt: fmtDurationMinutes },
     max_avg_recontacts: { val: function (d) { return d.avg_recontacts; }, dir: "desc", fmt: fmtNum },
     max_total_touches: { val: function (d) { return d.total_touches; }, dir: "desc", fmt: fmtInt },
+    max_callback_share: {
+      val: function (d) {
+        return d.no_callback_share != null ? 100 - d.no_callback_share : null;
+      },
+      dir: "desc",
+      fmt: function (v) { return fmtPct(v); },
+    },
     most_omnichannel: { val: omniCount, dir: "desc", fmt: function (v) { return String(v); } },
     max_channel_share: { val: maxChannelShare, dir: "desc", fmt: function (v) { return fmtPct(v); } },
     messenger_champion: { val: messengerSum, dir: "desc", fmt: function (v) { return fmtPct(v); } },
@@ -547,8 +554,14 @@
     var list = scored.length
       ? scored
           .map(function (x, i) {
+            var itemCls = "nom-item";
+            if (def.id === "russian_borzoi") {
+              if (i === 0) itemCls += " nom-item--top-1";
+              else if (i === 1) itemCls += " nom-item--top-2";
+              else if (i === 2) itemCls += " nom-item--top-3";
+            }
             return (
-              '<li class="nom-item' + (i === 0 ? " nom-item--lead" : "") + '">' +
+              '<li class="' + itemCls + '">' +
               '<span class="nom-pos">' + (i + 1) + "</span>" +
               '<span class="nom-name">' + esc(x.name) + "</span>" +
               '<span class="nom-val">' + (x.v == null ? "—" : spec.fmt(x.v)) + "</span>" +

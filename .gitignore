@@ -22,3 +22,6 @@ credentials*.json
 # Node
 node_modules/
 npm-debug.log*
+
+# Production bundle (npm run publish)
+publish/

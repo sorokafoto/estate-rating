@@ -151,6 +151,12 @@ a {
   margin-inline: auto;
   color: var(--text-primary);
 }
+.hero__title-br--mobile {
+  display: none;
+}
+.hero__title-br--desktop {
+  display: inline;
+}
 .hero__lead {
   margin-top: var(--hero-gap-md);
   max-width: min(654px, 100%);
@@ -199,6 +205,12 @@ a {
   .hero__title,
   .hero__lead {
     max-width: 100%;
+  }
+  .hero__title-br--desktop {
+    display: none;
+  }
+  .hero__title-br--mobile {
+    display: inline;
   }
   .hero__stats-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -290,9 +302,10 @@ a {
 .organizers__logo img {
   display: block;
   width: auto;
+  height: auto;
   max-height: 40px;
 }
-.organizers__partner + .organizers__partner .organizers__logo img {
+.organizers__logo img.organizers__logo-img--amo {
   width: 195px;
   height: 30px;
   max-height: none;
@@ -699,10 +712,19 @@ tr.is-top-3 .rank-num {
   font-variant-numeric: tabular-nums;
   color: var(--text-tertiary);
   width: 1.4em;
-  font-weight: var(--fw-semibold);
+  font-weight: var(--fw-regular);
 }
-.nom-item--lead .nom-pos {
-  color: var(--accent);
+.nom-item--top-1 .nom-pos {
+  color: var(--rank-gold);
+  font-weight: var(--fw-bold);
+}
+.nom-item--top-2 .nom-pos {
+  color: var(--rank-silver);
+  font-weight: var(--fw-bold);
+}
+.nom-item--top-3 .nom-pos {
+  color: var(--rank-bronze);
+  font-weight: var(--fw-bold);
 }
 .nom-name {
   flex: 1;

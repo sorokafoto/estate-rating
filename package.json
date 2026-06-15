@@ -26,6 +26,10 @@
     "validate-pipeline": "node scripts/validate-pipeline.mjs",
     "suggest-spam-prefixes": "node scripts/suggest-spam-prefixes.mjs",
     "serve": "node build/serve.mjs",
+    "serve:publish": "SERVE_ROOT=publish node build/serve.mjs",
+    "publish": "node build/publish.mjs",
+    "verify-publish": "node build/verify-publish.mjs",
+    "postdeploy-check": "node build/postdeploy-check.mjs",
     "test": "node --test build/*.test.mjs shared/*.test.mjs scripts/*.test.mjs"
   },
   "dependencies": {

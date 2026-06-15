@@ -85,6 +85,18 @@ npm run serve            # http://localhost:4321
 
 ## Деплой (граница site ↔ pipeline)
 
+**Сборка production bundle:**
+
+```bash
+npm run publish          # копирует allowlist в publish/ (комментарии в HTML/JS/CSS удаляются)
+npm run verify-publish   # PII + битые ссылки + запрет pipeline-каталогов
+npm run serve:publish    # локальный smoke из publish/ (http://localhost:4321)
+```
+
+На сервер заливать **только содержимое `publish/`** (не весь репозиторий).
+Nginx: `deploy/nginx-estaterating.ru.conf` + `deploy/nginx-security-headers.conf`.
+После выкладки: `npm run postdeploy-check` (curl HSTS/CSP на https://estaterating.ru/).
+
 **Публикуется только deploy surface:**
 
 - `index.html`, `assets/**`, `config.js`, `data.json`, `data.js` (опционально), `favicon.svg`, `deploy/_headers`

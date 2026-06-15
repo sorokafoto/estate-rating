@@ -6,6 +6,9 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(path.join(__dirname, ".."));
+const SERVE_ROOT = process.env.SERVE_ROOT
+  ? path.resolve(ROOT, process.env.SERVE_ROOT)
+  : ROOT;
 const PORT = process.env.PORT || 4321;
 
 const TYPES = {
@@ -41,10 +44,10 @@ const SECURITY_HEADERS = {
 function resolvePublicPath(urlPath) {
   const decoded = decodeURIComponent(urlPath.split("?")[0]);
   const rel = decoded === "/" ? "/index.html" : decoded;
-  const filePath = path.resolve(ROOT, "." + rel);
-  if (!filePath.startsWith(ROOT + path.sep) && filePath !== ROOT) return null;
+  const filePath = path.resolve(SERVE_ROOT, "." + rel);
+  if (!filePath.startsWith(SERVE_ROOT + path.sep) && filePath !== SERVE_ROOT) return null;
 
-  const relFromRoot = path.relative(ROOT, filePath);
+  const relFromRoot = path.relative(SERVE_ROOT, filePath);
   const parts = relFromRoot.split(path.sep);
   if (parts.some((p) => DENY_SEGMENTS.has(p))) return null;
   if (parts.some((p) => DENY_FILES.test(p))) return null;
@@ -73,4 +76,4 @@ http
       res.end(buf);
     });
   })
-  .listen(PORT, () => console.log(`http://localhost:${PORT}`));
+  .listen(PORT, () => console.log(`http://localhost:${PORT} (${path.basename(SERVE_ROOT)})`));
