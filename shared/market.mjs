@@ -24,7 +24,9 @@ export function computeMarket(developers) {
   if (!list.length) return emptyMarket();
 
   const avgResponses = pick(list, (d) => d.avg_response);
+  const avgCallResponses = pick(list, (d) => d.avg_call_response);
   const noCallbacks = pick(list, (d) => d.no_callback_share);
+  const noCallShares = pick(list, (d) => d.no_call_share);
   const messengerSums = list.map(messengerSum).filter((v) => v != null);
 
   const channels = {};
@@ -42,7 +44,9 @@ export function computeMarket(developers) {
     silent_developers_count,
     slow_response_count,
     avg_response: stat(avgResponses, "min", roundInt),
+    avg_call_response: stat(avgCallResponses, "min", roundInt),
     no_callback_share: stat(noCallbacks, "min", roundInt),
+    no_call_share: stat(noCallShares, "min", roundInt),
     messengers: {
       mean: meanInt(messengerSums),
       best: messengerSums.length ? roundInt(Math.max(...messengerSums)) : null,
@@ -100,7 +104,9 @@ function emptyMarket() {
     silent_developers_count: 0,
     slow_response_count: 0,
     avg_response: { mean: null, best: null },
+    avg_call_response: { mean: null, best: null },
     no_callback_share: { mean: null, best: null },
+    no_call_share: { mean: null, best: null },
     messengers: { mean: null, best: null, channels },
     spam_share: { mean: null, total: 0, spam: 0 },
   };

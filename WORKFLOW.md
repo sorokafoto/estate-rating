@@ -4,6 +4,10 @@
 
 Технические детали сайта и метрик — в [README.md](README.md).
 
+## Документация
+
+- [Ретро Q2 2026 и рекомендации на следующий замер](docs/retro-2026-q2.md) — выводы цикла, диагностика, цели KPI, чеклисты (`npm run export-retro-metrics` для пересчёта цифр).
+
 ---
 
 ## Дизайн исследования
@@ -408,7 +412,11 @@ npm run update-rating
 | `npm run validate-pipeline` | QA-отчёт по `data/working/source.xlsx` перед сборкой |
 | `npm run suggest-spam-prefixes` | Кандидаты SPAM_PREFIXES из `phones_to_identify.xlsx` |
 | `npm run seed-phones` | Импорт dev+spam из xlsx в registry (**merge**; `--replace` для сброса) |
-| `npm run export-phones-identify` | Выгрузка unknown → `phones_to_identify.xlsx` |
+| `npm run export-phones-identify` | Выгрузка unknown → `phones_to_identify.xlsx` (приоритет: in-72h-same-SIM) |
+| `npm run audit-spam-ranges` | Аудит DEFAULT_SPAM_RANGES vs unknown/dev → `spam-range-audit.xlsx` |
+| `npm run preflight-developer-urls` | Проверка URL из legend (`--dry-run` без HTTP) |
+| `npm run export-retro-metrics` | Метрики ретро + Q3 KPI → `retro-2026-q2-metrics.json` |
+| `npm run export-match-audit` | Аудит сирот → `match-audit.xlsx` |
 | `npm run migrate-data` | Перенос из legacy `private/` в `data/` (`--apply`) |
 | `npm run serve` | Локальный просмотр сайта |
 | `npm test` | Проверки для разработки |

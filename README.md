@@ -32,6 +32,7 @@ data/working/source.xlsx   (PII; листы Events_sms_calls + Events_messengers
 | Зона | Пути | Назначение |
 |------|------|------------|
 | **Сайт (deploy)** | `index.html`, `assets/`, `config.js`, `data.json`, `favicon.svg`, `deploy/_headers` | Публичный лендинг |
+| **Внутренний дашборд** | [../developer-rating-dashboard/](../developer-rating-dashboard/) | Sales-enablement по расширенной аналитике (не деплоится) |
 | **Pipeline** | `build/`, `scripts/`, `shared/` | Сборка и классификация (не деплоится) |
 | **Данные (PII)** | `data/` — см. [DATA-LAYOUT.md](DATA-LAYOUT.md) | Выгрузки, справочники, рабочие xlsx |
 
@@ -155,3 +156,7 @@ Mailto subject: `Заявка на участие в рейтинге застр
 - Замер: 100 застройщиков, 21 заявка на каждого; в таблице на сайте — столько, сколько есть
   идентифицированных данных после match.
 - Знаменатель «отправленные заявки» — считается по количеству валидных строк в листе `applications` для каждого застройщика.
+
+## Смежные проекты
+
+Аудит утечек заявок (отдельный продукт, не часть рейтинга): [../lead-leakage-audit/](../lead-leakage-audit/).

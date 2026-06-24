@@ -83,3 +83,30 @@ test("computeMarket: silent_developers_count и slow_response_count", () => {
   assert.equal(m.silent_developers_count, 2);
   assert.equal(m.slow_response_count, 1);
 });
+
+test("computeMarket: avg_call_response и no_call_share независимы от avg_response / no_callback_share", () => {
+  const m = computeMarket([
+    {
+      avg_response: 5,
+      avg_call_response: 60,
+      no_callback_share: 10,
+      no_call_share: 40,
+      channel_share: { whatsapp: 0, telegram: 0, max: 0, sms: 0 },
+    },
+    {
+      avg_response: 30,
+      avg_call_response: 15,
+      no_callback_share: 25,
+      no_call_share: 50,
+      channel_share: { whatsapp: 0, telegram: 0, max: 0, sms: 0 },
+    },
+  ]);
+  assert.equal(m.avg_response.mean, 18);
+  assert.equal(m.avg_response.best, 5);
+  assert.equal(m.avg_call_response.mean, 38);
+  assert.equal(m.avg_call_response.best, 15);
+  assert.equal(m.no_callback_share.mean, 18);
+  assert.equal(m.no_callback_share.best, 10);
+  assert.equal(m.no_call_share.mean, 45);
+  assert.equal(m.no_call_share.best, 40);
+});

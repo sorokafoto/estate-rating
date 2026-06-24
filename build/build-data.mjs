@@ -7,6 +7,10 @@ import { readSourceWorkbook, sourceExists } from "./source.mjs";
 import { generateMock } from "./mock.mjs";
 import { aggregate, mergeLegendDevelopers } from "./aggregate.mjs";
 import { computeMarket, computeSpamShare } from "../shared/market.mjs";
+import {
+  firstCallMinutesByApp,
+  summarizeFirstCallByDayType,
+} from "../shared/weekend-first-call.mjs";
 import { validatePublicData } from "./validate.mjs";
 import { jsonForScript } from "./safe-json.mjs";
 import { emitBrowserArtifacts } from "./emit-browser.mjs";
@@ -73,6 +77,9 @@ function main() {
     },
     market: {
       ...computeMarket(developers),
+      first_call_by_day_type: summarizeFirstCallByDayType(
+        firstCallMinutesByApp(events, applications)
+      ),
       spam_share: computeSpamShare(events),
     },
     developers,

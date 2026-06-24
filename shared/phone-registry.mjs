@@ -57,7 +57,9 @@ export const DEFAULT_DEV_PREFIXES = [
   },
 ];
 
-/** Широкие spam-диапазоны Beeline/MTS (применяются после dev-whitelist). */
+/** Широкие spam-диапазоны Beeline/MTS (применяются после dev-whitelist).
+ *  Подтверждённые пулы — только в SPAM_BOOK мастера. Аудит: npm run audit-spam-ranges.
+ *  См. docs/retro-2026-q2.md (раздел «Калибровка spam») */
 export const DEFAULT_SPAM_RANGES = ["7963", "7967", "7968", "7969", "79068", "7981"];
 
 export const DEFAULT_NOTE_KEYWORDS = [

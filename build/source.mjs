@@ -4,6 +4,7 @@ import fs from "node:fs";
 import XLSX from "xlsx";
 import { resolveEventSheets } from "../shared/event-sheets.mjs";
 import { paths, resolveDataPath } from "../shared/paths.mjs";
+import { dayOfWeekFromDatetime } from "../shared/weekend-first-call.mjs";
 
 export const SOURCE_PATH = resolveDataPath(paths.source());
 
@@ -157,6 +158,8 @@ export function readApplicationsFromWorkbook(wb) {
     url: header.indexOf("url"),
     phone_number: header.indexOf("phone_number"),
     application_datetime: header.indexOf("application_datetime"),
+    day_of_week: header.indexOf("day_of_week"),
+    time_slot: header.indexOf("time_slot"),
   };
 
   const startRow = isAppDataRow(rows[1], idx.application_id) ? 1 : 2;
@@ -174,6 +177,10 @@ export function readApplicationsFromWorkbook(wb) {
     const application_datetime = idx.application_datetime >= 0 ? row[idx.application_datetime] ?? null : null;
     if (!developer_id || !phone_number || application_datetime == null || application_datetime === "") continue;
 
+    const day_of_week =
+      idx.day_of_week >= 0 ? cell(row, idx.day_of_week) : "";
+    const time_slot = idx.time_slot >= 0 ? cell(row, idx.time_slot) : "";
+
     apps.push({
       application_id,
       developer_id,
@@ -181,6 +188,8 @@ export function readApplicationsFromWorkbook(wb) {
       url,
       phone_number,
       application_datetime,
+      day_of_week: day_of_week || dayOfWeekFromDatetime(application_datetime),
+      time_slot,
     });
   }
 

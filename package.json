@@ -6,6 +6,12 @@
   "description": "Лендинг исследования «Рейтинг застройщиков России по реакции на входящие заявки». Сайт статический; PII не попадает в браузер.",
   "scripts": {
     "build-data": "node build/build-data.mjs",
+    "export-measurement-phones": "node scripts/export-measurement-phones.mjs",
+    "export-company-events": "node scripts/export-company-events.mjs",
+    "export-retro-metrics": "node scripts/export-retro-metrics.mjs",
+    "export-match-audit": "node scripts/export-match-audit.mjs",
+    "audit-spam-ranges": "node scripts/audit-spam-ranges.mjs",
+    "preflight-developer-urls": "node scripts/preflight-developer-urls.mjs",
     "seed-phones": "node scripts/seed-phone-registry.mjs",
     "seed-spam": "node scripts/seed-spam-book.mjs",
     "export-phones-identify": "node scripts/export-phones-to-identify.mjs",

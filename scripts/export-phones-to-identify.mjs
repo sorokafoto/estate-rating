@@ -8,6 +8,29 @@ import { classifyPhone, emptyRegistry, normalizePhone } from "../shared/phone-re
 import { resolveEventSheets } from "../shared/event-sheets.mjs";
 
 import { paths, resolveDataPath, writeDataPath, PROJECT_ROOT } from "../shared/paths.mjs";
+import { readApplicationsFromWorkbook } from "../build/source.mjs";
+import { toDate } from "./match-events-applications.mjs";
+import { ANALYTICS_WINDOW_MINUTES } from "../shared/metrics.mjs";
+
+function normPhone(v) {
+  const d = String(v ?? "").replace(/\D/g, "");
+  if (!d) return "";
+  if (d.length === 10) return `7${d}`;
+  if (d.length === 11 && d[0] === "8") return `7${d.slice(1)}`;
+  return d;
+}
+
+function isCallIn72hSameSim(sim, eventDt, applications) {
+  if (!sim || !eventDt) return false;
+  for (const app of applications) {
+    if (normPhone(app.phone_number) !== sim) continue;
+    const appDt = toDate(app.application_datetime);
+    if (!appDt) continue;
+    const deltaMin = Math.round((eventDt - appDt) / 60000);
+    if (deltaMin >= 0 && deltaMin <= ANALYTICS_WINDOW_MINUTES) return true;
+  }
+  return false;
+}
 
 const DEFAULT_SOURCE = resolveDataPath(paths.source());
 const DEFAULT_REGISTRY = resolveDataPath(paths.phoneRegistry());
@@ -95,12 +118,13 @@ function loadSpamBook(spamBookPath) {
   return { prefixes, spamPhonePrefixes };
 }
 
-function collectFromSheet(ws, sheetName, phones) {
+function collectFromSheet(ws, sheetName, phones, applications) {
   const rows = XLSX.utils.sheet_to_json(ws, { header: 1 });
   if (!rows.length) return;
   const header = rows[0].map((h) => String(h ?? "").trim());
   const phoneIdx = header.indexOf("incoming_phone_number");
   const channelIdx = header.indexOf("event_channel");
+  const simIdx = header.indexOf("phone_number");
   const noteIdx = header.findIndex((h) => h.toLowerCase().includes("заметка"));
   const dateIdx = header.indexOf("event_datetime");
   const isMessenger = /messenger/i.test(sheetName);
@@ -118,13 +142,17 @@ function collectFromSheet(ws, sheetName, phones) {
     if (!phone) continue;
 
     const note = noteIdx >= 0 ? String(row[noteIdx] ?? "").trim() : "";
-    const eventDate = dateIdx >= 0 ? String(row[dateIdx] ?? "").trim() : "";
+    const eventDate = dateIdx >= 0 ? row[dateIdx] : "";
+    const sim = simIdx >= 0 ? normPhone(row[simIdx]) : "";
+    const eventDt = toDate(eventDate);
+    const in72h = applications.length && isCallIn72hSameSim(sim, eventDt, applications);
 
     if (!phones.has(phone)) {
-      phones.set(phone, { note: "", call_count: 0, dates: [] });
+      phones.set(phone, { note: "", call_count: 0, dates: [], calls_in_72h_same_sim: 0 });
     }
     const entry = phones.get(phone);
     entry.call_count++;
+    if (in72h) entry.calls_in_72h_same_sim++;
     if (eventDate) entry.dates.push(eventDate);
     if (note && !entry.note) entry.note = note;
   }
@@ -137,14 +165,15 @@ function collectCallPhones(sourcePath) {
     process.exit(1);
   }
 
-  const wb = XLSX.readFile(sourcePath);
+  const wb = XLSX.readFile(sourcePath, { cellDates: true });
+  const applications = readApplicationsFromWorkbook(wb);
   const sheets = resolveEventSheets(wb.SheetNames);
   if (!sheets.length) {
     console.error(`[export-phones-identify] листы событий не найдены`);
     process.exit(1);
   }
   for (const { sheetName } of sheets) {
-    collectFromSheet(wb.Sheets[sheetName], sheetName, phones);
+    collectFromSheet(wb.Sheets[sheetName], sheetName, phones, applications);
   }
 
   return phones;
@@ -207,10 +236,12 @@ function main() {
     unknownList.push({ phone, ...ctx, prefix7 });
   }
 
-  const rows = unknownList.map(({ phone, note, call_count, dates, prefix7 }) => {
+  const rows = unknownList.map(({ phone, note, call_count, dates, prefix7, calls_in_72h_same_sim }) => {
     const poolSize = unknownByPrefix.get(prefix7) ?? 1;
     const reasons = buildSuspiciousReasons(phone, prefix7, poolSize, spamBook);
     const { first, last } = dateRange(dates);
+    const priority =
+      (calls_in_72h_same_sim > 0 ? 1000 : 0) + call_count + (reasons.length ? 0 : 10);
 
     return {
       incoming_phone_number: phone,
@@ -218,30 +249,37 @@ function main() {
       Спам: "",
       Заметка: note,
       call_count,
+      calls_in_72h_same_sim,
+      priority_verify: calls_in_72h_same_sim > 0 ? "высокий" : "обычный",
       first_call: first,
       last_call: last,
       prefix_7: prefix7,
       suspicious_spam: reasons.length ? "да" : "нет",
       suspicious_reason: reasons.join("; "),
+      _priority: priority,
     };
   });
 
   rows.sort((a, b) => {
+    if (b._priority !== a._priority) return b._priority - a._priority;
     const susp = (b.suspicious_spam === "да") - (a.suspicious_spam === "да");
     if (susp !== 0) return susp;
     return b.call_count - a.call_count;
   });
 
-  const suspicious = rows.filter((r) => r.suspicious_spam === "да").length;
+  const outputRows = rows.map(({ _priority, ...rest }) => rest);
+
+  const suspicious = outputRows.filter((r) => r.suspicious_spam === "да").length;
+  const highPriority = outputRows.filter((r) => r.priority_verify === "высокий").length;
 
   fs.mkdirSync(path.dirname(args.output), { recursive: true });
   const outWb = XLSX.utils.book_new();
-  const ws = XLSX.utils.json_to_sheet(rows);
+  const ws = XLSX.utils.json_to_sheet(outputRows);
   XLSX.utils.book_append_sheet(outWb, ws, "phones_to_identify");
   XLSX.writeFile(outWb, args.output);
 
   console.log(
-    `[export-phones-identify] total_unknown=${rows.length} suspicious=${suspicious} -> ${path.relative(PROJECT_ROOT, args.output)}`
+    `[export-phones-identify] total_unknown=${outputRows.length} suspicious=${suspicious} high_priority_in_72h=${highPriority} -> ${path.relative(PROJECT_ROOT, args.output)}`
   );
 }
 

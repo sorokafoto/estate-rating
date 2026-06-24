@@ -448,3 +448,26 @@ test("aggregate: messenger_channel_share считается внутри messeng
   assert.equal(devs[0].messenger_channel_share.whatsapp, 50);
   assert.equal(devs[0].messenger_penetration_share, 18);
 });
+
+test("aggregate: first_call_by_day_type — медианы будни vs выходные", () => {
+  const applications = appsForDev(11).map((a, i) => ({
+    ...a,
+    day_of_week: i < 8 ? "monday" : "saturday",
+  }));
+  const events = padCallsForRating(
+    [
+      event({ application_id: "APP-a1", event_channel: "call", lead_response_time: 10 }),
+      event({ application_id: "APP-a2", event_channel: "call", lead_response_time: 30 }),
+      event({ application_id: "APP-a9", event_channel: "call", lead_response_time: 100 }),
+      event({ application_id: "APP-a10", event_channel: "call", lead_response_time: 200 }),
+    ],
+    applications
+  );
+  const devs = aggregate(events, applications);
+  const slice = devs[0].first_call_by_day_type;
+  assert.equal(slice.weekday.n, 2);
+  assert.equal(slice.weekday.median_minutes, 20);
+  assert.equal(slice.weekend.n, 2);
+  assert.equal(slice.weekend.median_minutes, 150);
+  assert.equal(slice.weekend_slower, true);
+});

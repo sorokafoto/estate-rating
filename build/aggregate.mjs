@@ -7,6 +7,12 @@ import {
   NO_CALL_INSUFFICIENT_THRESHOLD,
 } from "../shared/metrics.mjs";
 import { cleanUrl } from "../shared/url.mjs";
+import {
+  buildFirstCallByDayType,
+  emptyFirstCallByDayType,
+  isWeekend,
+  resolveDayOfWeek,
+} from "../shared/weekend-first-call.mjs";
 
 export { MESSENGER_CHANNELS };
 
@@ -45,7 +51,12 @@ export function aggregate(events, applications = []) {
     const dev = byDev.get(developer_id);
     if (!dev.developer_name && app.developer_name) dev.developer_name = app.developer_name;
     if (!dev.url && app.url) dev.url = app.url;
-    if (!dev.apps.has(application_id)) dev.apps.set(application_id, []);
+    if (!dev.apps.has(application_id)) {
+      dev.apps.set(application_id, {
+        meta: app,
+        events: [],
+      });
+    }
   }
 
   for (const e of events) {
@@ -54,17 +65,19 @@ export function aggregate(events, applications = []) {
     if (!dev) continue;
     const appId = e.application_id;
     if (!appId || !dev.apps.has(appId)) continue;
-    dev.apps.get(appId).push(e);
+    dev.apps.get(appId).events.push(e);
   }
 
   const developers = [];
   for (const dev of byDev.values()) {
     const N = dev.apps.size;
-    const apps = [...dev.apps.values()];
-    const responded = apps.filter((appEvents) => appEvents.length > 0).length;
+    const appEntries = [...dev.apps.values()];
+    const responded = appEntries.filter(({ events: appEvents }) => appEvents.length > 0).length;
 
     const firstContacts = [];
     const firstCallTimes = [];
+    const weekdayFirstCallTimes = [];
+    const weekendFirstCallTimes = [];
     let totalTouches = 0;
     let totalRecontacts = 0;
     let maxTouchesPerApp = 0;
@@ -72,7 +85,7 @@ export function aggregate(events, applications = []) {
     let appsWithMessenger = 0;
     const appsWithChannel = Object.fromEntries(MESSENGER_CHANNELS.map((c) => [c, 0]));
 
-    for (const appEvents of apps) {
+    for (const { meta, events: appEvents } of appEntries) {
       totalTouches += appEvents.length;
       maxTouchesPerApp = Math.max(maxTouchesPerApp, appEvents.length);
       const responses = appEvents
@@ -83,7 +96,12 @@ export function aggregate(events, applications = []) {
         .filter((e) => e.event_channel === "call")
         .map((e) => e.lead_response_time)
         .filter((v) => typeof v === "number" && v >= 0);
-      if (callTimes.length) firstCallTimes.push(Math.min(...callTimes));
+      if (callTimes.length) {
+        const firstCall = Math.min(...callTimes);
+        firstCallTimes.push(firstCall);
+        if (isWeekend(resolveDayOfWeek(meta))) weekendFirstCallTimes.push(firstCall);
+        else weekdayFirstCallTimes.push(firstCall);
+      }
       totalRecontacts += Math.max(0, appEvents.length - 1);
       const channelsHit = new Set(appEvents.map((e) => e.event_channel));
       for (const c of MESSENGER_CHANNELS) if (channelsHit.has(c)) appsWithChannel[c] += 1;
@@ -109,6 +127,10 @@ export function aggregate(events, applications = []) {
     const insufficient_data =
       !hasApplicationsQuorum(N) ||
       (no_call_share_raw != null && no_call_share_raw >= NO_CALL_INSUFFICIENT_THRESHOLD);
+
+    const first_call_by_day_type = insufficient_data
+      ? emptyFirstCallByDayType()
+      : buildFirstCallByDayType(weekdayFirstCallTimes, weekendFirstCallTimes);
 
     developers.push({
       developer_name: dev.developer_name,
@@ -150,6 +172,7 @@ export function aggregate(events, applications = []) {
       messenger_channel_share: insufficient_data
         ? Object.fromEntries(MESSENGER_CHANNELS.map((c) => [c, null]))
         : messenger_channel_share,
+      first_call_by_day_type,
     });
   }
 
@@ -181,6 +204,7 @@ export function insufficientDeveloperStub({ developer_name, url }) {
     avg_touches_per_responded_app: null,
     messenger_penetration_share: null,
     messenger_channel_share: Object.fromEntries(MESSENGER_CHANNELS.map((c) => [c, null])),
+    first_call_by_day_type: emptyFirstCallByDayType(),
   };
 }
 

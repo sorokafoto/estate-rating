@@ -8,7 +8,7 @@
     "developers_count": 100,
     "applications_sent_total": 1980,
     "target_applications": 2100,
-    "generated_at": "2026-06-14T20:13:30.892Z"
+    "generated_at": "2026-06-24T15:08:27.800Z"
   },
   "market": {
     "sample_size": 74,
@@ -18,8 +18,16 @@
       "mean": 441,
       "best": 1
     },
+    "avg_call_response": {
+      "mean": 502,
+      "best": 1
+    },
     "no_callback_share": {
       "mean": 35,
+      "best": 5
+    },
+    "no_call_share": {
+      "mean": 38,
       "best": 5
     },
     "messengers": {
@@ -32,10 +40,22 @@
         "sms": 15
       }
     },
+    "first_call_by_day_type": {
+      "weekday": {
+        "n": 695,
+        "median_minutes": 164
+      },
+      "weekend": {
+        "n": 265,
+        "median_minutes": 918
+      },
+      "weekend_vs_weekday_ratio": 5.6,
+      "weekend_slower": true
+    },
     "spam_share": {
       "mean": 42,
       "total": 7121,
-      "spam": 3006
+      "spam": 2975
     }
   },
   "developers": [
@@ -65,6 +85,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 10,
+          "median_minutes": 22
+        },
+        "weekend": {
+          "n": 4,
+          "median_minutes": 1
+        },
+        "weekend_vs_weekday_ratio": 0,
+        "weekend_slower": false
       }
     },
     {
@@ -93,6 +125,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 9,
+          "median_minutes": 1
+        },
+        "weekend": {
+          "n": 2,
+          "median_minutes": 695
+        },
+        "weekend_vs_weekday_ratio": 695,
+        "weekend_slower": true
       }
     },
     {
@@ -121,6 +165,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 10,
+          "median_minutes": 1
+        },
+        "weekend": {
+          "n": 1,
+          "median_minutes": 219
+        },
+        "weekend_vs_weekday_ratio": 438,
+        "weekend_slower": true
       }
     },
     {
@@ -149,6 +205,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 12,
+          "median_minutes": 1
+        },
+        "weekend": {
+          "n": 3,
+          "median_minutes": 245
+        },
+        "weekend_vs_weekday_ratio": 245,
+        "weekend_slower": true
       }
     },
     {
@@ -177,6 +245,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 3,
+          "median_minutes": 0
+        },
+        "weekend": {
+          "n": 2,
+          "median_minutes": 372
+        },
+        "weekend_vs_weekday_ratio": null,
+        "weekend_slower": true
       }
     },
     {
@@ -205,6 +285,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 10,
+          "median_minutes": 1
+        },
+        "weekend": {
+          "n": 5,
+          "median_minutes": 961
+        },
+        "weekend_vs_weekday_ratio": 961,
+        "weekend_slower": true
       }
     },
     {
@@ -233,6 +325,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 12,
+          "median_minutes": 1
+        },
+        "weekend": {
+          "n": 4,
+          "median_minutes": 851
+        },
+        "weekend_vs_weekday_ratio": 850.5,
+        "weekend_slower": true
       }
     },
     {
@@ -261,6 +365,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 8,
+          "median_minutes": 2
+        },
+        "weekend": {
+          "n": 3,
+          "median_minutes": 1011
+        },
+        "weekend_vs_weekday_ratio": 505.5,
+        "weekend_slower": true
       }
     },
     {
@@ -289,6 +405,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 14,
+          "median_minutes": 15
+        },
+        "weekend": {
+          "n": 4,
+          "median_minutes": 417
+        },
+        "weekend_vs_weekday_ratio": 27.8,
+        "weekend_slower": true
       }
     },
     {
@@ -317,6 +445,18 @@
         "max": 0,
         "whatsapp": 0,
         "telegram": 0
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 11,
+          "median_minutes": 29
+        },
+        "weekend": {
+          "n": 2,
+          "median_minutes": 964
+        },
+        "weekend_vs_weekday_ratio": 33.2,
+        "weekend_slower": true
       }
     },
     {
@@ -345,6 +485,18 @@
         "max": 100,
         "whatsapp": 0,
         "telegram": 0
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 5,
+          "median_minutes": 30
+        },
+        "weekend": {
+          "n": 2,
+          "median_minutes": 1850
+        },
+        "weekend_vs_weekday_ratio": 61.7,
+        "weekend_slower": true
       }
     },
     {
@@ -373,6 +525,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 10,
+          "median_minutes": 2
+        },
+        "weekend": {
+          "n": 3,
+          "median_minutes": 961
+        },
+        "weekend_vs_weekday_ratio": 480.5,
+        "weekend_slower": true
       }
     },
     {
@@ -401,6 +565,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 14,
+          "median_minutes": 95
+        },
+        "weekend": {
+          "n": 3,
+          "median_minutes": 57
+        },
+        "weekend_vs_weekday_ratio": 0.6,
+        "weekend_slower": false
       }
     },
     {
@@ -429,6 +605,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 14,
+          "median_minutes": 12
+        },
+        "weekend": {
+          "n": 4,
+          "median_minutes": 558
+        },
+        "weekend_vs_weekday_ratio": 48.5,
+        "weekend_slower": true
       }
     },
     {
@@ -457,6 +645,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 7,
+          "median_minutes": 100
+        },
+        "weekend": {
+          "n": 3,
+          "median_minutes": 29
+        },
+        "weekend_vs_weekday_ratio": 0.3,
+        "weekend_slower": false
       }
     },
     {
@@ -485,6 +685,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 6,
+          "median_minutes": 70
+        },
+        "weekend": {
+          "n": 1,
+          "median_minutes": 922
+        },
+        "weekend_vs_weekday_ratio": 13.2,
+        "weekend_slower": true
       }
     },
     {
@@ -513,6 +725,18 @@
         "max": 0,
         "whatsapp": 0,
         "telegram": 0
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 8,
+          "median_minutes": 85
+        },
+        "weekend": {
+          "n": 3,
+          "median_minutes": 1706
+        },
+        "weekend_vs_weekday_ratio": 20.1,
+        "weekend_slower": true
       }
     },
     {
@@ -541,6 +765,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 11,
+          "median_minutes": 2
+        },
+        "weekend": {
+          "n": 5,
+          "median_minutes": 745
+        },
+        "weekend_vs_weekday_ratio": 372.5,
+        "weekend_slower": true
       }
     },
     {
@@ -569,6 +805,18 @@
         "max": 0,
         "whatsapp": 0,
         "telegram": 0
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 10,
+          "median_minutes": 6
+        },
+        "weekend": {
+          "n": 5,
+          "median_minutes": 733
+        },
+        "weekend_vs_weekday_ratio": 122.2,
+        "weekend_slower": true
       }
     },
     {
@@ -597,6 +845,18 @@
         "max": 67,
         "whatsapp": 0,
         "telegram": 0
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 12,
+          "median_minutes": 83
+        },
+        "weekend": {
+          "n": 5,
+          "median_minutes": 176
+        },
+        "weekend_vs_weekday_ratio": 2.1,
+        "weekend_slower": true
       }
     },
     {
@@ -625,6 +885,18 @@
         "max": 0,
         "whatsapp": 0,
         "telegram": 0
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 5,
+          "median_minutes": 134
+        },
+        "weekend": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend_vs_weekday_ratio": null,
+        "weekend_slower": null
       }
     },
     {
@@ -653,6 +925,18 @@
         "max": 0,
         "whatsapp": 0,
         "telegram": 0
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 15,
+          "median_minutes": 55
+        },
+        "weekend": {
+          "n": 5,
+          "median_minutes": 851
+        },
+        "weekend_vs_weekday_ratio": 15.5,
+        "weekend_slower": true
       }
     },
     {
@@ -681,6 +965,18 @@
         "max": 75,
         "whatsapp": 25,
         "telegram": 0
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 11,
+          "median_minutes": 125
+        },
+        "weekend": {
+          "n": 6,
+          "median_minutes": 501
+        },
+        "weekend_vs_weekday_ratio": 4,
+        "weekend_slower": true
       }
     },
     {
@@ -709,6 +1005,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 11,
+          "median_minutes": 64
+        },
+        "weekend": {
+          "n": 5,
+          "median_minutes": 1042
+        },
+        "weekend_vs_weekday_ratio": 16.3,
+        "weekend_slower": true
       }
     },
     {
@@ -737,6 +1045,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 14,
+          "median_minutes": 10
+        },
+        "weekend": {
+          "n": 6,
+          "median_minutes": 627
+        },
+        "weekend_vs_weekday_ratio": 65.9,
+        "weekend_slower": true
       }
     },
     {
@@ -765,34 +1085,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
-      }
-    },
-    {
-      "developer_name": "DOGMA",
-      "url": "dogma.ru",
-      "applications_sent": 21,
-      "insufficient_data": false,
-      "avg_response": 12,
-      "no_callback_share": 57,
-      "avg_recontacts": 0.7,
-      "total_touches": 24,
-      "max_touches_per_app": 4,
-      "channel_share": {
-        "sms": 43,
-        "max": 0,
-        "whatsapp": 0,
-        "telegram": 0,
-        "call": 33
       },
-      "avg_call_response": 187,
-      "no_call_share": 67,
-      "avg_touches_per_responded_app": 2.7,
-      "messenger_penetration_share": 43,
-      "messenger_channel_share": {
-        "sms": 100,
-        "max": 0,
-        "whatsapp": 0,
-        "telegram": 0
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 10,
+          "median_minutes": 176
+        },
+        "weekend": {
+          "n": 3,
+          "median_minutes": 186
+        },
+        "weekend_vs_weekday_ratio": 1.1,
+        "weekend_slower": true
       }
     },
     {
@@ -821,6 +1125,58 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 12,
+          "median_minutes": 182
+        },
+        "weekend": {
+          "n": 3,
+          "median_minutes": 310
+        },
+        "weekend_vs_weekday_ratio": 1.7,
+        "weekend_slower": true
+      }
+    },
+    {
+      "developer_name": "ЕДИНО",
+      "url": "edino.group",
+      "applications_sent": 20,
+      "insufficient_data": false,
+      "avg_response": 237,
+      "no_callback_share": 5,
+      "avg_recontacts": 4,
+      "total_touches": 99,
+      "max_touches_per_app": 19,
+      "channel_share": {
+        "sms": 90,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 85
+      },
+      "avg_call_response": 283,
+      "no_call_share": 15,
+      "avg_touches_per_responded_app": 5.2,
+      "messenger_penetration_share": 90,
+      "messenger_channel_share": {
+        "sms": 100,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 14,
+          "median_minutes": 290
+        },
+        "weekend": {
+          "n": 3,
+          "median_minutes": 247
+        },
+        "weekend_vs_weekday_ratio": 0.9,
+        "weekend_slower": false
       }
     },
     {
@@ -849,6 +1205,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 11,
+          "median_minutes": 41
+        },
+        "weekend": {
+          "n": 5,
+          "median_minutes": 913
+        },
+        "weekend_vs_weekday_ratio": 22.3,
+        "weekend_slower": true
       }
     },
     {
@@ -877,6 +1245,58 @@
         "max": 0,
         "whatsapp": 0,
         "telegram": 0
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 11,
+          "median_minutes": 264
+        },
+        "weekend": {
+          "n": 4,
+          "median_minutes": 606
+        },
+        "weekend_vs_weekday_ratio": 2.3,
+        "weekend_slower": true
+      }
+    },
+    {
+      "developer_name": "DOGMA",
+      "url": "dogma.ru",
+      "applications_sent": 21,
+      "insufficient_data": false,
+      "avg_response": 12,
+      "no_callback_share": 57,
+      "avg_recontacts": 1,
+      "total_touches": 30,
+      "max_touches_per_app": 5,
+      "channel_share": {
+        "sms": 43,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0,
+        "call": 38
+      },
+      "avg_call_response": 312,
+      "no_call_share": 62,
+      "avg_touches_per_responded_app": 3.3,
+      "messenger_penetration_share": 43,
+      "messenger_channel_share": {
+        "sms": 100,
+        "max": 0,
+        "whatsapp": 0,
+        "telegram": 0
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 6,
+          "median_minutes": 134
+        },
+        "weekend": {
+          "n": 2,
+          "median_minutes": 814
+        },
+        "weekend_vs_weekday_ratio": 6.1,
+        "weekend_slower": true
       }
     },
     {
@@ -905,6 +1325,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 3,
+          "median_minutes": 349
+        },
+        "weekend": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend_vs_weekday_ratio": null,
+        "weekend_slower": null
       }
     },
     {
@@ -933,6 +1365,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 2,
+          "median_minutes": 1387
+        },
+        "weekend": {
+          "n": 5,
+          "median_minutes": 183
+        },
+        "weekend_vs_weekday_ratio": 0.1,
+        "weekend_slower": false
       }
     },
     {
@@ -961,6 +1405,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 5,
+          "median_minutes": 256
+        },
+        "weekend": {
+          "n": 1,
+          "median_minutes": 496
+        },
+        "weekend_vs_weekday_ratio": 1.9,
+        "weekend_slower": true
       }
     },
     {
@@ -989,6 +1445,18 @@
         "max": 0,
         "whatsapp": 0,
         "telegram": 0
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 11,
+          "median_minutes": 4
+        },
+        "weekend": {
+          "n": 3,
+          "median_minutes": 961
+        },
+        "weekend_vs_weekday_ratio": 240.3,
+        "weekend_slower": true
       }
     },
     {
@@ -1017,6 +1485,18 @@
         "max": 0,
         "whatsapp": 0,
         "telegram": 0
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 4,
+          "median_minutes": 24
+        },
+        "weekend": {
+          "n": 4,
+          "median_minutes": 811
+        },
+        "weekend_vs_weekday_ratio": 34.5,
+        "weekend_slower": true
       }
     },
     {
@@ -1045,6 +1525,18 @@
         "max": 0,
         "whatsapp": 0,
         "telegram": 0
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 5,
+          "median_minutes": 141
+        },
+        "weekend": {
+          "n": 1,
+          "median_minutes": 2061
+        },
+        "weekend_vs_weekday_ratio": 14.6,
+        "weekend_slower": true
       }
     },
     {
@@ -1073,6 +1565,18 @@
         "max": 0,
         "whatsapp": 0,
         "telegram": 0
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 12,
+          "median_minutes": 95
+        },
+        "weekend": {
+          "n": 4,
+          "median_minutes": 984
+        },
+        "weekend_vs_weekday_ratio": 10.4,
+        "weekend_slower": true
       }
     },
     {
@@ -1101,6 +1605,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 5,
+          "median_minutes": 159
+        },
+        "weekend": {
+          "n": 3,
+          "median_minutes": 991
+        },
+        "weekend_vs_weekday_ratio": 6.2,
+        "weekend_slower": true
       }
     },
     {
@@ -1129,6 +1645,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 4,
+          "median_minutes": 164
+        },
+        "weekend": {
+          "n": 2,
+          "median_minutes": 1128
+        },
+        "weekend_vs_weekday_ratio": 6.9,
+        "weekend_slower": true
       }
     },
     {
@@ -1157,6 +1685,18 @@
         "max": 100,
         "whatsapp": 0,
         "telegram": 0
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 2,
+          "median_minutes": 486
+        },
+        "weekend": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend_vs_weekday_ratio": null,
+        "weekend_slower": null
       }
     },
     {
@@ -1185,6 +1725,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 9,
+          "median_minutes": 240
+        },
+        "weekend": {
+          "n": 5,
+          "median_minutes": 914
+        },
+        "weekend_vs_weekday_ratio": 3.8,
+        "weekend_slower": true
       }
     },
     {
@@ -1213,6 +1765,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 11,
+          "median_minutes": 82
+        },
+        "weekend": {
+          "n": 3,
+          "median_minutes": 2007
+        },
+        "weekend_vs_weekday_ratio": 24.5,
+        "weekend_slower": true
       }
     },
     {
@@ -1241,6 +1805,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 13,
+          "median_minutes": 164
+        },
+        "weekend": {
+          "n": 6,
+          "median_minutes": 800
+        },
+        "weekend_vs_weekday_ratio": 4.9,
+        "weekend_slower": true
       }
     },
     {
@@ -1269,6 +1845,18 @@
         "max": 0,
         "whatsapp": 53,
         "telegram": 0
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 11,
+          "median_minutes": 39
+        },
+        "weekend": {
+          "n": 3,
+          "median_minutes": 761
+        },
+        "weekend_vs_weekday_ratio": 19.5,
+        "weekend_slower": true
       }
     },
     {
@@ -1297,34 +1885,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
-      }
-    },
-    {
-      "developer_name": "ЕДИНО",
-      "url": "edino.group",
-      "applications_sent": 20,
-      "insufficient_data": false,
-      "avg_response": 237,
-      "no_callback_share": 5,
-      "avg_recontacts": 3.1,
-      "total_touches": 80,
-      "max_touches_per_app": 19,
-      "channel_share": {
-        "sms": 90,
-        "max": 0,
-        "whatsapp": 0,
-        "telegram": 0,
-        "call": 70
       },
-      "avg_call_response": 650,
-      "no_call_share": 30,
-      "avg_touches_per_responded_app": 4.2,
-      "messenger_penetration_share": 90,
-      "messenger_channel_share": {
-        "sms": 100,
-        "max": 0,
-        "whatsapp": 0,
-        "telegram": 0
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 7,
+          "median_minutes": 126
+        },
+        "weekend": {
+          "n": 5,
+          "median_minutes": 738
+        },
+        "weekend_vs_weekday_ratio": 5.9,
+        "weekend_slower": true
       }
     },
     {
@@ -1353,6 +1925,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 9,
+          "median_minutes": 246
+        },
+        "weekend": {
+          "n": 5,
+          "median_minutes": 974
+        },
+        "weekend_vs_weekday_ratio": 4,
+        "weekend_slower": true
       }
     },
     {
@@ -1381,6 +1965,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 12,
+          "median_minutes": 720
+        },
+        "weekend": {
+          "n": 6,
+          "median_minutes": 686
+        },
+        "weekend_vs_weekday_ratio": 1,
+        "weekend_slower": false
       }
     },
     {
@@ -1409,6 +2005,18 @@
         "max": 6,
         "whatsapp": 0,
         "telegram": 0
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 13,
+          "median_minutes": 693
+        },
+        "weekend": {
+          "n": 6,
+          "median_minutes": 649
+        },
+        "weekend_vs_weekday_ratio": 0.9,
+        "weekend_slower": false
       }
     },
     {
@@ -1437,6 +2045,18 @@
         "max": 0,
         "whatsapp": 0,
         "telegram": 0
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 4,
+          "median_minutes": 697
+        },
+        "weekend": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend_vs_weekday_ratio": null,
+        "weekend_slower": null
       }
     },
     {
@@ -1465,6 +2085,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 13,
+          "median_minutes": 711
+        },
+        "weekend": {
+          "n": 6,
+          "median_minutes": 630
+        },
+        "weekend_vs_weekday_ratio": 0.9,
+        "weekend_slower": false
       }
     },
     {
@@ -1493,6 +2125,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 7,
+          "median_minutes": 46
+        },
+        "weekend": {
+          "n": 5,
+          "median_minutes": 1307
+        },
+        "weekend_vs_weekday_ratio": 28.4,
+        "weekend_slower": true
       }
     },
     {
@@ -1521,6 +2165,18 @@
         "max": 0,
         "whatsapp": 0,
         "telegram": 17
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 13,
+          "median_minutes": 83
+        },
+        "weekend": {
+          "n": 6,
+          "median_minutes": 1018
+        },
+        "weekend_vs_weekday_ratio": 12.3,
+        "weekend_slower": true
       }
     },
     {
@@ -1549,6 +2205,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 6,
+          "median_minutes": 401
+        },
+        "weekend": {
+          "n": 2,
+          "median_minutes": 1791
+        },
+        "weekend_vs_weekday_ratio": 4.5,
+        "weekend_slower": true
       }
     },
     {
@@ -1577,6 +2245,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 11,
+          "median_minutes": 738
+        },
+        "weekend": {
+          "n": 4,
+          "median_minutes": 1060
+        },
+        "weekend_vs_weekday_ratio": 1.4,
+        "weekend_slower": true
       }
     },
     {
@@ -1605,6 +2285,18 @@
         "max": 100,
         "whatsapp": 0,
         "telegram": 0
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 9,
+          "median_minutes": 39
+        },
+        "weekend": {
+          "n": 5,
+          "median_minutes": 2215
+        },
+        "weekend_vs_weekday_ratio": 56.8,
+        "weekend_slower": true
       }
     },
     {
@@ -1633,6 +2325,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 14,
+          "median_minutes": 497
+        },
+        "weekend": {
+          "n": 6,
+          "median_minutes": 1104
+        },
+        "weekend_vs_weekday_ratio": 2.2,
+        "weekend_slower": true
       }
     },
     {
@@ -1661,6 +2365,18 @@
         "max": 100,
         "whatsapp": 0,
         "telegram": 0
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 12,
+          "median_minutes": 435
+        },
+        "weekend": {
+          "n": 4,
+          "median_minutes": 1841
+        },
+        "weekend_vs_weekday_ratio": 4.2,
+        "weekend_slower": true
       }
     },
     {
@@ -1689,6 +2405,18 @@
         "max": 0,
         "whatsapp": 29,
         "telegram": 0
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 7,
+          "median_minutes": 780
+        },
+        "weekend": {
+          "n": 3,
+          "median_minutes": 839
+        },
+        "weekend_vs_weekday_ratio": 1.1,
+        "weekend_slower": true
       }
     },
     {
@@ -1717,6 +2445,18 @@
         "max": 0,
         "whatsapp": 0,
         "telegram": 0
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 14,
+          "median_minutes": 817
+        },
+        "weekend": {
+          "n": 4,
+          "median_minutes": 998
+        },
+        "weekend_vs_weekday_ratio": 1.2,
+        "weekend_slower": true
       }
     },
     {
@@ -1745,6 +2485,18 @@
         "max": 100,
         "whatsapp": 0,
         "telegram": 0
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 10,
+          "median_minutes": 548
+        },
+        "weekend": {
+          "n": 6,
+          "median_minutes": 1286
+        },
+        "weekend_vs_weekday_ratio": 2.3,
+        "weekend_slower": true
       }
     },
     {
@@ -1773,6 +2525,18 @@
         "max": 15,
         "whatsapp": 0,
         "telegram": 0
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 12,
+          "median_minutes": 87
+        },
+        "weekend": {
+          "n": 6,
+          "median_minutes": 1276
+        },
+        "weekend_vs_weekday_ratio": 14.7,
+        "weekend_slower": true
       }
     },
     {
@@ -1801,6 +2565,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 4,
+          "median_minutes": 493
+        },
+        "weekend": {
+          "n": 2,
+          "median_minutes": 1212
+        },
+        "weekend_vs_weekday_ratio": 2.5,
+        "weekend_slower": true
       }
     },
     {
@@ -1829,6 +2605,18 @@
         "max": 0,
         "whatsapp": 0,
         "telegram": 0
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 5,
+          "median_minutes": 938
+        },
+        "weekend": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend_vs_weekday_ratio": null,
+        "weekend_slower": null
       }
     },
     {
@@ -1857,6 +2645,18 @@
         "max": 100,
         "whatsapp": 0,
         "telegram": 0
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 8,
+          "median_minutes": 1009
+        },
+        "weekend": {
+          "n": 6,
+          "median_minutes": 826
+        },
+        "weekend_vs_weekday_ratio": 0.8,
+        "weekend_slower": false
       }
     },
     {
@@ -1885,6 +2685,18 @@
         "max": 0,
         "whatsapp": 0,
         "telegram": 0
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 9,
+          "median_minutes": 934
+        },
+        "weekend": {
+          "n": 1,
+          "median_minutes": 2974
+        },
+        "weekend_vs_weekday_ratio": 3.2,
+        "weekend_slower": true
       }
     },
     {
@@ -1913,6 +2725,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 9,
+          "median_minutes": 1026
+        },
+        "weekend": {
+          "n": 3,
+          "median_minutes": 1178
+        },
+        "weekend_vs_weekday_ratio": 1.1,
+        "weekend_slower": true
       }
     },
     {
@@ -1941,6 +2765,18 @@
         "max": 0,
         "whatsapp": 0,
         "telegram": 0
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 11,
+          "median_minutes": 1119
+        },
+        "weekend": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend_vs_weekday_ratio": null,
+        "weekend_slower": null
       }
     },
     {
@@ -1969,6 +2805,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 13,
+          "median_minutes": 780
+        },
+        "weekend": {
+          "n": 6,
+          "median_minutes": 1302
+        },
+        "weekend_vs_weekday_ratio": 1.7,
+        "weekend_slower": true
       }
     },
     {
@@ -1997,6 +2845,18 @@
         "max": 100,
         "whatsapp": 0,
         "telegram": 0
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 3,
+          "median_minutes": 416
+        },
+        "weekend": {
+          "n": 4,
+          "median_minutes": 2051
+        },
+        "weekend_vs_weekday_ratio": 4.9,
+        "weekend_slower": true
       }
     },
     {
@@ -2025,6 +2885,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 2,
+          "median_minutes": 917
+        },
+        "weekend": {
+          "n": 1,
+          "median_minutes": 1157
+        },
+        "weekend_vs_weekday_ratio": 1.3,
+        "weekend_slower": true
       }
     },
     {
@@ -2053,6 +2925,18 @@
         "max": 100,
         "whatsapp": 0,
         "telegram": 0
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 12,
+          "median_minutes": 2260
+        },
+        "weekend": {
+          "n": 6,
+          "median_minutes": 1301
+        },
+        "weekend_vs_weekday_ratio": 0.6,
+        "weekend_slower": false
       }
     },
     {
@@ -2081,6 +2965,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 13,
+          "median_minutes": 1437
+        },
+        "weekend": {
+          "n": 5,
+          "median_minutes": 1710
+        },
+        "weekend_vs_weekday_ratio": 1.2,
+        "weekend_slower": true
       }
     },
     {
@@ -2109,6 +3005,18 @@
         "max": 17,
         "whatsapp": 0,
         "telegram": 0
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 5,
+          "median_minutes": 3661
+        },
+        "weekend": {
+          "n": 6,
+          "median_minutes": 1810
+        },
+        "weekend_vs_weekday_ratio": 0.5,
+        "weekend_slower": false
       }
     },
     {
@@ -2137,6 +3045,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend_vs_weekday_ratio": null,
+        "weekend_slower": null
       }
     },
     {
@@ -2165,6 +3085,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend_vs_weekday_ratio": null,
+        "weekend_slower": null
       }
     },
     {
@@ -2193,6 +3125,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend_vs_weekday_ratio": null,
+        "weekend_slower": null
       }
     },
     {
@@ -2221,6 +3165,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend_vs_weekday_ratio": null,
+        "weekend_slower": null
       }
     },
     {
@@ -2249,6 +3205,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend_vs_weekday_ratio": null,
+        "weekend_slower": null
       }
     },
     {
@@ -2277,6 +3245,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend_vs_weekday_ratio": null,
+        "weekend_slower": null
       }
     },
     {
@@ -2305,6 +3285,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend_vs_weekday_ratio": null,
+        "weekend_slower": null
       }
     },
     {
@@ -2333,6 +3325,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend_vs_weekday_ratio": null,
+        "weekend_slower": null
       }
     },
     {
@@ -2361,6 +3365,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend_vs_weekday_ratio": null,
+        "weekend_slower": null
       }
     },
     {
@@ -2389,6 +3405,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend_vs_weekday_ratio": null,
+        "weekend_slower": null
       }
     },
     {
@@ -2417,6 +3445,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend_vs_weekday_ratio": null,
+        "weekend_slower": null
       }
     },
     {
@@ -2445,6 +3485,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend_vs_weekday_ratio": null,
+        "weekend_slower": null
       }
     },
     {
@@ -2473,6 +3525,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend_vs_weekday_ratio": null,
+        "weekend_slower": null
       }
     },
     {
@@ -2501,6 +3565,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend_vs_weekday_ratio": null,
+        "weekend_slower": null
       }
     },
     {
@@ -2529,6 +3605,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend_vs_weekday_ratio": null,
+        "weekend_slower": null
       }
     },
     {
@@ -2557,6 +3645,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend_vs_weekday_ratio": null,
+        "weekend_slower": null
       }
     },
     {
@@ -2585,6 +3685,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend_vs_weekday_ratio": null,
+        "weekend_slower": null
       }
     },
     {
@@ -2613,6 +3725,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend_vs_weekday_ratio": null,
+        "weekend_slower": null
       }
     },
     {
@@ -2641,6 +3765,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend_vs_weekday_ratio": null,
+        "weekend_slower": null
       }
     },
     {
@@ -2669,6 +3805,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend_vs_weekday_ratio": null,
+        "weekend_slower": null
       }
     },
     {
@@ -2697,6 +3845,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend_vs_weekday_ratio": null,
+        "weekend_slower": null
       }
     },
     {
@@ -2725,6 +3885,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend_vs_weekday_ratio": null,
+        "weekend_slower": null
       }
     },
     {
@@ -2753,6 +3925,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend_vs_weekday_ratio": null,
+        "weekend_slower": null
       }
     },
     {
@@ -2781,6 +3965,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend_vs_weekday_ratio": null,
+        "weekend_slower": null
       }
     },
     {
@@ -2809,6 +4005,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend_vs_weekday_ratio": null,
+        "weekend_slower": null
       }
     },
     {
@@ -2837,6 +4045,18 @@
         "max": null,
         "whatsapp": null,
         "telegram": null
+      },
+      "first_call_by_day_type": {
+        "weekday": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend": {
+          "n": 0,
+          "median_minutes": null
+        },
+        "weekend_vs_weekday_ratio": null,
+        "weekend_slower": null
       }
     }
   ]
