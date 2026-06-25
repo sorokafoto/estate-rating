@@ -1,0 +1,17 @@
+{
+  "updated": "2026-06-13T12:00:00+03:00",
+  "source": {
+    "working": "working/source.xlsx",
+    "derived_from": ["inbound/master/2026-06-13-master.xlsx"],
+    "last_step": "match-events-applications"
+  },
+  "reference": {
+    "phone_book": "reference/developer_official_phones.xlsx",
+    "spam_book": "reference/spam_book.xlsx",
+    "sms_mark": "reference/sms_mark_reference.csv"
+  },
+  "registry": {
+    "path": "working/phone_registry.json",
+    "seeded_from": ["reference/spam_book.xlsx", "working/phones_to_identify.xlsx"]
+  }
+}

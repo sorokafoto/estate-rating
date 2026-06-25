@@ -12,7 +12,7 @@ while IFS= read -r file; do
       echo "Refusing commit: $file (PII in private/)." >&2
       exit 1
       ;;
-    data/manifest.example.json|data/*/.gitkeep)
+    data/manifest.example.json|data/*/.gitkeep|data/published/*)
       continue
       ;;
     data/*)

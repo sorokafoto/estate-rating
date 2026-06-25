@@ -3,6 +3,7 @@ import http from "node:http";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { WORKING_DATA_JSON, WORKING_DATA_JS } from "../shared/public-data.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(path.join(__dirname, ".."));
@@ -10,6 +11,7 @@ const SERVE_ROOT = process.env.SERVE_ROOT
   ? path.resolve(ROOT, process.env.SERVE_ROOT)
   : ROOT;
 const PORT = process.env.PORT || 4321;
+const SERVE_DATA = process.env.SERVE_DATA || "published";
 
 const TYPES = {
   ".html": "text/html; charset=utf-8",
@@ -55,9 +57,17 @@ function resolvePublicPath(urlPath) {
   return filePath;
 }
 
+function resolveDataOverride(urlPath) {
+  if (SERVE_DATA !== "working") return null;
+  const decoded = decodeURIComponent(urlPath.split("?")[0]);
+  if (decoded === "/data.json" && fs.existsSync(WORKING_DATA_JSON)) return WORKING_DATA_JSON;
+  if (decoded === "/data.js" && fs.existsSync(WORKING_DATA_JS)) return WORKING_DATA_JS;
+  return null;
+}
+
 http
   .createServer((req, res) => {
-    const filePath = resolvePublicPath(req.url || "/");
+    const filePath = resolveDataOverride(req.url || "/") || resolvePublicPath(req.url || "/");
     if (!filePath) {
       res.writeHead(403, SECURITY_HEADERS);
       return res.end("Forbidden");
@@ -76,4 +86,8 @@ http
       res.end(buf);
     });
   })
-  .listen(PORT, () => console.log(`http://localhost:${PORT} (${path.basename(SERVE_ROOT)})`));
+  .listen(PORT, () =>
+    console.log(
+      `http://localhost:${PORT} (${path.basename(SERVE_ROOT)}, data=${SERVE_DATA})`
+    )
+  );

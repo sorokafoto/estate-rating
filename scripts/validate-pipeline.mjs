@@ -9,10 +9,11 @@ import { resolveEventSheets } from "../shared/event-sheets.mjs";
 import { readEventsFromSheet, readApplicationsFromWorkbook, readLegendCatalog } from "../build/source.mjs";
 import { aggregate, mergeLegendDevelopers, isInAnalyticsWindow } from "../build/aggregate.mjs";
 import { paths, resolveDataPath, PROJECT_ROOT } from "../shared/paths.mjs";
+import { WORKING_DATA_JSON } from "../shared/public-data.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DEFAULT_SOURCE = resolveDataPath(paths.source());
-const DATA_JSON = path.join(PROJECT_ROOT, "data.json");
+const DATA_JSON = WORKING_DATA_JSON;
 const TARGET_APPLICATIONS = 2100;
 const EXPECTED_DEVELOPERS = 100;
 

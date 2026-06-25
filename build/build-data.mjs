@@ -14,10 +14,11 @@ import {
 import { validatePublicData } from "./validate.mjs";
 import { jsonForScript } from "./safe-json.mjs";
 import { emitBrowserArtifacts } from "./emit-browser.mjs";
+import { WORKING_DATA_JSON, WORKING_DATA_JS } from "../shared/public-data.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const OUT_PATH = path.join(__dirname, "..", "data.json");
-const OUT_JS_PATH = path.join(__dirname, "..", "data.js");
+const OUT_PATH = WORKING_DATA_JSON;
+const OUT_JS_PATH = WORKING_DATA_JS;
 
 function deriveApplicationsFromEvents(events) {
   const seen = new Map();
@@ -93,7 +94,8 @@ function main() {
   fs.writeFileSync(OUT_JS_PATH, "window.APP_DATA = " + jsonForScript(data) + ";\n", "utf8");
   emitBrowserArtifacts();
   console.log(
-    `[build-data] OK: ${developers.length} застройщиков -> ${path.relative(process.cwd(), OUT_PATH)} + data.js + assets/metrics.js (${demo ? "demo" : "xlsx"})`
+    `[build-data] OK: ${developers.length} застройщиков -> ${path.relative(process.cwd(), OUT_PATH)} (working; публичный сайт не тронут). ` +
+      `Дашборд: npm run sync-dashboard-data. Сайт: npm run promote-public-data. (${demo ? "demo" : "xlsx"})`
   );
 }
 

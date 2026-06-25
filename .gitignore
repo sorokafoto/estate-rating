@@ -1,10 +1,10 @@
 # PII: локальные выгрузки и legacy private/
-data/
-private/
-
-# Структура data/ в репозитории (без PII)
+data/*
 !data/manifest.example.json
-!data/**/.gitkeep
+!data/published/
+!data/published/data.json
+!data/published/data.js
+private/
 
 # Табличные выгрузки вне data/ (на всякий случай)
 *.xlsx

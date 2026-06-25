@@ -5,6 +5,7 @@ import path from "node:path";
 import { execSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { stripCommentsForFile } from "./strip-comments.mjs";
+import { PUBLISHED_DATA_JSON, PUBLISHED_DATA_JS } from "../shared/public-data.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(path.join(__dirname, ".."));
@@ -15,8 +16,11 @@ const ROOT_FILES = [
   "index.html",
   "config.js",
   "favicon.svg",
-  "data.json",
-  "data.js",
+];
+
+const PUBLISHED_FILES = [
+  { src: PUBLISHED_DATA_JSON, dest: "data.json" },
+  { src: PUBLISHED_DATA_JS, dest: "data.js" },
 ];
 
 const COPY_DIRS = ["assets", "icons"];
@@ -72,6 +76,16 @@ function main() {
       process.exit(1);
     }
     copyFile(src, path.join(OUT, name), { strip: true });
+  }
+
+  for (const { src, dest } of PUBLISHED_FILES) {
+    if (!fs.existsSync(src)) {
+      console.error(
+        `[publish] Нет ${path.relative(ROOT, src)} — сначала npm run promote-public-data (или положите снимок в data/published/)`
+      );
+      process.exit(1);
+    }
+    copyFile(src, path.join(OUT, dest), { strip: true });
   }
 
   for (const dir of COPY_DIRS) {

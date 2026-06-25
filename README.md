@@ -86,6 +86,22 @@ npm run serve            # http://localhost:4321
 
 ## Деплой (граница site ↔ pipeline)
 
+**Два слоя данных:**
+
+| Слой | Путь | Когда меняется |
+|------|------|----------------|
+| **Working** (дашборд, аналитика) | `data/working/data.json` | `npm run build-data` / `update-rating` |
+| **Published** (сайт, GitHub Pages) | `data/published/data.json` + корневые `data.json` / `data.js` | только `npm run promote-public-data` |
+
+```bash
+npm run build-data              # пересчёт → data/working/ (публичный сайт не трогает)
+npm run sync-dashboard-data     # working → ../developer-rating-dashboard/
+npm run promote-public-data     # working → published + корень (осознанное обновление сайта)
+npm run publish                 # bundle из data/published/ → publish/
+```
+
+Локально: `npm run serve` — снимок published (как на сайте); `npm run serve:working` — свежая сборка.
+
 **Сборка production bundle:**
 
 ```bash

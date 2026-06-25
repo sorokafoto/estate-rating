@@ -407,7 +407,10 @@ npm run update-rating
 | `npm run update-rating` | **Финальный пересчёт** (после подготовки source.xlsx) |
 | `npm run classify-phones` | Классификация unknown звонков → registry |
 | `npm run apply-phones` | Проставить `developer_*` / `identified` в source.xlsx (только call) |
-| `npm run build-data` | Только пересчитать data.json |
+| `npm run build-data` | Только пересчитать `data/working/data.json` (сайт не меняется) |
+| `npm run sync-dashboard-data` | Свежий агрегат → `developer-rating-dashboard/data.json` |
+| `npm run promote-public-data` | Обновить публичный снимок (`data/published/` + корень репо) |
+| `npm run serve:working` | Локальный сайт со свежими данными из working |
 | `npm run seed-spam` | SPAM_BOOK → registry (номера + префиксы) |
 | `npm run validate-pipeline` | QA-отчёт по `data/working/source.xlsx` перед сборкой |
 | `npm run suggest-spam-prefixes` | Кандидаты SPAM_PREFIXES из `phones_to_identify.xlsx` |
